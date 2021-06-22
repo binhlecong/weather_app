@@ -8,8 +8,10 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  String lat = '0';
+  String lon = '0';
   String weatherdata = 'No data';
-  WeatherAPI myAPI = WeatherAPI(lat: '33', lon: '33');
+  WeatherAPI myAPI = WeatherAPI();
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +30,60 @@ class _MainPageState extends State<MainPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.refresh_outlined),
+          child: Icon(
+            Icons.add_location_alt_outlined,
+            size: 32,
+          ),
           onPressed: () async {
-            final newdata = await myAPI.apiCall();
+            final coordinate = await _asyncInputDialog(context);
+            final newdata = await myAPI.apiCall(coordinate['lat'], coordinate['lon']);
             setState(() {
               weatherdata = newdata;
             });
           }),
     );
   }
+}
+
+Future _asyncInputDialog(BuildContext context) async {
+  String latitude = '0';
+  String longitude = '0';
+
+  return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Enter coordinate'),
+          content: Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  autofocus: true,
+                  decoration: InputDecoration(labelText: 'Latitude'),
+                  onChanged: (value) {
+                    latitude = value;
+                  },
+                ),
+              ),
+              Expanded(
+                child: TextField(
+                  autofocus: true,
+                  decoration: InputDecoration(labelText: 'Longitude'),
+                  onChanged: (value) {
+                    longitude = value;
+                  },
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context)
+                      .pop({'lat': latitude, 'lon': longitude});
+                },
+                child: Text('GO'))
+          ],
+        );
+      });
 }
