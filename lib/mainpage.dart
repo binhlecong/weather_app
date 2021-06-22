@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:weather_app/mappage.dart';
 import 'package:weather_app/weather_api.dart';
+
+import 'dart:async';
 
 class MainPage extends StatefulWidget {
   @override
@@ -65,9 +68,9 @@ Future _asyncInputDialog(BuildContext context) async {
                   },
                 ),
               ),
+              Container(width: 20, height: 10,),
               Expanded(
                 child: TextField(
-                  autofocus: true,
                   decoration: InputDecoration(labelText: 'Longitude'),
                   onChanged: (value) {
                     longitude = value;

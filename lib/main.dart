@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/mainpage.dart';
+import 'package:weather_app/mappage.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MainPage(),
+      home: MapSample(),
     );
   }
 }
