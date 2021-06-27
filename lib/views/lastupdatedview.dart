@@ -10,7 +10,7 @@ class LastUpdatedView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(top: 20.0, left: 00),
+        padding: EdgeInsets.only(top: 20.0, bottom: 10.0),
         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Icon(
             Icons.access_time,

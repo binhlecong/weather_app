@@ -19,6 +19,7 @@ class DailySummaryView extends StatelessWidget {
     return Padding(
         padding: EdgeInsets.all(15),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
               Text(dayOfWeek ?? '',
@@ -36,7 +37,7 @@ class DailySummaryView extends StatelessWidget {
                       fontWeight: FontWeight.w500)),
             ]),
             Padding(
-                padding: EdgeInsets.only(left: 5),
+                padding: EdgeInsets.only(left: 7),
                 child: Container(
                     alignment: Alignment.center,
                     child: _mapWeatherConditionToIcon(this.weather.condition, true)))
@@ -85,6 +86,6 @@ class DailySummaryView extends StatelessWidget {
         icon = Icon(Icons.question_answer_outlined, size: 30);
     }
 
-    return Padding(padding: const EdgeInsets.only(top: 5), child: icon);
+    return FittedBox(child: icon);
   }
 }

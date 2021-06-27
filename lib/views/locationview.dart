@@ -14,10 +14,11 @@ class LocationView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Icon(Icons.location_on, color: Colors.white, size: 15),
           SizedBox(width: 10),
+          Icon(Icons.location_on_sharp, color: Colors.red, size: 30),
+          SizedBox(width: 5),
           Text(this.longitude.toString(),
               style: TextStyle(
                 fontSize: 16,

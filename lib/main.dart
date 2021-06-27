@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       title: 'Open Weather API client',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.orange,
       ),
       home: SafeArea(
         child: MapSample(),

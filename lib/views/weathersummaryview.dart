@@ -20,29 +20,34 @@ class WeatherSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-        Column(
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              '${_formatTemperature(this.temp)}°ᶜ',
-              style: TextStyle(
-                fontSize: 50,
-                color: Colors.white,
-                fontWeight: FontWeight.w300,
-              ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  '${_formatTemperature(this.temp)}°ᶜ',
+                  style: TextStyle(
+                    fontSize: 70,
+                    color: _mapWeatherConditionToTextColor(this.condition),
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+                Text(
+                  'Feels like ${_formatTemperature(this.feelsLike)}°ᶜ',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: _mapWeatherConditionToTextColor(this.condition),
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              ],
             ),
-            Text(
-              'Feels like ${_formatTemperature(this.feelsLike)}°ᶜ',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.white,
-                fontWeight: FontWeight.w300,
-              ),
-            ),
-          ],
-        ),
-        _mapWeatherConditionToIcon(this.condition, this.isdayTime),
-      ]),
+            SizedBox(width: 30),
+            _mapWeatherConditionToIcon(this.condition, this.isdayTime),
+          ]),
     );
   }
 
@@ -94,6 +99,32 @@ class WeatherSummary extends StatelessWidget {
         icon = Icon(Icons.question_answer_outlined, size: 75);
     }
 
-    return Padding(padding: const EdgeInsets.only(top: 5), child: icon);
+    return FittedBox(child: icon);
+  }
+
+  Color _mapWeatherConditionToTextColor(WeatherCondition condition) {
+    Color color;
+    switch (condition) {
+      case WeatherCondition.thunderstorm:
+      case WeatherCondition.heavyCloud:
+      case WeatherCondition.lightCloud:
+      case WeatherCondition.drizzle:
+      case WeatherCondition.mist:
+      case WeatherCondition.clear:
+        color = Colors.white;
+        break;
+
+      case WeatherCondition.fog:
+      case WeatherCondition.snow:
+      case WeatherCondition.rain:
+      case WeatherCondition.atmosphere:
+        color = Colors.black;
+        break;
+
+      default:
+        color = Colors.white;
+    }
+
+    return color;
   }
 }
