@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:weather_app/models/forecast.dart';
 import 'package:weather_app/models/weather.dart';
+import 'package:weather_app/views/detailview.dart';
 import 'package:weather_app/weather_api.dart';
 
 class DetailPage extends StatefulWidget {
@@ -34,9 +35,9 @@ class _DetailPageState extends State<DetailPage> {
           future: weather,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return Text(snapshot.data.lastUpdated.toString());
+              return DetailView(weather: snapshot.data);
             } else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
+              return Text("${snapshot.error}", style: TextStyle(color: Colors.red),);
             }
             // By default, show a loading spinner.
             return CircularProgressIndicator();
