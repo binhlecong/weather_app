@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:weather_app/detailpage.dart';
+
 
 class MapSample extends StatefulWidget {
   @override
@@ -9,21 +11,17 @@ class MapSample extends StatefulWidget {
 }
 
 class MapSampleState extends State<MapSample> {
+  LatLng currPos = LatLng(0, 0);
   Completer<GoogleMapController> _controller = Completer();
 
   static final CameraPosition _kLake = CameraPosition(
-    bearing: 192.8334901395799,
+    bearing: 0,
     target: LatLng(37.43296265331129, -122.08832357078792),
-    tilt: 59.440717697143555,
-    zoom: 19.151926040649414,
+    tilt: 45,
   );
 
-  static CameraPosition newPos = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(0, 0),
-      tilt: 59.440717697143555,
-      zoom: 19.151926040649414,
-    );
+  //Set<Marker> markers = const <Marker>{};
+  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +29,17 @@ class MapSampleState extends State<MapSample> {
       body: Stack(
         children: [
           GoogleMap(
+            markers: Set<Marker>.of(markers.values),
             compassEnabled: true,
             rotateGesturesEnabled: true,
             mapType: MapType.normal,
             initialCameraPosition: _kLake,
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);
+            },
+            onTap: (LatLng coor) {
+              currPos = coor;
+              _addMarker(coor);
             },
           ),
           Positioned(
@@ -48,16 +51,14 @@ class MapSampleState extends State<MapSample> {
               child: FloatingActionButton(
                 onPressed: () async {
                   final coor = await _asyncInputDialog(context);
-                  // error cannot change location
-                  setState(() {
-                    newPos = CameraPosition(
-                          bearing: 180,
-                          target: LatLng(double.parse(coor['lat']), double.parse(coor['lng'])),
-                          tilt: 60,
-                          zoom: 20,
-                        );
-                  });
-                  _goToCoordinate();
+
+                  LatLng currPos = LatLng(
+                    double.parse(coor['lat']),
+                    double.parse(coor['lng']),
+                  );
+
+                  _addMarker(currPos);
+                  _goToCoordinate(currPos);
                 },
                 child: Icon(
                   Icons.add_location_alt_outlined,
@@ -71,15 +72,48 @@ class MapSampleState extends State<MapSample> {
     );
   }
 
-  Future<void> _goToCoordinate() async {
+  Future<void> _goToCoordinate(LatLng coor) async {
     final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(newPos));
+
+    controller.animateCamera(CameraUpdate.newCameraPosition(
+      CameraPosition(
+        bearing: 0,
+        tilt: 45,
+        target: coor,
+        zoom: 7,
+      ),
+    ));
+  }
+
+  void _addMarker(LatLng coor) {
+    final MarkerId markerId = MarkerId('mk');
+
+    // creating a new MARKER
+    final Marker marker = Marker(
+      markerId: markerId,
+      position: coor,
+      infoWindow: InfoWindow(title: '', snippet: ''),
+      onTap: () {
+        _onMarkerTapped(coor);
+      },
+    );
+
+    setState(() {
+      markers[markerId] = marker;
+    });
+  }
+
+  void _onMarkerTapped(LatLng pos) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => DetailPage(position: pos)),
+    );
   }
 }
 
 Future _asyncInputDialog(BuildContext context) async {
-  String latitude = '1';
-  String longitude = '1';
+  String latitude = '0';
+  String longitude = '0';
 
   return showDialog(
     context: context,
