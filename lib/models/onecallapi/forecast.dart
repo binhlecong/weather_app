@@ -1,4 +1,4 @@
-import 'package:weather_app/models/weather.dart';
+import 'package:weather_app/models/onecallapi/weather.dart';
 
 class Forecast {
   final DateTime lastUpdated;

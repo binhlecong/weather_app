@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:weather_app/models/weather.dart';
+import 'package:weather_app/models/onecallapi/weather.dart';
 import 'package:weather_app/utils/temperatureconvert.dart';
 import 'package:weather_icons/weather_icons.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/models/forecast.dart';
-import 'package:weather_app/models/weather.dart';
+import 'package:weather_app/models/onecallapi/forecast.dart';
+import 'package:weather_app/models/onecallapi/weather.dart';
 
 import 'package:weather_app/views/dailysummaryview.dart';
 import 'package:weather_app/views/lastupdatedview.dart';

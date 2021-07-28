@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/mappage.dart';
+import 'package:weather_app/searchpage.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.orange,
       ),
       home: SafeArea(
-        child: MapSample(),
+        child: SearchPage(),
       ),
     );
   }
