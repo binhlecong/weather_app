@@ -5,10 +5,9 @@ class LocationView extends StatelessWidget {
   final double latitude;
 
   LocationView({
-    Key key,
-    @required this.longitude,
-    @required this.latitude,
-  }) : super(key: key);
+    required this.longitude,
+    required this.latitude,
+  });
 
   @override
   Widget build(BuildContext context) {

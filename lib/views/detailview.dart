@@ -12,7 +12,7 @@ import 'package:weather_app/views/weathersummaryview.dart';
 class DetailView extends StatefulWidget {
   final Forecast weather;
 
-  DetailView({this.weather});
+  DetailView({required this.weather});
 
   @override
   _DetailViewState createState() => _DetailViewState();
@@ -40,7 +40,7 @@ class _DetailViewState extends State<DetailView> {
               condition: widget.weather.current.condition,
               temp: widget.weather.current.temp,
               feelsLike: widget.weather.current.feelLikeTemp,
-              isdayTime: true),
+              isDayTime: true),
           SizedBox(height: 20),
           WeatherDescriptionView(
               weatherDescription: widget.weather.current.description),

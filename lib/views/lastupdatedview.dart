@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 class LastUpdatedView extends StatelessWidget {
   final DateTime lastUpdatedOn;
 
-  LastUpdatedView({Key key, @required this.lastUpdatedOn})
-      : assert(lastUpdatedOn != null),
-        super(key: key);
+  LastUpdatedView({required this.lastUpdatedOn});
 
   @override
   Widget build(BuildContext context) {

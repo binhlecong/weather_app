@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 class WeatherDescriptionView extends StatelessWidget {
   final String weatherDescription;
 
-  WeatherDescriptionView({Key key, @required this.weatherDescription})
-      : assert(weatherDescription != null),
-        super(key: key);
+  WeatherDescriptionView({required this.weatherDescription});
 
   @override
   Widget build(BuildContext context) {

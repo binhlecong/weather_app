@@ -8,14 +8,14 @@ import 'package:weather_app/weather_api.dart';
 class DetailPage extends StatefulWidget {
   final LatLng position;
 
-  DetailPage({this.position});
+  DetailPage({required this.position});
 
   @override
   _DetailPageState createState() => _DetailPageState();
 }
 
 class _DetailPageState extends State<DetailPage> {
-  Future<Forecast> weather;
+  late final Future<Forecast> weather;
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _DetailPageState extends State<DetailPage> {
           future: weather,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return DetailView(weather: snapshot.data);
+              return DetailView(weather: snapshot.data!);
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}", style: TextStyle(color: Colors.red),);
             }

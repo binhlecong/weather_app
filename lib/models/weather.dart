@@ -21,12 +21,12 @@ class Weather {
   final DateTime date;
 
   Weather(
-      {this.condition,
-      this.description,
-      this.temp,
-      this.feelLikeTemp,
-      this.cloudiness,
-      this.date});
+      {required this.condition,
+      required this.description,
+      required this.temp,
+      required this.feelLikeTemp,
+      required this.cloudiness,
+      required this.date});
 
   static Weather fromDailyJson(dynamic daily) {
     var cloudiness = daily['clouds'];

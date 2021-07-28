@@ -7,16 +7,16 @@ class Forecast {
   final List<Weather> daily;
   final Weather current;
   final bool isDayTime;
-  String city;
+  final String city;
 
   Forecast(
-      {this.lastUpdated,
-      this.longitude,
-      this.latitude,
-      this.daily: const [],
-      this.current,
-      this.city,
-      this.isDayTime});
+      {required this.lastUpdated,
+      required this.longitude,
+      required this.latitude,
+      required this.daily,
+      required this.current,
+      required this.city,
+      required this.isDayTime});
 
   static Forecast fromJson(dynamic json) {
     var weather = json['current']['weather'][0];
@@ -35,7 +35,7 @@ class Forecast {
 
     // get the forecast for the next 3 days, excluding the current day
     bool hasDaily = json['daily'] != null;
-    var tempDaily = [];
+    List<Weather> tempDaily=[];
     if (hasDaily) {
       List items = json['daily'];
       tempDaily = items
@@ -46,7 +46,7 @@ class Forecast {
           .toList();
     }
 
-    var currentForcast = Weather(
+    var currentForecast = Weather(
         cloudiness: int.parse(json['current']['clouds'].toString()),
         temp: json['current']['temp'].toDouble(),
         condition: Weather.mapStringToWeatherCondition(
@@ -57,10 +57,11 @@ class Forecast {
 
     return Forecast(
         lastUpdated: DateTime.now(),
-        current: currentForcast,
+        current: currentForecast,
         latitude: json['lat'].toDouble(),
         longitude: json['lon'].toDouble(),
         daily: tempDaily,
-        isDayTime: isDay);
+        isDayTime: isDay,
+    city: 'null');
   }
 }

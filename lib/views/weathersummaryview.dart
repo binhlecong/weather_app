@@ -7,15 +7,13 @@ class WeatherSummary extends StatelessWidget {
   final WeatherCondition condition;
   final double temp;
   final double feelsLike;
-  final bool isdayTime;
+  final bool isDayTime;
 
   WeatherSummary(
-      {Key key,
-      @required this.condition,
-      @required this.temp,
-      @required this.feelsLike,
-      @required this.isdayTime})
-      : super(key: key);
+      {required this.condition,
+      required this.temp,
+      required this.feelsLike,
+      required this.isDayTime});
 
   @override
   Widget build(BuildContext context) {
@@ -46,15 +44,13 @@ class WeatherSummary extends StatelessWidget {
               ],
             ),
             SizedBox(width: 30),
-            _mapWeatherConditionToIcon(this.condition, this.isdayTime),
+            _mapWeatherConditionToIcon(this.condition, this.isDayTime),
           ]),
     );
   }
 
   String _formatTemperature(double t) {
-    var temp = (t == null
-        ? ''
-        : TemperatureConvert.kelvinToCelsius(t).round().toString());
+    var temp = TemperatureConvert.kelvinToCelsius(t).round().toString();
     return temp;
   }
 
@@ -69,7 +65,7 @@ class WeatherSummary extends StatelessWidget {
         icon = Icon(WeatherIcons.cloudy, size: 75);
         break;
       case WeatherCondition.lightCloud:
-        isdayTime
+        isDayTime
             ? icon = Icon(WeatherIcons.day_cloudy, size: 75)
             : icon = Icon(WeatherIcons.night_cloudy, size: 75);
         break;
@@ -78,7 +74,7 @@ class WeatherSummary extends StatelessWidget {
         icon = Icon(WeatherIcons.fog, size: 75);
         break;
       case WeatherCondition.clear:
-        isdayTime
+        isDayTime
             ? icon = Icon(WeatherIcons.day_sunny, size: 75)
             : icon = Icon(WeatherIcons.night_clear, size: 75);
         break;

@@ -26,7 +26,7 @@ class MapSampleState extends State<MapSample> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: AppBar(
-        title: Text('Open weather client'),
+        title: Text('Explore weather'),
         elevation: 10,
       ),
       body: Stack(
