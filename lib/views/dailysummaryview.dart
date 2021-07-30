@@ -26,7 +26,7 @@ class DailySummaryView extends StatelessWidget {
                   color: Colors.white,
                   fontWeight: FontWeight.w300)),
           Text(
-              "${TemperatureConvert.kelvinToCelsius(this.weather.temp).round().toString()}°",
+              "${TempConvert.kelvinToCelsius(this.weather.temp).round().toString()}°",
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 20,

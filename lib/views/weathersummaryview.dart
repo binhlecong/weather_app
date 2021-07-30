@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/models/onecallapi/weather.dart';
 import 'package:weather_app/utils/mapping.dart';
 import 'package:weather_app/utils/temperatureconvert.dart';
-import 'package:weather_icons/weather_icons.dart';
 
 class WeatherSummary extends StatelessWidget {
   final WeatherCondition condition;
@@ -58,7 +57,7 @@ class WeatherSummary extends StatelessWidget {
   }
 
   String _formatTemperature(double t) {
-    var temp = TemperatureConvert.kelvinToCelsius(t).round().toString();
+    var temp = TempConvert.kelvinToCelsius(t).round().toString();
     return temp;
   }
 }

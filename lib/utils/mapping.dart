@@ -94,7 +94,7 @@ class Mapping {
       case WeatherCondition.snow:
         return 0xfff0f0f0;
       case WeatherCondition.rain:
-        return 0xff1e90ff;
+        return 0xff6082B6;
       case WeatherCondition.atmosphere:
         return 0xff1e90ff;
       default:
