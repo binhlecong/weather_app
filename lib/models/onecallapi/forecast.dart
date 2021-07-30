@@ -1,4 +1,5 @@
 import 'package:weather_app/models/onecallapi/weather.dart';
+import 'package:weather_app/utils/mapping.dart';
 
 class Forecast {
   final DateTime lastUpdated;
@@ -35,7 +36,7 @@ class Forecast {
 
     // get the forecast for the next 3 days, excluding the current day
     bool hasDaily = json['daily'] != null;
-    List<Weather> tempDaily=[];
+    List<Weather> tempDaily = [];
     if (hasDaily) {
       List items = json['daily'];
       tempDaily = items
@@ -49,8 +50,7 @@ class Forecast {
     var currentForecast = Weather(
         cloudiness: int.parse(json['current']['clouds'].toString()),
         temp: json['current']['temp'].toDouble(),
-        condition: Weather.mapStringToWeatherCondition(
-            weather['main'], int.parse(json['current']['clouds'].toString())),
+        condition: Mapping.mapStringToWeatherCondition(weather['main']),
         description: weather['description'],
         feelLikeTemp: json['current']['feels_like'],
         date: date);
@@ -62,6 +62,6 @@ class Forecast {
         longitude: json['lon'].toDouble(),
         daily: tempDaily,
         isDayTime: isDay,
-    city: 'null');
+        city: 'null');
   }
 }

@@ -20,8 +20,8 @@ class _DetailPageState extends State<DetailPage> {
   @override
   void initState() {
     super.initState();
-    String lat = widget.position.latitude.toString();
-    String lng = widget.position.longitude.toString();
+    var lat = widget.position.latitude;
+    var lng = widget.position.longitude;
     weather = WeatherAPI.fetchOneCallAPI(lat, lng);
   }
 

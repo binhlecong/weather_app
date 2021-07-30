@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/mappage.dart';
-import 'package:weather_app/searchpage.dart';
+import 'package:weather_app/homepage.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,10 +13,10 @@ class MyApp extends StatelessWidget {
       title: 'Open Weather API client',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.orange,
+        primarySwatch: Colors.cyan,
       ),
       home: SafeArea(
-        child: SearchPage(),
+        child: HomePage(),
       ),
     );
   }

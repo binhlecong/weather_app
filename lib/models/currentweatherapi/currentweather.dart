@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class CurrentWeather {
   final lon;
   final lat;
@@ -73,7 +71,7 @@ class Wind {
   Wind(this.speed, this.degree);
 
   factory Wind.fromJson(Map<String, dynamic> json) {
-    return Wind(json['speed'], json['degree']);
+    return Wind(json['speed'], json['deg']);
   }
 }
 
