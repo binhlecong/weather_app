@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/api/weather_api.dart';
 import 'package:weather_app/mappage.dart';
 import 'package:weather_app/models/currentweatherapi/currentweather.dart';
+import 'package:weather_app/utils/search.dart';
 import 'package:weather_app/views/currentweathertile.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,7 +13,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late final currentWeathers = <Future<CurrentWeather>>[];
   ScrollController _scrollController = ScrollController();
   final List<String> majorCities = [
     'hanoi',
@@ -23,15 +23,15 @@ class _HomePageState extends State<HomePage> {
     'sydney',
     'moscow',
   ];
-  int id = 0;
+  final List<String> scrolledCities = [];
 
   @override
   void initState() {
     super.initState();
     for (var i = 0; i < 3; i++) {
-      currentWeathers.add(WeatherAPI.fetchCurrentWeather(majorCities[i]));
-      id += 1;
+      scrolledCities.add(majorCities[i]);
     }
+
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -50,7 +50,9 @@ class _HomePageState extends State<HomePage> {
           ),
           actions: [
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                showSearch(context: context, delegate: Search());
+              },
               icon: Icon(
                 Icons.search,
               ),
@@ -75,28 +77,10 @@ class _HomePageState extends State<HomePage> {
         ),
         child: ListView.builder(
             controller: _scrollController,
-            itemCount: currentWeathers.length,
+            itemCount: majorCities.length,
             itemBuilder: (content, index) {
-              return FutureBuilder<CurrentWeather>(
-                future: currentWeathers[index],
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return CurrentWeatherSummary(
-                      w: snapshot.data!,
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text(
-                      "${snapshot.error}",
-                      style: TextStyle(color: Colors.red),
-                    );
-                  }
-                  return Container(
-                    height: 220,
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                },
+              return CurrentWeatherSummary(
+                cityName: majorCities[index],
               );
             }),
       ),
@@ -104,10 +88,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   _getMoreData() {
-    if (currentWeathers.length >= majorCities.length) return;
-    for (var i = id; i < majorCities.length; i++) {
-      currentWeathers.add(WeatherAPI.fetchCurrentWeather(majorCities[i]));
-    }
+    int l = scrolledCities.length;
+    if (l >= majorCities.length) return;
+    
+    scrolledCities.add(majorCities[l]);
     setState(() {});
   }
 }

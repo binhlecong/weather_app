@@ -8,51 +8,58 @@ class WeatherSummary extends StatelessWidget {
   final double temp;
   final double feelsLike;
   final bool isDayTime;
+  final Color textColor;
 
-  WeatherSummary(
-      {required this.condition,
-      required this.temp,
-      required this.feelsLike,
-      required this.isDayTime});
+  WeatherSummary({
+    required this.condition,
+    required this.temp,
+    required this.feelsLike,
+    required this.isDayTime,
+    required this.textColor,
+  });
 
   @override
   Widget build(BuildContext context) {
+    IconData icon = Mapping.mapWeatherConditionToIcondata(condition, true);
+
     return Center(
       child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  '${_formatTemperature(this.temp)}°ᶜ',
-                  style: TextStyle(
-                    fontSize: 70,
-                    color:
-                        Mapping.mapWeatherConditionToTextColor(this.condition),
-                    fontWeight: FontWeight.w300,
-                  ),
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                '${_formatTemperature(this.temp)}°ᶜ',
+                style: TextStyle(
+                  fontSize: 70,
+                  color: textColor,
+                  fontWeight: FontWeight.w300,
                 ),
-                Text(
-                  'Feels like ${_formatTemperature(this.feelsLike)}°ᶜ',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color:
-                        Mapping.mapWeatherConditionToTextColor(this.condition),
-                    fontWeight: FontWeight.w300,
-                  ),
+              ),
+              Text(
+                'Feels like ${_formatTemperature(this.feelsLike)}°ᶜ',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: textColor,
+                  fontWeight: FontWeight.w300,
                 ),
-              ],
-            ),
-            SizedBox(width: 30),
-            FittedBox(
+              ),
+            ],
+          ),
+          SizedBox(width: 15),
+          SizedBox(
+            height: 80,
+            child: FittedBox(
               child: Icon(
-                Mapping.mapWeatherConditionToIcondata(
-                    this.condition, this.isDayTime),
+                icon,
+                color: textColor,
               ),
             ),
-          ]),
+          ),
+        ],
+      ),
     );
   }
 

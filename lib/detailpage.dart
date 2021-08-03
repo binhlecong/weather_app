@@ -38,13 +38,29 @@ class _DetailPageState extends State<DetailPage> {
             if (snapshot.hasData) {
               return DetailView(weather: snapshot.data!);
             } else if (snapshot.hasError) {
-              return Text(
-                "${snapshot.error}",
-                style: TextStyle(color: Colors.red),
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.warning,
+                      color: Colors.red,
+                      size: 80,
+                    ),
+                    Text(
+                      '${snapshot.error}',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
               );
             }
-            // By default, show a loading spinner.
-            return CircularProgressIndicator();
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           },
         ),
       ),

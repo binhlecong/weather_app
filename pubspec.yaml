@@ -33,6 +33,7 @@ dependencies:
   provider:
   intl:
   weather_icons:
+  path_provider: ^2.0.2
 
 dev_dependencies:
   flutter_test:
@@ -52,6 +53,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/direction.png
+    - assets/locations/city.list.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
