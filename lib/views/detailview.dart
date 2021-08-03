@@ -4,6 +4,7 @@ import 'package:weather_app/models/onecallapi/weather.dart';
 import 'package:weather_app/utils/mapping.dart';
 
 import 'package:weather_app/views/dailysummaryview.dart';
+import 'package:weather_app/views/hourlysummaryview.dart';
 import 'package:weather_app/views/lastupdatedview.dart';
 import 'package:weather_app/views/locationview.dart';
 
@@ -58,6 +59,8 @@ class _DetailViewState extends State<DetailView> {
           ),
           SizedBox(height: 100),
           buildDailySummary(widget.weather.daily, textColor),
+          SizedBox(height: 20),
+          buildHourlySummary(widget.weather.hourly, textColor),
           Expanded(
             child: Align(
               alignment: Alignment.bottomCenter,
@@ -69,14 +72,35 @@ class _DetailViewState extends State<DetailView> {
     );
   }
 
-  Widget buildDailySummary(List<Weather> dailyForecast, Color textColor) {
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: dailyForecast
-            .map((item) => new DailySummaryView(
-                  weather: item,
-                  textColor: textColor,
-                ))
-            .toList());
+  Widget buildDailySummary(List<DailyWeather> dailyForecast, Color textColor) {
+    return SizedBox(
+      height: 80,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: dailyForecast.length,
+        itemBuilder: (context, index) {
+          return DailySummaryView(
+            weather: dailyForecast[index],
+            textColor: textColor,
+          );
+        },
+      ),
+    );
+  }
+
+  buildHourlySummary(List<HourlyWeather> hourlyForecast, Color textColor) {
+    return SizedBox(
+      height: 80,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: hourlyForecast.length,
+        itemBuilder: (context, index) {
+          return HourlySummaryView(
+            weather: hourlyForecast[index],
+            textColor: textColor,
+          );
+        },
+      ),
+    );
   }
 }

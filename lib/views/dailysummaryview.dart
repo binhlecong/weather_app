@@ -6,7 +6,7 @@ import 'package:weather_app/utils/temperatureconvert.dart';
 import 'package:weather_icons/weather_icons.dart';
 
 class DailySummaryView extends StatelessWidget {
-  final Weather weather;
+  final DailyWeather weather;
   final Color textColor;
 
   DailySummaryView({
@@ -20,40 +20,55 @@ class DailySummaryView extends StatelessWidget {
         toBeginningOfSentenceCase(DateFormat('EEE').format(this.weather.date));
 
     return Padding(
-      padding: EdgeInsets.all(10),
-      child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+      padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+      child: Container(
+        width: 100,
+        decoration: BoxDecoration(
+          color: Colors.white30,
+          borderRadius: BorderRadius.all(
+            Radius.circular(20),
+          ),
+        ),
+        padding: EdgeInsets.all(10),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              dayOfWeek ?? '',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 18, color: textColor, fontWeight: FontWeight.w300),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                  dayOfWeek ?? '',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: textColor,
+                      fontWeight: FontWeight.w300),
+                ),
+                Text(
+                  "${TempConvert.kelvinToCelsius(this.weather.temp).round().toString()}°",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: textColor,
+                      fontWeight: FontWeight.w500),
+                ),
+              ],
             ),
-            Text(
-              "${TempConvert.kelvinToCelsius(this.weather.temp).round().toString()}°",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 20, color: textColor, fontWeight: FontWeight.w500),
+            Padding(
+              padding: EdgeInsets.only(left: 7),
+              child: FittedBox(
+                child: Icon(
+                  Mapping.mapWeatherConditionToIcondata(
+                      this.weather.condition, true),
+                  color: textColor,
+                  size: 30,
+                ),
+              ),
             ),
           ],
         ),
-        Padding(
-          padding: EdgeInsets.only(left: 7),
-          child: Container(
-            height: 30,
-            alignment: Alignment.center,
-            child: FittedBox(
-              child: Icon(
-                Mapping.mapWeatherConditionToIcondata(
-                    this.weather.condition, true),
-                color: textColor,
-              ),
-            ),
-          ),
-        )
-      ],),
+      ),
     );
   }
 }

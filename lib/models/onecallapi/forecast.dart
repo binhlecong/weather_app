@@ -5,18 +5,18 @@ class Forecast {
   final DateTime lastUpdated;
   final double longitude;
   final double latitude;
-  final List<Weather> daily;
-  final Weather current;
+  final List<DailyWeather> daily;
+  final List<HourlyWeather> hourly;
+  final DailyWeather current;
   final bool isDayTime;
-  final String city;
 
   Forecast(
       {required this.lastUpdated,
       required this.longitude,
       required this.latitude,
       required this.daily,
+      required this.hourly,
       required this.current,
-      required this.city,
       required this.isDayTime});
 
   static Forecast fromJson(dynamic json) {
@@ -34,34 +34,46 @@ class Forecast {
 
     bool isDay = date.isAfter(sunrise) && date.isBefore(sunset);
 
-    // get the forecast for the next 3 days, excluding the current day
     bool hasDaily = json['daily'] != null;
-    List<Weather> tempDaily = [];
+    List<DailyWeather> tempDaily = [];
     if (hasDaily) {
       List items = json['daily'];
       tempDaily = items
-          .map((item) => Weather.fromDailyJson(item))
+          .map((item) => DailyWeather.fromDailyJson(item))
           .toList()
           .skip(1)
-          .take(3)
+          .take(7)
           .toList();
     }
 
-    var currentForecast = Weather(
-        cloudiness: int.parse(json['current']['clouds'].toString()),
-        temp: json['current']['temp'].toDouble(),
-        condition: Mapping.mapStringToWeatherCondition(weather['main']),
-        description: weather['description'],
-        feelLikeTemp: json['current']['feels_like'],
-        date: date);
+    bool hasHourly = json['hourly'] != null;
+    List<HourlyWeather> tempHourly = [];
+    if (hasHourly) {
+      List items = json['hourly'];
+      tempHourly = items
+          .map((item) => HourlyWeather.fromDailyJson(item))
+          .toList()
+          .take(12)
+          .toList();
+    }
+
+    var currentForecast = DailyWeather(
+      cloudiness: int.parse(json['current']['clouds'].toString()),
+      temp: json['current']['temp'].toDouble(),
+      condition: Mapping.mapStringToWeatherCondition(weather['main']),
+      description: weather['description'],
+      feelLikeTemp: json['current']['feels_like'],
+      date: date,
+    );
 
     return Forecast(
-        lastUpdated: DateTime.now(),
-        current: currentForecast,
-        latitude: json['lat'].toDouble(),
-        longitude: json['lon'].toDouble(),
-        daily: tempDaily,
-        isDayTime: isDay,
-        city: 'null');
+      lastUpdated: DateTime.now(),
+      current: currentForecast,
+      latitude: json['lat'].toDouble(),
+      longitude: json['lon'].toDouble(),
+      daily: tempDaily,
+      hourly: tempHourly,
+      isDayTime: isDay,
+    );
   }
 }
