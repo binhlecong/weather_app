@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/models/onecallapi/forecast.dart';
 import 'package:weather_app/models/onecallapi/weather.dart';
 import 'package:weather_app/utils/mapping.dart';
-
 import 'package:weather_app/views/dailysummaryview.dart';
 import 'package:weather_app/views/datetimeview.dart';
-import 'package:weather_app/views/hourlysummaryview.dart';
 import 'package:weather_app/views/lastupdatedview.dart';
 import 'package:weather_app/views/locationview.dart';
 import 'package:weather_app/views/tempchartview.dart';
-
 import 'package:weather_app/views/weatherdescriptionview.dart';
 import 'package:weather_app/views/weathersummaryview.dart';
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/api/weather_api.dart';
-import 'package:weather_app/mappage.dart';
-import 'package:weather_app/models/currentweatherapi/currentweather.dart';
+import 'package:weather_app/screens/mappage.dart';
+
 import 'package:weather_app/utils/search.dart';
 import 'package:weather_app/views/currentweathertile.dart';
 
