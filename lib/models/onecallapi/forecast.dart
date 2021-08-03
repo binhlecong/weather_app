@@ -51,9 +51,9 @@ class Forecast {
     if (hasHourly) {
       List items = json['hourly'];
       tempHourly = items
-          .map((item) => HourlyWeather.fromDailyJson(item))
+          .map((item) => HourlyWeather.fromHourlyJson(item))
           .toList()
-          .take(12)
+          .take(24)
           .toList();
     }
 

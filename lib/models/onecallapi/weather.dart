@@ -39,40 +39,38 @@ class DailyWeather {
         description: weather['description'].toString(),
         cloudiness: cloudiness,
         temp: daily['temp']['day'].toDouble(),
-        date: DateTime.fromMillisecondsSinceEpoch(daily['dt'] * 1000,
-            isUtc: true),
+        date: DateTime.fromMillisecondsSinceEpoch(
+          daily['dt'] * 1000,
+          isUtc: true,
+        ),
         feelLikeTemp: daily['feels_like']['day'].toDouble());
   }
 }
 
 class HourlyWeather {
   final WeatherCondition condition;
-  final String description;
   final double temp;
-  final double feelLikeTemp;
-  final int cloudiness;
+  final double uvi;
   final DateTime date;
 
   HourlyWeather({
     required this.condition,
-    required this.description,
     required this.temp,
-    required this.feelLikeTemp,
-    required this.cloudiness,
+    required this.uvi,
     required this.date,
   });
 
-  static HourlyWeather fromDailyJson(dynamic daily) {
-    var cloudiness = daily['clouds'];
-    var weather = daily['weather'][0];
+  static HourlyWeather fromHourlyJson(dynamic hourly) {
+    var weather = hourly['weather'][0];
 
     return HourlyWeather(
-        condition: Mapping.mapStringToWeatherCondition(weather['main']),
-        description: weather['description'].toString(),
-        cloudiness: cloudiness,
-        temp: daily['temp'].toDouble(),
-        date: DateTime.fromMillisecondsSinceEpoch(daily['dt'] * 1000,
-            isUtc: true),
-        feelLikeTemp: daily['feels_like'].toDouble());
+      condition: Mapping.mapStringToWeatherCondition(weather['main']),
+      uvi: hourly['uvi'].toDouble(),
+      temp: hourly['temp'].toDouble(),
+      date: DateTime.fromMillisecondsSinceEpoch(
+        hourly['dt'] * 1000,
+        isUtc: true,
+      ),
+    );
   }
 }

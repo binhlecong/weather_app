@@ -4,9 +4,11 @@ import 'package:weather_app/models/onecallapi/weather.dart';
 import 'package:weather_app/utils/mapping.dart';
 
 import 'package:weather_app/views/dailysummaryview.dart';
+import 'package:weather_app/views/datetimeview.dart';
 import 'package:weather_app/views/hourlysummaryview.dart';
 import 'package:weather_app/views/lastupdatedview.dart';
 import 'package:weather_app/views/locationview.dart';
+import 'package:weather_app/views/tempchartview.dart';
 
 import 'package:weather_app/views/weatherdescriptionview.dart';
 import 'package:weather_app/views/weathersummaryview.dart';
@@ -44,7 +46,11 @@ class _DetailViewState extends State<DetailView> {
             longitude: widget.weather.longitude,
             latitude: widget.weather.latitude,
           ),
-          SizedBox(height: 100),
+          SizedBox(height: 5),
+          DatetimeView(
+            datetime: widget.weather.current.date,
+          ),
+          SizedBox(height: 20),
           WeatherSummary(
             condition: widget.weather.current.condition,
             temp: widget.weather.current.temp,
@@ -57,10 +63,10 @@ class _DetailViewState extends State<DetailView> {
             weatherDescription: widget.weather.current.description,
             textColor: textColor,
           ),
-          SizedBox(height: 100),
+          SizedBox(height: 30),
           buildDailySummary(widget.weather.daily, textColor),
           SizedBox(height: 20),
-          buildHourlySummary(widget.weather.hourly, textColor),
+          buildHourlyTempChart(widget.weather.hourly),
           Expanded(
             child: Align(
               alignment: Alignment.bottomCenter,
@@ -88,18 +94,12 @@ class _DetailViewState extends State<DetailView> {
     );
   }
 
-  buildHourlySummary(List<HourlyWeather> hourlyForecast, Color textColor) {
+  buildHourlyTempChart(List<HourlyWeather> hourlyForecast) {
     return SizedBox(
-      height: 80,
-      child: ListView.builder(
+      height: 200,
+      child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        itemCount: hourlyForecast.length,
-        itemBuilder: (context, index) {
-          return HourlySummaryView(
-            weather: hourlyForecast[index],
-            textColor: textColor,
-          );
-        },
+        child: TempChartView(hourlyForecast),
       ),
     );
   }

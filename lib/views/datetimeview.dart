@@ -1,29 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-class LocationView extends StatelessWidget {
-  final double longitude;
-  final double latitude;
+class DatetimeView extends StatelessWidget {
+  final DateTime datetime;
 
-  LocationView({
-    required this.longitude,
-    required this.latitude,
-  });
+  DatetimeView({required this.datetime});
 
   @override
   Widget build(BuildContext context) {
+    String day = toBeginningOfSentenceCase(
+            DateFormat.yMMMMd('en_US').format(datetime)) ??
+        '??:??:??';
+
     return Center(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(width: 10),
           Icon(
-            Icons.location_on_sharp,
-            color: Colors.red.shade900,
+            Icons.calendar_today,
+            color: Colors.green.shade900,
             size: 20,
           ),
           SizedBox(width: 5),
           Text(
-            '${this.longitude.toString()}, ${this.latitude.toString()}',
+            day,
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.bold,

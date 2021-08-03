@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:weather_app/models/onecallapi/weather.dart';
 import 'package:weather_app/utils/mapping.dart';
 import 'package:weather_app/utils/temperatureconvert.dart';
-import 'package:weather_icons/weather_icons.dart';
 
 class DailySummaryView extends StatelessWidget {
   final DailyWeather weather;
