@@ -18,16 +18,15 @@ class LocationView extends StatelessWidget {
           SizedBox(width: 10),
           Icon(
             Icons.location_on_sharp,
-            color: Colors.red.shade900,
-            size: 20,
+            color: Colors.black45,
+            size: 15,
           ),
           SizedBox(width: 5),
           Text(
-            '${this.longitude.toString()}, ${this.latitude.toString()}',
+            '${this.longitude.toStringAsFixed(2)}, ${this.latitude.toStringAsFixed(2)}',
             style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
+              fontSize: 15,
+              color: Colors.black45,
             ),
           ),
         ],

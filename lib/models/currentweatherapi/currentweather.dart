@@ -71,7 +71,10 @@ class Wind {
   Wind(this.speed, this.degree);
 
   factory Wind.fromJson(Map<String, dynamic> json) {
-    return Wind(json['speed'], json['deg']);
+    return Wind(
+      json['speed'],
+      json['deg'],
+    );
   }
 }
 
@@ -85,7 +88,11 @@ class WeatherShort {
 
   factory WeatherShort.fromJson(Map<String, dynamic> json) {
     return WeatherShort(
-        json['id'], json['main'], json['description'], json['icon']);
+      json['id'],
+      json['main'],
+      json['description'],
+      json['icon'],
+    );
   }
 }
 
@@ -107,7 +114,13 @@ class Main {
   );
 
   factory Main.fromJson(Map<String, dynamic> json) {
-    return Main(json['temp'], json['feels_like'], json['temp_min'],
-        json['temp_max'], json['pressure'], json['humidity']);
+    return Main(
+      json['temp'],
+      json['feels_like'],
+      json['temp_min'],
+      json['temp_max'],
+      json['pressure'],
+      json['humidity'],
+    );
   }
 }

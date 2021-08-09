@@ -6,29 +6,34 @@ import 'package:weather_app/views/winddirectionview.dart';
 class WindDisplayView extends StatelessWidget {
   final Wind wind;
   WindDisplayView({required this.wind});
+  WindDisplayView.fromSD(speed, degree) : wind = Wind(speed, degree);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(7),
       height: 40,
-      width: 100,
+      width: 85,
       decoration: BoxDecoration(
         color: Colors.amber,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           WindDirectionView(
             wind.degree.toDouble(),
           ),
-          Text(
-            wind.degree.toString() + '\u1d52',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w700,
-              fontSize: 16,
+          Expanded(
+            child: Center(
+              child: Text(
+                wind.degree.toStringAsFixed(0) + '\u1d52',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16,
+                ),
+              ),
             ),
           )
         ],

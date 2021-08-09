@@ -14,6 +14,7 @@ class WindDirectionView extends StatelessWidget {
       angle: a,
       child: Image(
         image: AssetImage('assets/images/direction.png'),
+        fit: BoxFit.cover,
       ),
     ));
   }

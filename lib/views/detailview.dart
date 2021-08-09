@@ -4,9 +4,9 @@ import 'package:weather_app/models/onecallapi/weather.dart';
 import 'package:weather_app/utils/mapping.dart';
 import 'package:weather_app/views/dailysummaryview.dart';
 import 'package:weather_app/views/datetimeview.dart';
+import 'package:weather_app/views/hourlychartview.dart';
 import 'package:weather_app/views/lastupdatedview.dart';
 import 'package:weather_app/views/locationview.dart';
-import 'package:weather_app/views/tempchartview.dart';
 import 'package:weather_app/views/weatherdescriptionview.dart';
 import 'package:weather_app/views/weathersummaryview.dart';
 
@@ -19,7 +19,8 @@ class DetailView extends StatefulWidget {
   _DetailViewState createState() => _DetailViewState();
 }
 
-class _DetailViewState extends State<DetailView> {
+class _DetailViewState extends State<DetailView>
+    with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
@@ -60,10 +61,10 @@ class _DetailViewState extends State<DetailView> {
             weatherDescription: widget.weather.current.description,
             textColor: textColor,
           ),
+          SizedBox(height: 20),
+          HourlyChartView(hourlyWeather: widget.weather.hourly),
           SizedBox(height: 30),
           buildDailySummary(widget.weather.daily, textColor),
-          SizedBox(height: 20),
-          buildHourlyTempChart(widget.weather.hourly),
           Expanded(
             child: Align(
               alignment: Alignment.bottomCenter,
@@ -87,16 +88,6 @@ class _DetailViewState extends State<DetailView> {
             textColor: textColor,
           );
         },
-      ),
-    );
-  }
-
-  buildHourlyTempChart(List<HourlyWeather> hourlyForecast) {
-    return SizedBox(
-      height: 200,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: TempChartView(hourlyForecast),
       ),
     );
   }

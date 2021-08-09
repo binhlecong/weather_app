@@ -52,12 +52,16 @@ class HourlyWeather {
   final double temp;
   final double uvi;
   final DateTime date;
+  final speed;
+  final degree;
 
   HourlyWeather({
     required this.condition,
     required this.temp,
     required this.uvi,
     required this.date,
+    required this.speed,
+    required this.degree,
   });
 
   static HourlyWeather fromHourlyJson(dynamic hourly) {
@@ -71,6 +75,8 @@ class HourlyWeather {
         hourly['dt'] * 1000,
         isUtc: true,
       ),
+      speed: hourly['wind_speed'],
+      degree: hourly['wind_deg'],
     );
   }
 }

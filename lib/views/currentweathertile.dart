@@ -65,7 +65,7 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

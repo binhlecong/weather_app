@@ -16,13 +16,16 @@ class TempChartView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 5,
+      aspectRatio: 4,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white30,
+          color: Colors.white38,
         ),
         child: Padding(
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.symmetric(
+            vertical: 10,
+            horizontal: 20,
+          ),
           child: LineChart(
             mainData(),
           ),
@@ -62,8 +65,8 @@ class TempChartView extends StatelessWidget {
       ),
     ];
 
-    // var tooltipsOnBar = lineBarsData[0];
-    // var showIndexes = [for (var i = 0; i < 24; i++) i];
+    var tooltipsOnBar = lineBarsData[0];
+    var showIndexes = [for (var i = 0; i < 24; i++) i];
 
     return LineChartData(
       gridData: FlGridData(
@@ -77,9 +80,57 @@ class TempChartView extends StatelessWidget {
         getDrawingVerticalLine: (value) {
           return FlLine(
             color: Colors.white,
-            strokeWidth: 1,
+            strokeWidth: 0,
           );
         },
+      ),
+      showingTooltipIndicators: showIndexes.map(
+        (index) {
+          return ShowingTooltipIndicators([
+            LineBarSpot(
+              tooltipsOnBar,
+              lineBarsData.indexOf(tooltipsOnBar),
+              tooltipsOnBar.spots[index],
+            ),
+          ]);
+        },
+      ).toList(),
+      lineTouchData: LineTouchData(
+        enabled: false,
+        getTouchedSpotIndicator:
+            (LineChartBarData barData, List<int> spotIndexes) {
+          return spotIndexes.map((index) {
+            return TouchedSpotIndicatorData(
+              FlLine(
+                color: Colors.red,
+              ),
+              FlDotData(
+                show: true,
+                getDotPainter: (spot, percent, barData, index) =>
+                    FlDotCirclePainter(
+                  radius: 8,
+                  strokeWidth: 2,
+                  strokeColor: Colors.black,
+                ),
+              ),
+            );
+          }).toList();
+        },
+        touchTooltipData: LineTouchTooltipData(
+          tooltipBgColor: Colors.transparent,
+          tooltipPadding: const EdgeInsets.all(4),
+          getTooltipItems: (List<LineBarSpot> lineBarsSpot) {
+            return lineBarsSpot.map((lineBarSpot) {
+              return LineTooltipItem(
+                lineBarSpot.y.toStringAsFixed(1),
+                const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                ),
+              );
+            }).toList();
+          },
+        ),
       ),
       titlesData: FlTitlesData(
         show: true,
@@ -88,7 +139,8 @@ class TempChartView extends StatelessWidget {
         ),
         bottomTitles: SideTitles(
           showTitles: true,
-          reservedSize: 24,
+          reservedSize: 12,
+          interval: 2,
           margin: 8,
           getTextStyles: (value) => const TextStyle(
             color: Colors.white,
@@ -97,17 +149,11 @@ class TempChartView extends StatelessWidget {
           ),
           getTitles: (value) {
             var time = (today.hour + value.toInt()) % 24;
-            return '${time.toString()}h';
+            return '${time.toString()}:00';
           },
         ),
       ),
-      borderData: FlBorderData(
-        show: true,
-        border: Border.all(
-          color: Colors.white,
-          width: 2,
-        ),
-      ),
+      borderData: FlBorderData(show: false),
       minX: 0,
       maxX: 23,
       minY: -30,
