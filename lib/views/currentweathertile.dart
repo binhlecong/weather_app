@@ -101,10 +101,10 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
                           ),
                           SizedBox(width: 10),
                           Text(
-                            '${TempConvert.kelvinToCelsius(snapshot.data!.main.tempMin)}' +
+                            '${TempConvert.kelvinToCelsius(snapshot.data!.main.tempMin.toDouble())}' +
                                 '\u1d52' +
                                 ' - ' +
-                                '${TempConvert.kelvinToCelsius(snapshot.data!.main.tempMax)}' +
+                                '${TempConvert.kelvinToCelsius(snapshot.data!.main.tempMax.toDouble())}' +
                                 '\u1d52',
                             style: TextStyle(
                               fontSize: 30,

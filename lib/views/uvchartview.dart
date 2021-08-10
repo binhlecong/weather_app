@@ -47,7 +47,7 @@ class UVChartView extends StatelessWidget {
             barRods: [
               BarChartRodData(
                 y: e.uvi + 1,
-                width: 10,
+                width: 20,
                 borderRadius: BorderRadius.zero,
                 colors: [getBarColor(e.uvi)],
               ),

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:weather_app/screens/detailpage.dart';
 
-
 class MapSample extends StatefulWidget {
   @override
   State<MapSample> createState() => MapSampleState();
@@ -20,7 +19,6 @@ class MapSampleState extends State<MapSample> {
     tilt: 45,
   );
 
-  //Set<Marker> markers = const <Marker>{};
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
   @override
@@ -74,6 +72,12 @@ class MapSampleState extends State<MapSample> {
         ],
       ),
     );
+  }
+
+  @override
+  dispose() {
+    markers.clear();
+    super.dispose();
   }
 
   Future<void> _goToCoordinate(LatLng coor) async {

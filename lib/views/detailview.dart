@@ -19,8 +19,7 @@ class DetailView extends StatefulWidget {
   _DetailViewState createState() => _DetailViewState();
 }
 
-class _DetailViewState extends State<DetailView>
-    with SingleTickerProviderStateMixin {
+class _DetailViewState extends State<DetailView> {
   @override
   void initState() {
     super.initState();
@@ -34,6 +33,7 @@ class _DetailViewState extends State<DetailView>
     Color textColor = Mapping.mapWeatherConditionToTextColor(condition);
 
     return Container(
+      height: MediaQuery.of(context).size.height,
       padding: EdgeInsets.only(top: 20),
       decoration: BoxDecoration(
         color: Color(colorCode),
@@ -48,7 +48,7 @@ class _DetailViewState extends State<DetailView>
           DatetimeView(
             datetime: widget.weather.current.date,
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 40),
           WeatherSummary(
             condition: widget.weather.current.condition,
             temp: widget.weather.current.temp,
@@ -61,7 +61,7 @@ class _DetailViewState extends State<DetailView>
             weatherDescription: widget.weather.current.description,
             textColor: textColor,
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 30),
           HourlyChartView(hourlyWeather: widget.weather.hourly),
           SizedBox(height: 30),
           buildDailySummary(widget.weather.daily, textColor),

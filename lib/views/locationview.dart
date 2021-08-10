@@ -23,7 +23,7 @@ class LocationView extends StatelessWidget {
           ),
           SizedBox(width: 5),
           Text(
-            '${this.longitude.toStringAsFixed(2)}, ${this.latitude.toStringAsFixed(2)}',
+            '${this.longitude.toStringAsFixed(1)}, ${this.latitude.toStringAsFixed(1)}',
             style: TextStyle(
               fontSize: 15,
               color: Colors.black45,

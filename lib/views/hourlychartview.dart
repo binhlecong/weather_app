@@ -27,19 +27,28 @@ class _HourlyChartViewState extends State<HourlyChartView>
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 280,
+      height: 300,
       child: Column(
         children: [
           TabBar(
-            unselectedLabelColor: Colors.black45,
+            unselectedLabelColor: Colors.black26,
             labelColor: Colors.white,
             controller: _tabController,
             indicatorSize: TabBarIndicatorSize.tab,
             indicatorColor: Colors.white30,
             tabs: [
-              Tab(text: 'Temp' + ' \u1d52C', icon: Icon(WeatherIcons.thermometer)),
-              Tab(text: 'UV index', icon: Icon(WeatherIcons.day_sunny)),
-              Tab(text: 'Wind', icon: Icon(WeatherIcons.strong_wind)),
+              Tab(
+                text: 'Temp' + ' \u1d52C',
+                icon: Icon(WeatherIcons.thermometer),
+              ),
+              Tab(
+                text: 'UV index',
+                icon: Icon(WeatherIcons.day_sunny),
+              ),
+              Tab(
+                text: 'Wind',
+                icon: Icon(WeatherIcons.strong_wind),
+              ),
             ],
           ),
           Expanded(

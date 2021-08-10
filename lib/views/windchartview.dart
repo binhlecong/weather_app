@@ -34,12 +34,11 @@ class WindChartView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Container(
-              padding: EdgeInsets.all(10),
-              height: 135,
-              width: 75,
-              decoration: BoxDecoration(
-                color: Colors.white54,
-                borderRadius: BorderRadius.circular(20),
+              width: 80,
+              height: 140,
+              padding: EdgeInsets.symmetric(
+                horizontal: 5,
+                vertical: 10,
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -47,7 +46,9 @@ class WindChartView extends StatelessWidget {
                   Expanded(
                     child: Center(
                       child: Text(
-                        '${e.speed.toStringAsFixed(0)} m/s',
+                        '${e.speed.toStringAsFixed(1)} m/s',
+                        maxLines: 2,
+                        softWrap: true,
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w700,
@@ -70,7 +71,7 @@ class WindChartView extends StatelessWidget {
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w700,
-                          fontSize: 16,
+                          fontSize: 14,
                         ),
                       ),
                     ),

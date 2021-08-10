@@ -15,7 +15,7 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
-  late final Future<Forecast> weather;
+  late Future<Forecast> weather;
 
   @override
   void initState() {
@@ -36,7 +36,13 @@ class _DetailPageState extends State<DetailPage> {
           future: weather,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return DetailView(weather: snapshot.data!);
+              return RefreshIndicator(
+                onRefresh: _pullRefresh,
+                child: SingleChildScrollView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  child: DetailView(weather: snapshot.data!),
+                ),
+              );
             } else if (snapshot.hasError) {
               return Center(
                 child: Column(
@@ -65,5 +71,15 @@ class _DetailPageState extends State<DetailPage> {
         ),
       ),
     );
+  }
+
+  Future<void> _pullRefresh() async {
+    var lat = widget.position.latitude;
+    var lon = widget.position.longitude;
+    Future<Forecast> newWeather = WeatherAPI.fetchOneCallAPI(lat, lon);
+
+    setState(() {
+      weather = newWeather;
+    });
   }
 }

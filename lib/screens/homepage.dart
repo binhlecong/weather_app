@@ -12,7 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
   final List<String> majorCities = [
     'hanoi',
     'seattle',
@@ -22,13 +22,13 @@ class _HomePageState extends State<HomePage> {
     'sydney',
     'moscow',
   ];
-  final List<String> scrolledCities = [];
+  List<CurrentWeatherSummary> scrolledCities = [];
 
   @override
   void initState() {
     super.initState();
     for (var i = 0; i < 3; i++) {
-      scrolledCities.add(majorCities[i]);
+      scrolledCities.add(CurrentWeatherSummary(cityName: majorCities[i]));
     }
 
     _scrollController.addListener(() {
@@ -43,54 +43,75 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Title(
-            color: Colors.white,
-            child: Text('Weather app'),
+        title: Title(
+          color: Colors.white,
+          child: Text('Weather app'),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              showSearch(context: context, delegate: Search());
+            },
+            icon: Icon(Icons.search),
           ),
-          actions: [
-            IconButton(
-              onPressed: () {
-                showSearch(context: context, delegate: Search());
-              },
-              icon: Icon(
-                Icons.search,
-              ),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MapSample(),
+                ),
+              );
+            },
+            icon: Icon(
+              Icons.map,
             ),
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MapSample(),
-                  ),
-                );
-              },
-              icon: Icon(
-                Icons.map,
-              ),
-            ),
-          ]),
+          ),
+        ],
+      ),
       body: Container(
         decoration: BoxDecoration(
           color: Color(0xd6d6d6),
         ),
-        child: ListView.builder(
+        child: RefreshIndicator(
+          onRefresh: _pullRefresh,
+          child: ListView.builder(
             controller: _scrollController,
-            itemCount: majorCities.length,
-            itemBuilder: (content, index) {
-              return CurrentWeatherSummary(
-                cityName: majorCities[index],
-              );
-            }),
+            itemCount: scrolledCities.length,
+            itemBuilder: (content, index) => scrolledCities[index],
+          ),
+        ),
       ),
     );
   }
 
-  _getMoreData() {
+  @override
+  void dispose() {
+    scrolledCities.clear();
+    super.dispose();
+  }
+
+  void _getMoreData() {
     int l = scrolledCities.length;
     if (l >= majorCities.length) return;
-    
-    scrolledCities.add(majorCities[l]);
+    scrolledCities.add(
+      CurrentWeatherSummary(cityName: majorCities[l]),
+    );
+
     setState(() {});
+  }
+
+  Future<void> _pullRefresh() async {
+    scrolledCities = [];
+    setState(() {});
+
+    return Future.delayed(Duration(milliseconds: 250), () {
+      for (var i = 0; i < 3; i++) {
+        scrolledCities.add(
+          CurrentWeatherSummary(cityName: majorCities[i]),
+        );
+      }
+      setState(() {});
+    });
   }
 }
