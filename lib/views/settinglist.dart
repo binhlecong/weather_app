@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/views/settings/brightnessswitch.dart';
+import 'package:weather_app/views/settings/tempunitdialog.dart';
 import 'package:weather_app/views/settingsection.dart';
 
 class SettingList extends StatefulWidget {
@@ -19,6 +20,12 @@ class _SettingListState extends State<SettingList> {
             title: 'Appearance',
             settings: [
               BrightnessSwitch(),
+            ],
+          ),
+          SettingSection(
+            title: 'Units',
+            settings: [
+              TempUnitDialog(),
             ],
           ),
         ],

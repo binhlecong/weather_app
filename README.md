@@ -8,9 +8,10 @@ A new Flutter project in which I learn how to fetch api and learn many new UI fe
 - [x] bottom button bar
 - [x] Option tabs for showing UV, temperature and wind graph
 - [x] swipe down to reload
-- [ ] Use BLoC to add favorite location, darkmode, setting
-- [ ] Setting: choose degree F, C or k
+- [x] Use BLoC to add favorite location, darkmode, setting
+- [x] Setting: choose degree F, C or K
+- [ ] Setting: choose wind speed unit
 - [ ] make search smoother (Stream<> ?)
-- [ ] Store recent search data
+- [ ] Store recent search data, store user setting
 - [ ] Complete the search bar
 - [ ] Tap on future day summary to view detail of that day

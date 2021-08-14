@@ -5,25 +5,25 @@ class ThemeNotifier with ChangeNotifier {
   final darkTheme = ThemeData.dark();
   final lightTheme = ThemeData.light();
 
-  late ThemeData _themeData;
-  ThemeData getTheme() => _themeData;
+  ThemeData themeData;
+  ThemeData get getTheme => themeData;
 
-  ThemeNotifier() {
-    StorageManager.readData('brightness').then((value) {
-      var themeMode = value ?? lightTheme;
-      _themeData = themeMode == 'light' ? lightTheme : darkTheme;
-      notifyListeners();
-    });
+  ThemeNotifier({required this.themeData}) {
+    // StorageManager.readData('brightness').then((value) {
+    //   var themeMode = value ?? lightTheme;
+    //   _themeData = themeMode == 'light' ? lightTheme : darkTheme;
+    //   notifyListeners();
+    // });
   }
 
   void setDarkMode() async {
-    _themeData = darkTheme;
+    themeData = darkTheme;
     StorageManager.saveData('brightness', 'dark');
     notifyListeners();
   }
 
   void setLightMode() async {
-    _themeData = lightTheme;
+    themeData = lightTheme;
     StorageManager.saveData('brightness', 'light');
     notifyListeners();
   }

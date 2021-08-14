@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:weather_app/models/onecallapi/weather.dart';
+import 'package:weather_app/providers/units.dart';
 import 'package:weather_app/views/tempchartview.dart';
 import 'package:weather_app/views/uvchartview.dart';
 import 'package:weather_app/views/windchartview.dart';
@@ -27,50 +29,57 @@ class _HourlyChartViewState extends State<HourlyChartView>
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 300,
-      child: Column(
-        children: [
-          TabBar(
-            unselectedLabelColor: Colors.black26,
-            labelColor: Colors.white,
-            controller: _tabController,
-            indicatorSize: TabBarIndicatorSize.tab,
-            indicatorColor: Colors.white30,
-            tabs: [
-              Tab(
-                text: 'Temp' + ' \u1d52C',
-                icon: Icon(WeatherIcons.thermometer),
+      height: 320,
+      child: Consumer<TempUnitNotifier>(
+        builder: (context, unit, _) {
+          return Column(
+            children: [
+              TabBar(
+                unselectedLabelColor: Colors.black26,
+                labelColor: Colors.white,
+                controller: _tabController,
+                indicatorSize: TabBarIndicatorSize.tab,
+                indicatorColor: Colors.white30,
+                tabs: [
+                  Tab(
+                    text: 'Temp' + ' \u1d52${unit.getTempUnit}',
+                    icon: Icon(WeatherIcons.thermometer),
+                  ),
+                  Tab(
+                    text: 'UV index',
+                    icon: Icon(WeatherIcons.day_sunny),
+                  ),
+                  Tab(
+                    text: 'Wind',
+                    icon: Icon(WeatherIcons.strong_wind),
+                  ),
+                ],
               ),
-              Tab(
-                text: 'UV index',
-                icon: Icon(WeatherIcons.day_sunny),
-              ),
-              Tab(
-                text: 'Wind',
-                icon: Icon(WeatherIcons.strong_wind),
+              Expanded(
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: TempChartView(
+                        widget.hourlyWeather,
+                        unit.getTempUnit,
+                      ),
+                    ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: UVChartView(widget.hourlyWeather),
+                    ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: WindChartView(widget.hourlyWeather),
+                    ),
+                  ],
+                ),
               ),
             ],
-          ),
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: TempChartView(widget.hourlyWeather),
-                ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: UVChartView(widget.hourlyWeather),
-                ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: WindChartView(widget.hourlyWeather),
-                ),
-              ],
-            ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }

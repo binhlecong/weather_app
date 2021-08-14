@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:weather_app/api/weather_api.dart';
 
 import 'package:weather_app/models/currentweatherapi/currentweather.dart';
 import 'package:weather_app/models/onecallapi/weather.dart';
+import 'package:weather_app/providers/units.dart';
 import 'package:weather_app/screens/detailpage.dart';
 import 'package:weather_app/utils/mapping.dart';
 import 'package:weather_app/utils/temperatureconvert.dart';
@@ -100,18 +102,28 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
                           ),
                         ),
                         SizedBox(width: 10),
-                        Text(
-                          '${TempConvert.kelvinToCelsius(snapshot.data!.main.tempMin.toDouble())}' +
-                              '\u1d52' +
-                              ' - ' +
-                              '${TempConvert.kelvinToCelsius(snapshot.data!.main.tempMax.toDouble())}' +
-                              '\u1d52',
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: textColor,
-                          ),
-                        ),
+                        Consumer<TempUnitNotifier>(builder: (context, unit, _) {
+                          var minTemp = snapshot.data!.main.tempMin;
+                          var maxTemp = snapshot.data!.main.tempMax;
+                          var unitSymbol = unit.getTempUnit;
+
+                          if (unitSymbol == 'C') {
+                            minTemp = TempConvert.kelvinToCelsius(minTemp);
+                            maxTemp = TempConvert.kelvinToCelsius(maxTemp);
+                          } else if (unit.getTempUnit == 'F') {
+                            minTemp = TempConvert.kelvinToFahrenheit(minTemp);
+                            maxTemp = TempConvert.kelvinToFahrenheit(maxTemp);
+                          }
+
+                          return Text(
+                            '${minTemp.toStringAsFixed(0)} - ${maxTemp.toStringAsFixed(0)} \u1d52$unitSymbol',
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: textColor,
+                            ),
+                          );
+                        }),
                       ],
                     ),
                     Column(

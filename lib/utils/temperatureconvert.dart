@@ -1,5 +1,9 @@
 class TempConvert {
-  static int kelvinToCelsius(double temp){
-    return (temp - 273.0).round();
+  static double kelvinToCelsius(temp) {
+    return temp - 273.15;
+  }
+
+  static double kelvinToFahrenheit(temp) {
+    return temp * 9 / 5 - 459.67;
   }
 }

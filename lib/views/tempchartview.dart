@@ -1,10 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:weather_app/models/onecallapi/weather.dart';
+import 'package:weather_app/utils/temperatureconvert.dart';
 
 class TempChartView extends StatelessWidget {
   final List<HourlyWeather> data;
-  TempChartView(this.data);
+  final String unit;
+  late double _maxY;
+  late double _minY;
+
+  TempChartView(this.data, this.unit) {
+    switch (unit) {
+      case 'C':
+        _minY = -30;
+        _maxY = 60;
+        break;
+      case 'F':
+        _minY = -22;
+        _maxY = 140;
+        break;
+      case 'K':
+        _minY = 243;
+        _maxY = 333;
+        break;
+    }
+  }
 
   final List<Color> gradientColors = [
     Color(0xffffa500),
@@ -23,8 +43,8 @@ class TempChartView extends StatelessWidget {
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(
-            vertical: 10,
-            horizontal: 20,
+            vertical: 20,
+            horizontal: 30,
           ),
           child: LineChart(
             mainData(),
@@ -37,12 +57,18 @@ class TempChartView extends StatelessWidget {
   LineChartData mainData() {
     DateTime today = data[0].date;
     double base = today.day * 24.0 + today.hour.toDouble();
-    List<FlSpot> spots = data
-        .map((e) => FlSpot(
-              e.date.day * 24.0 + e.date.hour.toDouble() - base,
-              e.temp - 273.0,
-            ))
-        .toList();
+
+    List<FlSpot> spots = data.map((e) {
+      var x = e.date.day * 24.0 + e.date.hour.toDouble() - base;
+      var y = e.temp;
+      if (unit == 'C') {
+        y = TempConvert.kelvinToCelsius(e.temp);
+      } else if (unit == 'F') {
+        y = TempConvert.kelvinToFahrenheit(e.temp);
+      }
+
+      return FlSpot(x, y);
+    }).toList();
 
     var lineBarsData = [
       LineChartBarData(
@@ -156,8 +182,8 @@ class TempChartView extends StatelessWidget {
       borderData: FlBorderData(show: false),
       minX: 0,
       maxX: 23,
-      minY: -30,
-      maxY: 60,
+      minY: _minY,
+      maxY: _maxY,
       lineBarsData: lineBarsData,
     );
   }
