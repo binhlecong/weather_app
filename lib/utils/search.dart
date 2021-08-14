@@ -36,7 +36,9 @@ class Search extends SearchDelegate {
   Widget buildResults(BuildContext context) {
     return Container(
       child: Center(
-        child: CurrentWeatherSummary(cityName: selectedResult.toLowerCase()),
+        child: CurrentWeatherSummary(
+          cityName: selectedResult.toLowerCase(),
+        ),
       ),
     );
   }
@@ -48,15 +50,17 @@ class Search extends SearchDelegate {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                    title: Text(snapshot.data![index]),
-                    onTap: () {
-                      selectedResult = snapshot.data![index];
-                      showResults(context);
-                    });
-              });
+            itemCount: snapshot.data!.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text(snapshot.data![index]),
+                onTap: () {
+                  selectedResult = snapshot.data![index];
+                  showResults(context);
+                },
+              );
+            },
+          );
         } else if (snapshot.hasError) {
           return Center(
             child: Text(snapshot.error.toString()),
@@ -77,9 +81,9 @@ class Search extends SearchDelegate {
     if (query.isEmpty) {
       suggestionList = recentSearch;
     } else {
-      suggestionList.addAll(searchData.where(
-        (element) => element.contains(query),
-      ));
+      suggestionList.addAll(
+        searchData.where((element) => element.contains(query)),
+      );
     }
 
     return suggestionList;

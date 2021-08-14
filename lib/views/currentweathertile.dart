@@ -40,110 +40,114 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
           Color textColor = Mapping.mapWeatherConditionToTextColor(condition);
 
           return GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => DetailPage.fromCoor(
-                      lat: snapshot.data!.lat,
-                      lon: snapshot.data!.lon,
-                    ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailPage.fromCoor(
+                    lat: snapshot.data!.lat,
+                    lon: snapshot.data!.lon,
                   ),
-                );
-              },
-              child: CRWThTileLayout(
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black54,
-                      spreadRadius: 3,
-                      blurRadius: 7,
-                      offset: Offset(0, 4),
-                    ),
-                  ],
-                  color: Color(colorCode),
-                  borderRadius: BorderRadius.circular(20),
                 ),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.location_pin,
-                            color: Colors.red,
-                            size: 18,
+              );
+            },
+            child: CRWThTileLayout(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black54,
+                    spreadRadius: 3,
+                    blurRadius: 7,
+                    offset: Offset(0, 4),
+                  ),
+                ],
+                color: Color(colorCode),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.location_pin,
+                          color: Colors.red,
+                          size: 18,
+                        ),
+                        SizedBox(width: 5),
+                        Text(
+                          snapshot.data!.name +
+                              ', ' +
+                              snapshot.data!.sys.country,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: textColor,
                           ),
-                          SizedBox(width: 5),
-                          Text(
-                            snapshot.data!.name +
-                                ', ' +
-                                snapshot.data!.sys.country,
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: textColor,
-                            ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 50,
+                          child: Icon(
+                            icon,
+                            color: textColor,
+                            size: 32,
                           ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: 50,
-                            child: Icon(
-                              icon,
-                              color: textColor,
-                              size: 32,
-                            ),
+                        ),
+                        SizedBox(width: 10),
+                        Text(
+                          '${TempConvert.kelvinToCelsius(snapshot.data!.main.tempMin.toDouble())}' +
+                              '\u1d52' +
+                              ' - ' +
+                              '${TempConvert.kelvinToCelsius(snapshot.data!.main.tempMax.toDouble())}' +
+                              '\u1d52',
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: textColor,
                           ),
-                          SizedBox(width: 10),
-                          Text(
-                            '${TempConvert.kelvinToCelsius(snapshot.data!.main.tempMin.toDouble())}' +
-                                '\u1d52' +
-                                ' - ' +
-                                '${TempConvert.kelvinToCelsius(snapshot.data!.main.tempMax.toDouble())}' +
-                                '\u1d52',
-                            style: TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                              color: textColor,
-                            ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Text(
+                          snapshot.data!.weather[0].description,
+                          style: TextStyle(
+                            color: textColor,
+                            fontSize: 20,
                           ),
-                        ],
-                      ),
+                        ),
+                        Text(
+                          'Humidity: ${snapshot.data!.main.humidity}%  Pressure: ${snapshot.data!.main.pressure}hPa',
+                          style: TextStyle(color: textColor),
+                        ),
+                      ],
+                    ),
+                    Row(children: [
+                      WindDisplayView(wind: snapshot.data!.wind),
+                      SizedBox(width: 7),
                       Column(
-                        children: [
-                          Text(
-                            snapshot.data!.weather[0].description,
-                            style: TextStyle(color: textColor),
-                          ),
-                          Text(
-                            'Humidity: ${snapshot.data!.main.humidity}% - Pressure: ${snapshot.data!.main.pressure}hPa',
-                            style: TextStyle(color: textColor),
-                          ),
-                        ],
-                      ),
-                      Row(children: [
-                        WindDisplayView(wind: snapshot.data!.wind),
-                        SizedBox(width: 7),
-                        Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Wind speed:',
-                                style: TextStyle(color: textColor),
-                              ),
-                              Text(
-                                '${snapshot.data!.wind.speed} m/s',
-                                style: TextStyle(color: textColor),
-                              ),
-                            ])
-                      ]),
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Wind speed:',
+                              style: TextStyle(color: textColor),
+                            ),
+                            Text(
+                              '${snapshot.data!.wind.speed} m/s',
+                              style: TextStyle(color: textColor),
+                            ),
+                          ])
                     ]),
-              ));
+                  ]),
+            ),
+          );
         } else if (snapshot.hasError) {
           return CRWThTileLayout(
             child: Column(

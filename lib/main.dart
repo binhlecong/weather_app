@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:weather_app/providers/theme.dart';
 import 'package:weather_app/screens/homepage.dart';
 
-
 void main() {
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider<ThemeNotifier>(
+      create: (_) => new ThemeNotifier(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Open Weather API client',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.cyan,
-      ),
-      home: SafeArea(
-        child: HomePage(),
+    return Consumer<ThemeNotifier>(
+      builder: (context, theme, _) => MaterialApp(
+        title: 'Open Weather API client',
+        debugShowCheckedModeBanner: false,
+        theme: theme.getTheme(),
+        home: SafeArea(
+          child: HomePage(),
+        ),
       ),
     );
   }

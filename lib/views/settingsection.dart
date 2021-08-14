@@ -16,7 +16,10 @@ class SettingSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
+          Container(
+            decoration: BoxDecoration(
+              color: const Color(0x20ffffff),
+            ),
             padding: const EdgeInsets.symmetric(
               horizontal: 25,
               vertical: 10,
@@ -25,7 +28,6 @@ class SettingSection extends StatelessWidget {
               title,
               style: TextStyle(
                 fontSize: 18,
-                color: Colors.black54,
                 fontWeight: FontWeight.w600,
               ),
             ),
