@@ -8,7 +8,7 @@ A new Flutter project in which I learn how to fetch api and learn many new UI fe
 - [x] bottom button bar
 - [x] Option tabs for showing UV, temperature and wind graph
 - [x] swipe down to reload
-- [ ] Use BLoC to pass forecast data
+- [ ] Use BLoC to add favorite location, darkmode, setting
 - [ ] Setting: choose degree F or C
 - [ ] Complete the search bar
 - [ ] Tap on future day summary to view detail of that day

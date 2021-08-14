@@ -56,14 +56,14 @@ class _DetailViewState extends State<DetailView> {
             isDayTime: true,
             textColor: textColor,
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 15),
           WeatherDescriptionView(
             weatherDescription: widget.weather.current.description,
             textColor: textColor,
           ),
-          SizedBox(height: 30),
+          SizedBox(height: 40),
           HourlyChartView(hourlyWeather: widget.weather.hourly),
-          SizedBox(height: 30),
+          SizedBox(height: 40),
           buildDailySummary(widget.weather.daily, textColor),
           Expanded(
             child: Align(

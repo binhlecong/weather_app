@@ -39,7 +39,7 @@ class WeatherSummary extends StatelessWidget {
                 ),
               ),
               Text(
-                'Feels like ${_formatTemperature(this.feelsLike)}°ᶜ',
+                'Feels like ${_formatTemperature(this.feelsLike)}' + ' \u1d52C',
                 style: TextStyle(
                   fontSize: 24,
                   color: textColor,

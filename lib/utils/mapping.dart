@@ -63,7 +63,7 @@ class Mapping {
        return( isDayTime
             ?  WeatherIcons.day_sunny
             : WeatherIcons.night_clear);
-        break;
+
       case WeatherCondition.fog:
         return WeatherIcons.fog;
       case WeatherCondition.snow:

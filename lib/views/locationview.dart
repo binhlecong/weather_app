@@ -11,6 +11,13 @@ class LocationView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var lon = this.longitude;
+    var lat = this.latitude;
+    var lonDisplay =
+        '${lon.abs().toStringAsFixed(1)}\u1d52' + (lon >= 0 ? 'N' : 'S');
+    var latDisplay =
+        '${lat.abs().toStringAsFixed(1)}\u1d52' + (lat >= 0 ? 'W' : 'E');
+
     return Center(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -23,7 +30,7 @@ class LocationView extends StatelessWidget {
           ),
           SizedBox(width: 5),
           Text(
-            '${this.longitude.toStringAsFixed(1)}, ${this.latitude.toStringAsFixed(1)}',
+            '$lonDisplay, $latDisplay',
             style: TextStyle(
               fontSize: 15,
               color: Colors.black45,

@@ -16,7 +16,7 @@ class WeatherDescriptionView extends StatelessWidget {
         weatherDescription,
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontSize: 35,
+          fontSize: 40,
           fontWeight: FontWeight.w300,
           color: textColor,
         ),

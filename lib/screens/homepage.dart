@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/screens/mappage.dart';
+import 'package:weather_app/screens/settingpage.dart';
 
 import 'package:weather_app/utils/search.dart';
 import 'package:weather_app/views/currentweathertile.dart';
@@ -58,14 +59,19 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => MapSample(),
-                ),
+                MaterialPageRoute(builder: (context) => MapSample()),
               );
             },
-            icon: Icon(
-              Icons.map,
-            ),
+            icon: Icon(Icons.map),
+          ),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SettingPage()),
+              );
+            },
+            icon: Icon(Icons.settings),
           ),
         ],
       ),
