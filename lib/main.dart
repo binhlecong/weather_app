@@ -3,23 +3,16 @@ import 'package:provider/provider.dart';
 import 'package:weather_app/providers/theme.dart';
 import 'package:weather_app/providers/units.dart';
 import 'package:weather_app/screens/homepage.dart';
-import 'package:weather_app/utils/storagemanager.dart';
 
 void main() async {
-  // var brightness = await StorageManager.readData('brightness');
-  // var temp_unit = await StorageManager.readData('temp_unit');
-
-  // if (brightness == null) brightness = 'light';
-  // if (temp_unit == null) temp_unit = 'C';
-
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider<ThemeNotifier>(
-          create: (_) => new ThemeNotifier(themeData: ThemeData.dark()),
+          create: (_) => new ThemeNotifier(),
         ),
         ChangeNotifierProvider<TempUnitNotifier>(
-          create: (_) => new TempUnitNotifier(tempUnit: 'C'),
+          create: (_) => new TempUnitNotifier(),
         ),
       ],
       child: MyApp(),
