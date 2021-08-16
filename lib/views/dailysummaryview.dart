@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:weather_app/models/onecallapi/weather.dart';
 import 'package:weather_app/providers/tempunit.dart';
 import 'package:weather_app/utils/mapping.dart';
-import 'package:weather_app/utils/temperatureconvert.dart';
+import 'package:weather_app/utils/myconvertion.dart';
 
 class DailySummaryView extends StatelessWidget {
   final DailyWeather weather;
@@ -52,9 +52,9 @@ class DailySummaryView extends StatelessWidget {
                   var unitSymbol = unit.getTempUnit;
 
                   if (unitSymbol == 'C') {
-                    t = TempConvert.kelvinToCelsius(t);
+                    t = MyConvertion.kelvinToCelsius(t);
                   } else if (unit.getTempUnit == 'F') {
-                    t = TempConvert.kelvinToFahrenheit(t);
+                    t = MyConvertion.kelvinToFahrenheit(t);
                   }
 
                   return Text(

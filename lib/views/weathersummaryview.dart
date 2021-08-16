@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:weather_app/models/onecallapi/weather.dart';
 import 'package:weather_app/providers/tempunit.dart';
 import 'package:weather_app/utils/mapping.dart';
-import 'package:weather_app/utils/temperatureconvert.dart';
+import 'package:weather_app/utils/myconvertion.dart';
 
 class WeatherSummary extends StatelessWidget {
   final WeatherCondition condition;
@@ -36,11 +36,11 @@ class WeatherSummary extends StatelessWidget {
               var unitSymbol = unit.getTempUnit;
 
               if (unitSymbol == 'C') {
-                t = TempConvert.kelvinToCelsius(temp);
-                feelLikeTemp = TempConvert.kelvinToCelsius(feelLikeTemp);
+                t = MyConvertion.kelvinToCelsius(temp);
+                feelLikeTemp = MyConvertion.kelvinToCelsius(feelLikeTemp);
               } else if (unit.getTempUnit == 'F') {
-                t = TempConvert.kelvinToFahrenheit(temp);
-                feelLikeTemp = TempConvert.kelvinToFahrenheit(feelLikeTemp);
+                t = MyConvertion.kelvinToFahrenheit(temp);
+                feelLikeTemp = MyConvertion.kelvinToFahrenheit(feelLikeTemp);
               }
 
               return Column(

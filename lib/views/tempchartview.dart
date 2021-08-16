@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:weather_app/models/onecallapi/weather.dart';
-import 'package:weather_app/utils/temperatureconvert.dart';
+import 'package:weather_app/utils/myconvertion.dart';
 
 class TempChartView extends StatelessWidget {
   final List<HourlyWeather> data;
@@ -62,9 +62,9 @@ class TempChartView extends StatelessWidget {
       var x = e.date.day * 24.0 + e.date.hour.toDouble() - base;
       var y = e.temp;
       if (unit == 'C') {
-        y = TempConvert.kelvinToCelsius(e.temp);
+        y = MyConvertion.kelvinToCelsius(e.temp);
       } else if (unit == 'F') {
-        y = TempConvert.kelvinToFahrenheit(e.temp);
+        y = MyConvertion.kelvinToFahrenheit(e.temp);
       }
 
       return FlSpot(x, y);

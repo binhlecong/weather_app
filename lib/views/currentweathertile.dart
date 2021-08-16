@@ -4,10 +4,11 @@ import 'package:weather_app/api/weather_api.dart';
 
 import 'package:weather_app/models/currentweatherapi/currentweather.dart';
 import 'package:weather_app/models/onecallapi/weather.dart';
+import 'package:weather_app/providers/speedunit.dart';
 import 'package:weather_app/providers/tempunit.dart';
 import 'package:weather_app/screens/detailpage.dart';
 import 'package:weather_app/utils/mapping.dart';
-import 'package:weather_app/utils/temperatureconvert.dart';
+import 'package:weather_app/utils/myconvertion.dart';
 import 'package:weather_app/views/crwth_tilelayout.dart';
 import 'package:weather_app/views/winddisplayview.dart';
 
@@ -67,97 +68,117 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.location_pin,
-                          color: Colors.red,
-                          size: 18,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.location_pin,
+                        color: Colors.red,
+                        size: 18,
+                      ),
+                      SizedBox(width: 5),
+                      Text(
+                        snapshot.data!.name + ', ' + snapshot.data!.sys.country,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: textColor,
                         ),
-                        SizedBox(width: 5),
-                        Text(
-                          snapshot.data!.name +
-                              ', ' +
-                              snapshot.data!.sys.country,
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: textColor,
-                          ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 50,
+                        child: Icon(
+                          icon,
+                          color: textColor,
+                          size: 32,
                         ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: 50,
-                          child: Icon(
-                            icon,
-                            color: textColor,
-                            size: 32,
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        Consumer<TempUnitNotifier>(builder: (context, unit, _) {
+                      ),
+                      SizedBox(width: 10),
+                      Consumer<TempUnitNotifier>(
+                        builder: (context, unit, _) {
                           var minTemp = snapshot.data!.main.tempMin;
                           var maxTemp = snapshot.data!.main.tempMax;
                           var unitSymbol = unit.getTempUnit;
 
                           if (unitSymbol == 'C') {
-                            minTemp = TempConvert.kelvinToCelsius(minTemp);
-                            maxTemp = TempConvert.kelvinToCelsius(maxTemp);
+                            minTemp = MyConvertion.kelvinToCelsius(minTemp);
+                            maxTemp = MyConvertion.kelvinToCelsius(maxTemp);
                           } else if (unit.getTempUnit == 'F') {
-                            minTemp = TempConvert.kelvinToFahrenheit(minTemp);
-                            maxTemp = TempConvert.kelvinToFahrenheit(maxTemp);
+                            minTemp = MyConvertion.kelvinToFahrenheit(minTemp);
+                            maxTemp = MyConvertion.kelvinToFahrenheit(maxTemp);
                           }
 
                           return Text(
-                            '${minTemp.toStringAsFixed(0)} - ${maxTemp.toStringAsFixed(0)} \u1d52$unitSymbol',
+                            '${minTemp.toStringAsFixed(0)}' +
+                                ' - ' +
+                                '${maxTemp.toStringAsFixed(0)} \u1d52$unitSymbol',
                             style: TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
                               color: textColor,
                             ),
                           );
-                        }),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Text(
-                          snapshot.data!.weather[0].description,
-                          style: TextStyle(
-                            color: textColor,
-                            fontSize: 20,
-                          ),
+                        },
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        snapshot.data!.weather[0].description,
+                        style: TextStyle(
+                          color: textColor,
+                          fontSize: 20,
                         ),
-                        Text(
-                          'Humidity: ${snapshot.data!.main.humidity}%  Pressure: ${snapshot.data!.main.pressure}hPa',
-                          style: TextStyle(color: textColor),
-                        ),
-                      ],
-                    ),
-                    Row(children: [
+                      ),
+                      Text(
+                        'Humidity: ${snapshot.data!.main.humidity}%' +
+                            ' Pressure: ${snapshot.data!.main.pressure}hPa',
+                        style: TextStyle(color: textColor),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
                       WindDisplayView(wind: snapshot.data!.wind),
                       SizedBox(width: 7),
                       Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Wind speed:',
-                              style: TextStyle(color: textColor),
-                            ),
-                            Text(
-                              '${snapshot.data!.wind.speed} m/s',
-                              style: TextStyle(color: textColor),
-                            ),
-                          ])
-                    ]),
-                  ]),
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Wind speed:',
+                            style: TextStyle(color: textColor),
+                          ),
+                          Consumer<SpeedUnitNotifier>(
+                            builder: (context, unit, _) {
+                              var u = unit.getSpeedUnit;
+                              var spd = snapshot.data!.wind.speed;
+
+                              if (u == SpeedUnit.imperial) {
+                                spd = MyConvertion.mpsToMiph(spd);
+                              } else {
+                                spd = MyConvertion.mpsToKmph(spd);
+                              }
+
+                              return Text(
+                                '${spd.toStringAsFixed(2)} $u',
+                                style: TextStyle(color: textColor),
+                              );
+                            },
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ],
+              ),
             ),
           );
         } else if (snapshot.hasError) {

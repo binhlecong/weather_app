@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:weather_app/models/onecallapi/weather.dart';
+import 'package:weather_app/providers/speedunit.dart';
+import 'package:weather_app/utils/myconvertion.dart';
 import 'package:weather_app/views/winddirectionview.dart';
 
 class WindChartView extends StatelessWidget {
@@ -45,15 +48,28 @@ class WindChartView extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Center(
-                      child: Text(
-                        '${e.speed.toStringAsFixed(1)} m/s',
-                        maxLines: 2,
-                        softWrap: true,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16,
-                        ),
+                      child: Consumer<SpeedUnitNotifier>(
+                        builder: (context, unit, _) {
+                          var u = unit.getSpeedUnit;
+                          var spd = e.speed;
+
+                          if (u == SpeedUnit.imperial) {
+                            spd = MyConvertion.mpsToMiph(spd);
+                          } else {
+                            spd = MyConvertion.mpsToKmph(spd);
+                          }
+
+                          return Text(
+                            '${spd.toStringAsFixed(2)} $u',
+                            maxLines: 2,
+                            softWrap: true,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14,
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ),

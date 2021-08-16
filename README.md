@@ -15,3 +15,7 @@ A new Flutter project in which I learn how to fetch api and learn many new UI fe
 - [ ] Store recent search data, store user setting
 - [ ] Use images in DetailView to make app look better
 - [ ] Tap on future day summary to view detail of that day
+
+## Lesson learned
+- The "widget" folder is for reusable widget only
+- The layout is in the screen
