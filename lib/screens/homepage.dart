@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < 4; i++) {
       scrolledCities.add(CurrentWeatherSummary(cityName: majorCities[i]));
     }
 
