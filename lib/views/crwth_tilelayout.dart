@@ -11,7 +11,7 @@ const BoxDecoration _decoration = BoxDecoration(
   ],
   color: Colors.white70,
   borderRadius: const BorderRadius.all(
-    const Radius.circular(20),
+    const Radius.circular(16),
   ),
 );
 

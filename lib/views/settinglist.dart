@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/views/settings/brightnessswitch.dart';
+import 'package:weather_app/views/settings/speedunitdialog.dart';
 import 'package:weather_app/views/settings/tempunitdialog.dart';
 import 'package:weather_app/views/settingsection.dart';
 
@@ -26,6 +27,7 @@ class _SettingListState extends State<SettingList> {
             title: 'Units',
             settings: [
               TempUnitDialog(),
+              SpeedUnitDialog(),
             ],
           ),
         ],

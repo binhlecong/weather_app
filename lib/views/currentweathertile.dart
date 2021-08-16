@@ -4,7 +4,7 @@ import 'package:weather_app/api/weather_api.dart';
 
 import 'package:weather_app/models/currentweatherapi/currentweather.dart';
 import 'package:weather_app/models/onecallapi/weather.dart';
-import 'package:weather_app/providers/units.dart';
+import 'package:weather_app/providers/tempunit.dart';
 import 'package:weather_app/screens/detailpage.dart';
 import 'package:weather_app/utils/mapping.dart';
 import 'package:weather_app/utils/temperatureconvert.dart';

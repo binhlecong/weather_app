@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/models/onecallapi/weather.dart';
-import 'package:weather_app/providers/units.dart';
+import 'package:weather_app/providers/tempunit.dart';
 import 'package:weather_app/views/tempchartview.dart';
 import 'package:weather_app/views/uvchartview.dart';
 import 'package:weather_app/views/windchartview.dart';

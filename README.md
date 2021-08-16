@@ -10,8 +10,8 @@ A new Flutter project in which I learn how to fetch api and learn many new UI fe
 - [x] swipe down to reload
 - [x] Use BLoC to add favorite location, darkmode, setting
 - [x] Setting: choose degree F, C or K
-- [ ] Setting: choose wind speed unit
+- [x] Setting: choose wind speed unit
 - [ ] make search smoother (Stream<> ?)
 - [ ] Store recent search data, store user setting
-- [ ] Complete the search bar
+- [ ] Use images in DetailView to make app look better
 - [ ] Tap on future day summary to view detail of that day

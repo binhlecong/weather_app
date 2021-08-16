@@ -33,7 +33,7 @@ class _DetailViewState extends State<DetailView> {
     Color textColor = Mapping.mapWeatherConditionToTextColor(condition);
 
     return Container(
-      height: MediaQuery.of(context).size.height,
+      height: MediaQuery.of(context).size.height + 50,
       padding: EdgeInsets.only(top: 20),
       decoration: BoxDecoration(
         color: Color(colorCode),
@@ -65,6 +65,7 @@ class _DetailViewState extends State<DetailView> {
           HourlyChartView(hourlyWeather: widget.weather.hourly),
           SizedBox(height: 40),
           buildDailySummary(widget.weather.daily, textColor),
+          //LastUpdatedView(lastUpdatedOn: widget.weather.lastUpdated),
           Expanded(
             child: Align(
               alignment: Alignment.bottomCenter,
@@ -78,7 +79,7 @@ class _DetailViewState extends State<DetailView> {
 
   Widget buildDailySummary(List<DailyWeather> dailyForecast, Color textColor) {
     return SizedBox(
-      height: 80,
+      height: 110,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: dailyForecast.length,

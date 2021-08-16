@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:weather_app/models/onecallapi/weather.dart';
+import 'package:weather_app/providers/tempunit.dart';
 import 'package:weather_app/utils/mapping.dart';
 import 'package:weather_app/utils/temperatureconvert.dart';
 
@@ -21,7 +23,7 @@ class DailySummaryView extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
       child: Container(
-        width: 100,
+        width: 130,
         decoration: BoxDecoration(
           color: Colors.white30,
           borderRadius: BorderRadius.all(
@@ -34,7 +36,8 @@ class DailySummaryView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   dayOfWeek ?? '',
@@ -44,14 +47,25 @@ class DailySummaryView extends StatelessWidget {
                       color: textColor,
                       fontWeight: FontWeight.w300),
                 ),
-                Text(
-                  "${TempConvert.kelvinToCelsius(this.weather.temp).round().toString()}°",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: textColor,
-                      fontWeight: FontWeight.w500),
-                ),
+                Consumer<TempUnitNotifier>(builder: (context, unit, _) {
+                  var t = this.weather.temp;
+                  var unitSymbol = unit.getTempUnit;
+
+                  if (unitSymbol == 'C') {
+                    t = TempConvert.kelvinToCelsius(t);
+                  } else if (unit.getTempUnit == 'F') {
+                    t = TempConvert.kelvinToFahrenheit(t);
+                  }
+
+                  return Text(
+                    "${t.toStringAsFixed(0)}\u1d52$unitSymbol",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: textColor,
+                        fontWeight: FontWeight.w500),
+                  );
+                }),
               ],
             ),
             Padding(
@@ -61,7 +75,7 @@ class DailySummaryView extends StatelessWidget {
                   Mapping.mapWeatherConditionToIcondata(
                       this.weather.condition, true),
                   color: textColor,
-                  size: 30,
+                  size: 50,
                 ),
               ),
             ),

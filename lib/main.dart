@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:weather_app/providers/speedunit.dart';
 import 'package:weather_app/providers/theme.dart';
-import 'package:weather_app/providers/units.dart';
+import 'package:weather_app/providers/tempunit.dart';
 import 'package:weather_app/screens/homepage.dart';
 
 void main() async {
@@ -13,6 +14,9 @@ void main() async {
         ),
         ChangeNotifierProvider<TempUnitNotifier>(
           create: (_) => new TempUnitNotifier(),
+        ),
+        ChangeNotifierProvider<SpeedUnitNotifier>(
+          create: (_) => new SpeedUnitNotifier(),
         ),
       ],
       child: MyApp(),
