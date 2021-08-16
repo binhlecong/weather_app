@@ -27,18 +27,25 @@ class WindChartView extends StatelessWidget {
     );
   }
 
-  _itemsBuilder(List<HourlyWeather> data) {
+  List<Widget> _itemsBuilder(List<HourlyWeather> data) {
     return data.map((e) {
       String timeStr = e.date.hour.toString() + ':00';
 
       return Padding(
-        padding: const EdgeInsets.all(5),
+        padding: const EdgeInsets.all(10),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Container(
-              width: 80,
+              width: 100,
               height: 140,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.white),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(16),
+                ),
+              ),
               padding: EdgeInsets.symmetric(
                 horizontal: 5,
                 vertical: 10,
@@ -66,7 +73,7 @@ class WindChartView extends StatelessWidget {
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w700,
-                              fontSize: 14,
+                              fontSize: 16,
                             ),
                           );
                         },
@@ -87,7 +94,7 @@ class WindChartView extends StatelessWidget {
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w700,
-                          fontSize: 14,
+                          fontSize: 18,
                         ),
                       ),
                     ),
@@ -95,12 +102,15 @@ class WindChartView extends StatelessWidget {
                 ],
               ),
             ),
-            Text(
-              timeStr,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
+              child: Text(
+                timeStr,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],

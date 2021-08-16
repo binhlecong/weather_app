@@ -11,8 +11,8 @@ A new Flutter project in which I learn how to fetch api and learn many new UI fe
 - [x] Use BLoC to add favorite location, darkmode, setting
 - [x] Setting: choose degree F, C or K
 - [x] Setting: choose wind speed unit
-- [ ] make search smoother (Stream<> ?)
-- [ ] Store recent search data, store user setting
+- [x] Store recent search data
+- [x] Store favorite locations data
 - [ ] Use images in DetailView to make app look better
 - [ ] Tap on future day summary to view detail of that day
 

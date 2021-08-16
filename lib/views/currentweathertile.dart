@@ -70,6 +70,7 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  SizedBox(height: 5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -107,10 +108,10 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
                           var maxTemp = snapshot.data!.main.tempMax;
                           var unitSymbol = unit.getTempUnit;
 
-                          if (unitSymbol == 'C') {
+                          if (unitSymbol == TempUnit.celsius) {
                             minTemp = MyConvertion.kelvinToCelsius(minTemp);
                             maxTemp = MyConvertion.kelvinToCelsius(maxTemp);
-                          } else if (unit.getTempUnit == 'F') {
+                          } else if (unitSymbol == TempUnit.fahrenheit) {
                             minTemp = MyConvertion.kelvinToFahrenheit(minTemp);
                             maxTemp = MyConvertion.kelvinToFahrenheit(maxTemp);
                           }
@@ -138,6 +139,7 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
                           fontSize: 20,
                         ),
                       ),
+                      SizedBox(height: 5),
                       Text(
                         'Humidity: ${snapshot.data!.main.humidity}%' +
                             ' Pressure: ${snapshot.data!.main.pressure}hPa',

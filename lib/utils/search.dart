@@ -2,12 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:weather_app/utils/storagemanager.dart';
 import 'package:weather_app/views/currentweathertile.dart';
 
 class Search extends SearchDelegate {
   late String selectedResult;
   late List<String> searchData;
-  final List<String> recentSearch = ['add this with bloc'];
+  late List<String> recentSearch;
   final String filename = '';
 
   @override
@@ -34,6 +35,11 @@ class Search extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
+    recentSearch.insert(0, selectedResult);
+    recentSearch.take(20);
+    var distinctSearch = recentSearch.toSet().toList();
+    StorageManager.saveData('recent', distinctSearch.join(','));
+
     return Container(
       child: Center(
         child: CurrentWeatherSummary(
@@ -74,8 +80,13 @@ class Search extends SearchDelegate {
   }
 
   Future<List<String>> getSuggestionList(BuildContext context) async {
-    List<dynamic> t = await loadData(context);
-    searchData = t.map((e) => e['name'] as String).toList();
+    final results = await Future.wait([
+      StorageManager.readData('recent'),
+      loadData(context),
+    ]);
+
+    recentSearch = ((results[0] ?? '') as String).split(',');
+    searchData = List<String>.from(results[1].map((e) => e['name']).toList());
 
     List<String> suggestionList = [];
     if (query.isEmpty) {
