@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:weather_app/models/currentweatherapi/currentweather.dart';
-import 'package:weather_app/views/winddirectionview.dart';
+import 'package:weather_app/widgets/winddirectionwidget.dart';
 
 class WindDisplayView extends StatelessWidget {
   final Wind wind;
+  
   WindDisplayView({required this.wind});
   WindDisplayView.fromSD(speed, degree) : wind = Wind(speed, degree);
 
@@ -16,7 +17,7 @@ class WindDisplayView extends StatelessWidget {
       width: 85,
       decoration: BoxDecoration(
         color: Colors.amber,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

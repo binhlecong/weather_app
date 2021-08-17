@@ -9,8 +9,8 @@ import 'package:weather_app/providers/tempunit.dart';
 import 'package:weather_app/screens/detailpage.dart';
 import 'package:weather_app/utils/mapping.dart';
 import 'package:weather_app/utils/myconvertion.dart';
-import 'package:weather_app/views/crwth_tilelayout.dart';
-import 'package:weather_app/views/winddisplayview.dart';
+import 'package:weather_app/widgets/crwth_tilelayout.dart';
+import 'package:weather_app/widgets/winddisplaywidget.dart';
 
 class CurrentWeatherSummary extends StatefulWidget {
   final String cityName;
@@ -39,8 +39,7 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
               snapshot.data!.weather[0].main);
           IconData icon =
               Mapping.mapWeatherConditionToIcondata(condition, true);
-          int colorCode = Mapping.mapWeatherConditionToColor(condition);
-          Color textColor = Mapping.mapWeatherConditionToTextColor(condition);
+          Color textColor = Theme.of(context).hintColor;
 
           return GestureDetector(
             onTap: () {
@@ -58,13 +57,13 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black54,
-                    spreadRadius: 3,
-                    blurRadius: 7,
+                    color: Theme.of(context).shadowColor,
+                    spreadRadius: 1,
+                    blurRadius: 10,
                     offset: Offset(0, 4),
                   ),
                 ],
-                color: Color(colorCode),
+                color: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Column(

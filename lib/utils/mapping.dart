@@ -28,7 +28,7 @@ class Mapping {
       case 'Mist':
         condition = WeatherCondition.mist;
         break;
-      case 'fog':
+      case 'Fog':
         condition = WeatherCondition.fog;
         break;
       case 'Smoke':
@@ -49,7 +49,6 @@ class Mapping {
 
   static IconData mapWeatherConditionToIcondata(
       WeatherCondition condition, bool isDayTime) {
-
     switch (condition) {
       case WeatherCondition.thunderstorm:
         return WeatherIcons.day_thunderstorm;
@@ -60,9 +59,7 @@ class Mapping {
       case WeatherCondition.mist:
         return WeatherIcons.fog;
       case WeatherCondition.clear:
-       return( isDayTime
-            ?  WeatherIcons.day_sunny
-            : WeatherIcons.night_clear);
+        return (isDayTime ? WeatherIcons.day_sunny : WeatherIcons.night_clear);
 
       case WeatherCondition.fog:
         return WeatherIcons.fog;
@@ -99,6 +96,31 @@ class Mapping {
         return 0xff1e90ff;
       default:
         return Colors.white.value;
+    }
+  }
+
+  static String mapWeatherConditionToBg(WeatherCondition condition) {
+    switch (condition) {
+      case WeatherCondition.thunderstorm:
+        return 'assets/images/weather_conditions/thunderstorm.jpg';
+      case WeatherCondition.cloudy:
+        return 'assets/images/weather_conditions/cloudy.jpg';
+      case WeatherCondition.drizzle:
+        return 'assets/images/weather_conditions/drizzle.jpg';
+      case WeatherCondition.mist:
+        return 'assets/images/weather_conditions/mist.jpg';
+      case WeatherCondition.clear:
+        return 'assets/images/weather_conditions/clear.jpg';
+      case WeatherCondition.fog:
+        return 'assets/images/weather_conditions/fog.jpg';
+      case WeatherCondition.snow:
+        return 'assets/images/weather_conditions/snow.jpg';
+      case WeatherCondition.rain:
+        return 'assets/images/weather_conditions/rain.jpg';
+      case WeatherCondition.atmosphere:
+        return 'assets/images/weather_conditions/atmosphere.jpg';
+      default:
+        return 'assets/images/weather_conditions/unknown.jpg';
     }
   }
 

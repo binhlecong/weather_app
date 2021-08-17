@@ -3,6 +3,7 @@ import 'dart:math';
 
 class WindDirectionView extends StatelessWidget {
   final double degree;
+  
   WindDirectionView(this.degree);
 
   @override

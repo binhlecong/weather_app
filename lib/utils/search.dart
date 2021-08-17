@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:weather_app/utils/storagemanager.dart';
-import 'package:weather_app/views/currentweathertile.dart';
+import 'package:weather_app/widgets/currentweatherwidget.dart';
 
 class Search extends SearchDelegate {
   late String selectedResult;

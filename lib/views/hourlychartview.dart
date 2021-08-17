@@ -35,7 +35,7 @@ class _HourlyChartViewState extends State<HourlyChartView>
           return Column(
             children: [
               TabBar(
-                unselectedLabelColor: Colors.black26,
+                unselectedLabelColor: Colors.black38,
                 labelColor: Colors.white,
                 controller: _tabController,
                 indicatorSize: TabBarIndicatorSize.tab,

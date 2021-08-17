@@ -9,6 +9,7 @@ class LastUpdatedView extends StatelessWidget {
   Widget build(BuildContext context) {
     var timeUpdated =
         TimeOfDay.fromDateTime(this.lastUpdatedOn).format(context);
+    var color = Theme.of(context).hintColor;
 
     return Padding(
       padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
@@ -17,7 +18,7 @@ class LastUpdatedView extends StatelessWidget {
         children: [
           Icon(
             Icons.access_time,
-            color: Colors.black45,
+            color: color,
             size: 15,
           ),
           SizedBox(width: 10),
@@ -25,7 +26,7 @@ class LastUpdatedView extends StatelessWidget {
             'Last updated at $timeUpdated',
             style: TextStyle(
               fontSize: 16,
-              color: Colors.black45,
+              color: color,
             ),
           )
         ],

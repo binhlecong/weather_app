@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:weather_app/models/onecallapi/weather.dart';
 import 'package:weather_app/providers/speedunit.dart';
 import 'package:weather_app/utils/myconvertion.dart';
-import 'package:weather_app/views/winddirectionview.dart';
+import 'package:weather_app/widgets/winddirectionwidget.dart';
 
 class WindChartView extends StatelessWidget {
   final List<HourlyWeather> data;

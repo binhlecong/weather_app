@@ -11,6 +11,7 @@ class DatetimeView extends StatelessWidget {
     String day = toBeginningOfSentenceCase(
             DateFormat('EEE, MMM d, y').format(datetime)) ??
         '__:__:__';
+    var color = Theme.of(context).hintColor;
 
     return Center(
       child: Row(
@@ -19,7 +20,7 @@ class DatetimeView extends StatelessWidget {
           SizedBox(width: 10),
           Icon(
             Icons.calendar_today,
-            color: Colors.black45,
+            color: color,
             size: 15,
           ),
           SizedBox(width: 5),
@@ -27,7 +28,7 @@ class DatetimeView extends StatelessWidget {
             day,
             style: TextStyle(
               fontSize: 15,
-              color: Colors.black45,
+              color: color,
             ),
           ),
         ],

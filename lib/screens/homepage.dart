@@ -3,7 +3,7 @@ import 'package:weather_app/screens/mappage.dart';
 import 'package:weather_app/screens/settingpage.dart';
 
 import 'package:weather_app/utils/search.dart';
-import 'package:weather_app/views/currentweathertile.dart';
+import 'package:weather_app/widgets/currentweatherwidget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -76,9 +76,6 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: Container(
-        decoration: BoxDecoration(
-          color: Color(0xd6d6d6),
-        ),
         child: RefreshIndicator(
           onRefresh: _pullRefresh,
           child: ListView.builder(

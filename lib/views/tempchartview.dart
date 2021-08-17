@@ -6,25 +6,10 @@ import 'package:weather_app/utils/myconvertion.dart';
 class TempChartView extends StatelessWidget {
   final List<HourlyWeather> data;
   final String unit;
-  late double _maxY;
-  late double _minY;
+  final Map<String, double> _maxY = {'C':60, 'K':333, 'F':140};
+  final Map<String, double> _minY = {'C':-30, 'K':243, 'F':-22};
 
-  TempChartView(this.data, this.unit) {
-    switch (unit) {
-      case 'C':
-        _minY = -30;
-        _maxY = 60;
-        break;
-      case 'F':
-        _minY = -22;
-        _maxY = 140;
-        break;
-      case 'K':
-        _minY = 243;
-        _maxY = 333;
-        break;
-    }
-  }
+  TempChartView(this.data, this.unit);
 
   final List<Color> gradientColors = [
     Color(0xffffa500),
@@ -182,8 +167,8 @@ class TempChartView extends StatelessWidget {
       borderData: FlBorderData(show: false),
       minX: 0,
       maxX: 23,
-      minY: _minY,
-      maxY: _maxY,
+      minY: _minY[unit],
+      maxY: _maxY[unit],
       lineBarsData: lineBarsData,
     );
   }

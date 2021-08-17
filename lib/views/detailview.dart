@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/models/onecallapi/forecast.dart';
 import 'package:weather_app/models/onecallapi/weather.dart';
 import 'package:weather_app/utils/mapping.dart';
-import 'package:weather_app/views/dailysummaryview.dart';
+import 'package:weather_app/widgets/dailysummwidget.dart';
 import 'package:weather_app/views/datetimeview.dart';
 import 'package:weather_app/views/hourlychartview.dart';
 import 'package:weather_app/views/lastupdatedview.dart';
 import 'package:weather_app/views/locationview.dart';
 import 'package:weather_app/views/weatherdescriptionview.dart';
-import 'package:weather_app/views/weathersummaryview.dart';
+import 'package:weather_app/widgets/weathersummwidget.dart';
 
 class DetailView extends StatefulWidget {
   final Forecast weather;
@@ -28,15 +28,17 @@ class _DetailViewState extends State<DetailView> {
   @override
   Widget build(BuildContext context) {
     WeatherCondition condition = widget.weather.current.condition;
-
-    int colorCode = Mapping.mapWeatherConditionToColor(condition);
     Color textColor = Mapping.mapWeatherConditionToTextColor(condition);
+    String imagePath = Mapping.mapWeatherConditionToBg(condition);
 
     return Container(
       height: MediaQuery.of(context).size.height + 50,
       padding: EdgeInsets.only(top: 20),
       decoration: BoxDecoration(
-        color: Color(colorCode),
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: AssetImage(imagePath),
+        ),
       ),
       child: Column(
         children: [
