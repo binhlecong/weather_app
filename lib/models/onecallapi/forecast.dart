@@ -59,6 +59,7 @@ class Forecast {
 
     var currentForecast = DailyWeather(
       cloudiness: int.parse(json['current']['clouds'].toString()),
+      main: weather['main'],
       temp: json['current']['temp'].toDouble(),
       condition: Mapping.mapStringToWeatherCondition(weather['main']),
       description: weather['description'],

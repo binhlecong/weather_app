@@ -3,15 +3,15 @@ import 'package:intl/intl.dart';
 
 class DatetimeView extends StatelessWidget {
   final DateTime datetime;
+  final color;
 
-  DatetimeView({required this.datetime});
+  DatetimeView({required this.datetime, this.color});
 
   @override
   Widget build(BuildContext context) {
     String day = toBeginningOfSentenceCase(
             DateFormat('EEE, MMM d, y').format(datetime)) ??
         '__:__:__';
-    var color = Theme.of(context).hintColor;
 
     return Center(
       child: Row(

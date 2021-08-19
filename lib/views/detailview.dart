@@ -29,10 +29,10 @@ class _DetailViewState extends State<DetailView> {
   Widget build(BuildContext context) {
     WeatherCondition condition = widget.weather.current.condition;
     Color textColor = Mapping.mapWeatherConditionToTextColor(condition);
-    String imagePath = Mapping.mapWeatherConditionToBg(condition);
+    String imagePath = Mapping.mapMainToBG(widget.weather.current.main);
 
     return Container(
-      height: MediaQuery.of(context).size.height + 50,
+      height: MediaQuery.of(context).size.height + 60,
       padding: EdgeInsets.only(top: 20),
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -45,10 +45,12 @@ class _DetailViewState extends State<DetailView> {
           LocationView(
             longitude: widget.weather.longitude,
             latitude: widget.weather.latitude,
+            color: textColor,
           ),
           SizedBox(height: 5),
           DatetimeView(
             datetime: widget.weather.current.date,
+            color: textColor,
           ),
           SizedBox(height: 40),
           WeatherSummary(
@@ -65,13 +67,14 @@ class _DetailViewState extends State<DetailView> {
           ),
           SizedBox(height: 40),
           HourlyChartView(hourlyWeather: widget.weather.hourly),
-          SizedBox(height: 40),
+          SizedBox(height: 50),
           buildDailySummary(widget.weather.daily, textColor),
           //LastUpdatedView(lastUpdatedOn: widget.weather.lastUpdated),
           Expanded(
             child: Align(
               alignment: Alignment.bottomCenter,
-              child: LastUpdatedView(lastUpdatedOn: widget.weather.lastUpdated),
+              child: LastUpdatedView(lastUpdatedOn: widget.weather.lastUpdated,
+              color: textColor,),
             ),
           ),
         ],

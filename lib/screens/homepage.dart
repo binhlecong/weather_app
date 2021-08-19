@@ -17,6 +17,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final Location location = Location();
   final ScrollController _scrollController = ScrollController();
+  late Future<CurrentWeatherSummary> userCity;
+  List<CurrentWeatherSummary> scrolledCities = [];
   final List<String> majorCities = [
     'hanoi',
     'seattle',
@@ -32,19 +34,12 @@ class _HomePageState extends State<HomePage> {
     'tokyo',
     'dubai',
   ];
-  List<CurrentWeatherSummary> scrolledCities = [];
-  late Future<CurrentWeatherSummary> userCity;
 
   @override
   void initState() {
     super.initState();
-
     // user's location
     userCity = _getUserCityWeather();
-    userCity.then((value) {
-      scrolledCities.insert(0, value);
-    }).onError((error, stackTrace) => null);
-
     // weather at major cities
     for (var i = 0; i < 4; i++) {
       scrolledCities.add(CurrentWeatherSummary(cityName: majorCities[i]));
@@ -61,7 +56,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     TextStyle sectionTextStyle = TextStyle(
-      fontSize: 20,
+      fontSize: 18,
       fontWeight: FontWeight.w500,
     );
 
@@ -108,11 +103,14 @@ class _HomePageState extends State<HomePage> {
                 ListTile(
                   dense: true,
                   leading: Icon(Icons.location_searching),
-                  title: Text(
-                    'Your location',
-                    style: sectionTextStyle,
+                  title: Text('Your location', style: sectionTextStyle),
+                  tileColor: Theme.of(context).dividerColor,
+                  trailing: IconButton(
+                    icon: Icon(Icons.more_vert),
+                    onPressed: () {
+                      // Set location manually or use GPS
+                    },
                   ),
-                  tileColor: Theme.of(context).backgroundColor,
                 ),
                 FutureBuilder<CurrentWeatherSummary>(
                   future: userCity,
@@ -120,9 +118,7 @@ class _HomePageState extends State<HomePage> {
                     if (snapshot.hasData) {
                       return snapshot.data!;
                     } else {
-                      Center(
-                        child: Text('Please enable device location'),
-                      );
+                      Center(child: Text('Please enable device location'));
                     }
                     return CRWThTileLayout(
                       child: Center(
@@ -143,11 +139,14 @@ class _HomePageState extends State<HomePage> {
                 ListTile(
                   dense: true,
                   leading: Icon(Icons.location_city),
-                  title: Text(
-                    'Major cities',
-                    style: sectionTextStyle,
+                  title: Text('Major cities', style: sectionTextStyle),
+                  tileColor: Theme.of(context).dividerColor,
+                  trailing: IconButton(
+                    icon: Icon(Icons.more_vert),
+                    onPressed: () {
+                      // Add new cities
+                    },
                   ),
-                  tileColor: Theme.of(context).backgroundColor,
                 ),
                 ...scrolledCities,
               ],
@@ -179,6 +178,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {});
 
     return Future.delayed(Duration(milliseconds: 100), () {
+      userCity = _getUserCityWeather();
       for (var i = 0; i < 4; i++) {
         scrolledCities.add(
           CurrentWeatherSummary(cityName: majorCities[i]),

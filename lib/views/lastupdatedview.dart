@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 class LastUpdatedView extends StatelessWidget {
   final DateTime lastUpdatedOn;
+  final color;
 
-  LastUpdatedView({required this.lastUpdatedOn});
+  LastUpdatedView({required this.lastUpdatedOn, this.color});
 
   @override
   Widget build(BuildContext context) {
     var timeUpdated =
         TimeOfDay.fromDateTime(this.lastUpdatedOn).format(context);
-    var color = Theme.of(context).hintColor;
 
     return Padding(
       padding: EdgeInsets.only(top: 10.0, bottom: 10.0),

@@ -15,6 +15,7 @@ enum WeatherCondition {
 
 class DailyWeather {
   final WeatherCondition condition;
+  final String main;
   final String description;
   final double temp;
   final double feelLikeTemp;
@@ -23,6 +24,7 @@ class DailyWeather {
 
   DailyWeather({
     required this.condition,
+    required this.main,
     required this.description,
     required this.temp,
     required this.feelLikeTemp,
@@ -36,6 +38,7 @@ class DailyWeather {
 
     return DailyWeather(
         condition: Mapping.mapStringToWeatherCondition(weather['main']),
+        main: weather['main'],
         description: weather['description'].toString(),
         cloudiness: cloudiness,
         temp: daily['temp']['day'].toDouble(),

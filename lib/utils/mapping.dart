@@ -38,10 +38,9 @@ class Mapping {
       case 'Ash':
       case 'Squall':
       case 'Tornado':
+      default:
         condition = WeatherCondition.atmosphere;
         break;
-      default:
-        condition = WeatherCondition.unknown;
     }
 
     return condition;
@@ -75,29 +74,29 @@ class Mapping {
     }
   }
 
-  static int mapWeatherConditionToColor(WeatherCondition condition) {
-    switch (condition) {
-      case WeatherCondition.thunderstorm:
-        return 0xffb300b3;
-      case WeatherCondition.cloudy:
-        return 0xff808080;
-      case WeatherCondition.drizzle:
-      case WeatherCondition.mist:
-        return 0xff00b300;
-      case WeatherCondition.clear:
-        return 0xff0080ff;
-      case WeatherCondition.fog:
-        return 0xffb5b5b5;
-      case WeatherCondition.snow:
-        return 0xfff0f0f0;
-      case WeatherCondition.rain:
-        return 0xff6082B6;
-      case WeatherCondition.atmosphere:
-        return 0xff1e90ff;
-      default:
-        return Colors.white.value;
-    }
-  }
+  // static int mapWeatherConditionToColor(WeatherCondition condition) {
+  //   switch (condition) {
+  //     case WeatherCondition.thunderstorm:
+  //       return 0xffb300b3;
+  //     case WeatherCondition.cloudy:
+  //       return 0xff808080;
+  //     case WeatherCondition.drizzle:
+  //     case WeatherCondition.mist:
+  //       return 0xff00b300;
+  //     case WeatherCondition.clear:
+  //       return 0xff0080ff;
+  //     case WeatherCondition.fog:
+  //       return 0xffb5b5b5;
+  //     case WeatherCondition.snow:
+  //       return 0xfff0f0f0;
+  //     case WeatherCondition.rain:
+  //       return 0xff6082B6;
+  //     case WeatherCondition.atmosphere:
+  //       return 0xff1e90ff;
+  //     default:
+  //       return Colors.white.value;
+  //   }
+  // }
 
   static String mapWeatherConditionToBg(WeatherCondition condition) {
     switch (condition) {
@@ -124,6 +123,43 @@ class Mapping {
     }
   }
 
+  static String mapMainToBG(String main) {
+    switch (main) {
+      case 'Thunderstorm':
+        return 'assets/images/weather_conditions/thunderstorm.jpg';
+      case 'Drizzle':
+        return 'assets/images/weather_conditions/drizzle.jpg';
+      case 'Rain':
+        return 'assets/images/weather_conditions/rain.jpg';
+      case 'Snow':
+        return 'assets/images/weather_conditions/snow.jpg';
+      case 'Clear':
+        return 'assets/images/weather_conditions/clear.jpg';
+      case 'Clouds':
+        return 'assets/images/weather_conditions/cloudy.jpg';
+      case 'Mist':
+        return 'assets/images/weather_conditions/mist.jpg';
+      case 'Fog':
+        return 'assets/images/weather_conditions/fog.jpg';
+      case 'Smoke':
+        return 'assets/images/weather_conditions/smoke.jpg';
+      case 'Haze':
+        return 'assets/images/weather_conditions/haze.jpg';
+      case 'Dust':
+        return 'assets/images/weather_conditions/dust.jpg';
+      case 'Sand':
+        return 'assets/images/weather_conditions/sand.jpg';
+      case 'Ash':
+        return 'assets/images/weather_conditions/ash.jpg';
+      case 'Squall':
+        return 'assets/images/weather_conditions/squall.jpg';
+      case 'Tornado':
+        return 'assets/images/weather_conditions/tornado.jpg';
+      default:
+        return 'assets/images/weather_conditions/clear.jpg';
+    }
+  }
+
   static Color mapWeatherConditionToTextColor(WeatherCondition condition) {
     Color color;
     switch (condition) {
@@ -147,5 +183,32 @@ class Mapping {
     }
 
     return color;
+  }
+
+  static IconData mapWindSpeedtoIconData(speed) {
+    if (speed < 0.5)
+      return WeatherIcons.wind_beaufort_0;
+    else if (speed < 1.6)
+      return WeatherIcons.wind_beaufort_1;
+    else if (speed < 3.4)
+      return WeatherIcons.wind_beaufort_2;
+    else if (speed < 5.6)
+      return WeatherIcons.wind_beaufort_3;
+    else if (speed < 8)
+      return WeatherIcons.wind_beaufort_4;
+    else if (speed < 10.8)
+      return WeatherIcons.wind_beaufort_5;
+    else if (speed < 13.9)
+      return WeatherIcons.wind_beaufort_6;
+    else if (speed < 17.2)
+      return WeatherIcons.wind_beaufort_7;
+    else if (speed < 20.8)
+      return WeatherIcons.wind_beaufort_8;
+    else if (speed < 24.5)
+      return WeatherIcons.wind_beaufort_9;
+    else if (speed < 28.5)
+      return WeatherIcons.wind_beaufort_10;
+    else if (speed < 32.7) return WeatherIcons.wind_beaufort_11;
+    return WeatherIcons.wind_beaufort_12;
   }
 }

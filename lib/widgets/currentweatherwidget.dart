@@ -11,6 +11,7 @@ import 'package:weather_app/utils/mapping.dart';
 import 'package:weather_app/utils/myconvertion.dart';
 import 'package:weather_app/widgets/crwth_tilelayout.dart';
 import 'package:weather_app/widgets/winddisplaywidget.dart';
+import 'package:weather_icons/weather_icons.dart';
 
 class CurrentWeatherSummary extends StatefulWidget {
   final String cityName;
@@ -54,6 +55,7 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
           IconData icon =
               Mapping.mapWeatherConditionToIcondata(condition, true);
           Color textColor = Theme.of(context).hintColor;
+          var windSpeed = snapshot.data!.wind.speed;
 
           return GestureDetector(
             onTap: () {
@@ -78,21 +80,15 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
                 ),
               ),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: 5),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        snapshot.data!.name + ', ' + snapshot.data!.sys.country,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: textColor,
-                        ),
-                      ),
-                    ],
+                  Text(
+                    snapshot.data!.name + ', ' + snapshot.data!.sys.country,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: textColor,
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -105,7 +101,7 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
                           color: textColor,
                         ),
                       ),
-                      SizedBox(width: 10),
+                      SizedBox(width: 20),
                       Consumer<TempUnitNotifier>(
                         builder: (context, unit, _) {
                           var minTemp = snapshot.data!.main.tempMin;
@@ -151,6 +147,7 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
                       ),
                     ],
                   ),
+                  SizedBox(height: 8),
                   Row(
                     children: [
                       WindDisplayView(wind: snapshot.data!.wind),
@@ -159,13 +156,17 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Wind speed:',
-                            style: TextStyle(color: textColor),
+                            'Wind speed',
+                            style: TextStyle(
+                              color: textColor,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16,
+                            ),
                           ),
                           Consumer<SpeedUnitNotifier>(
                             builder: (context, unit, _) {
                               var u = unit.getSpeedUnit;
-                              var spd = snapshot.data!.wind.speed;
+                              var spd = windSpeed;
 
                               if (u == SpeedUnit.imperial) {
                                 spd = MyConvertion.mpsToMiph(spd);
@@ -180,7 +181,13 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
                             },
                           ),
                         ],
-                      )
+                      ),
+                      SizedBox(width: 10),
+                      Icon(
+                        Mapping.mapWindSpeedtoIconData(windSpeed),
+                        color: textColor,
+                        size: 32,
+                      ),
                     ],
                   ),
                 ],

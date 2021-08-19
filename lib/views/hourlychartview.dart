@@ -35,7 +35,7 @@ class _HourlyChartViewState extends State<HourlyChartView>
           return Column(
             children: [
               TabBar(
-                unselectedLabelColor: Colors.black38,
+                unselectedLabelColor: Colors.white54,
                 labelColor: Colors.white,
                 controller: _tabController,
                 indicatorSize: TabBarIndicatorSize.tab,
@@ -44,6 +44,7 @@ class _HourlyChartViewState extends State<HourlyChartView>
                   Tab(
                     text: 'Temp' + ' \u1d52${unit.getTempUnit}',
                     icon: Icon(WeatherIcons.thermometer),
+                  
                   ),
                   Tab(
                     text: 'UV index',

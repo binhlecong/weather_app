@@ -43,29 +43,33 @@ class DailySummaryView extends StatelessWidget {
                   dayOfWeek ?? '',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontSize: 18,
-                      color: textColor,
-                      fontWeight: FontWeight.w300),
+                    fontSize: 18,
+                    color: textColor,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
-                Consumer<TempUnitNotifier>(builder: (context, unit, _) {
-                  var t = this.weather.temp;
-                  var unitSymbol = unit.getTempUnit;
+                Consumer<TempUnitNotifier>(
+                  builder: (context, unit, _) {
+                    var t = this.weather.temp;
+                    var unitSymbol = unit.getTempUnit;
 
-                  if (unitSymbol == 'C') {
-                    t = MyConvertion.kelvinToCelsius(t);
-                  } else if (unit.getTempUnit == 'F') {
-                    t = MyConvertion.kelvinToFahrenheit(t);
-                  }
+                    if (unitSymbol == 'C') {
+                      t = MyConvertion.kelvinToCelsius(t);
+                    } else if (unit.getTempUnit == 'F') {
+                      t = MyConvertion.kelvinToFahrenheit(t);
+                    }
 
-                  return Text(
-                    "${t.toStringAsFixed(0)}\u1d52$unitSymbol",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
+                    return Text(
+                      "${t.toStringAsFixed(0)}\u1d52$unitSymbol",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
                         fontSize: 20,
                         color: textColor,
-                        fontWeight: FontWeight.w500),
-                  );
-                }),
+                        fontWeight: FontWeight.w500,
+                      ),
+                    );
+                  },
+                ),
               ],
             ),
             Padding(

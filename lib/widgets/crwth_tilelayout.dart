@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class CRWThTileLayout extends StatelessWidget {
   final Widget child;
   final BoxDecoration decoration;
@@ -10,7 +9,10 @@ class CRWThTileLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.symmetric(
+        vertical: 12,
+        horizontal: 20,
+      ),
       decoration: decoration,
       height: 220,
       child: child,
