@@ -14,7 +14,15 @@ import 'package:weather_app/widgets/winddisplaywidget.dart';
 
 class CurrentWeatherSummary extends StatefulWidget {
   final String cityName;
-  CurrentWeatherSummary({required this.cityName});
+  final double lat;
+  final double lon;
+
+  CurrentWeatherSummary({required this.cityName})
+      : lat = 0,
+        lon = 0;
+
+  CurrentWeatherSummary.fromLatLon({required this.lat, required this.lon})
+      : this.cityName = '_unknown_';
 
   @override
   State<CurrentWeatherSummary> createState() => _CurrentWeatherSummaryState();
@@ -26,7 +34,13 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
   @override
   void initState() {
     super.initState();
-    currentWeather = WeatherAPI.fetchCurrentWeather(widget.cityName);
+
+    if (widget.cityName == '_unknown_') {
+      currentWeather =
+          WeatherAPI.fetchCurrentWeatherByCoor(widget.lat, widget.lon);
+    } else {
+      currentWeather = WeatherAPI.fetchCurrentWeather(widget.cityName);
+    }
   }
 
   @override
@@ -57,9 +71,9 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
               decoration: BoxDecoration(
                 color: Theme.of(context).canvasColor,
                 border: Border(
-                  bottom: BorderSide(
-                    color: Theme.of(context).dividerColor,
+                  top: BorderSide(
                     width: 2,
+                    color: Theme.of(context).dividerColor,
                   ),
                 ),
               ),
@@ -70,12 +84,6 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
-                        Icons.location_pin,
-                        color: Colors.red,
-                        size: 18,
-                      ),
-                      SizedBox(width: 5),
                       Text(
                         snapshot.data!.name + ', ' + snapshot.data!.sys.country,
                         style: TextStyle(
@@ -93,8 +101,8 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
                         height: 50,
                         child: Icon(
                           icon,
-                          color: textColor,
                           size: 32,
+                          color: textColor,
                         ),
                       ),
                       SizedBox(width: 10),
@@ -131,8 +139,8 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
                       Text(
                         snapshot.data!.weather[0].description,
                         style: TextStyle(
-                          color: textColor,
                           fontSize: 20,
+                          color: textColor,
                         ),
                       ),
                       SizedBox(height: 5),

@@ -14,7 +14,7 @@ A new Flutter project in which I learn how to fetch api and learn many new UI fe
 - [x] Store recent search data
 - [x] Search is laggy, fix it
 - [x] Use images in DetailView to make app look better
-- [ ] Show user position on top
+- [ ] Show weather at user's position on top
 - [ ] Store favorite locations data
 - [ ] Handle device rotation
 

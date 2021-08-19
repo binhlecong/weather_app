@@ -3,7 +3,9 @@ import 'package:weather_app/screens/mappage.dart';
 import 'package:weather_app/screens/settingpage.dart';
 
 import 'package:weather_app/utils/search.dart';
+import 'package:weather_app/widgets/crwth_tilelayout.dart';
 import 'package:weather_app/widgets/currentweatherwidget.dart';
+import 'package:location/location.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -13,6 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final Location location = Location();
   final ScrollController _scrollController = ScrollController();
   final List<String> majorCities = [
     'hanoi',
@@ -30,10 +33,19 @@ class _HomePageState extends State<HomePage> {
     'dubai',
   ];
   List<CurrentWeatherSummary> scrolledCities = [];
+  late Future<CurrentWeatherSummary> userCity;
 
   @override
   void initState() {
     super.initState();
+
+    // user's location
+    userCity = _getUserCityWeather();
+    userCity.then((value) {
+      scrolledCities.insert(0, value);
+    }).onError((error, stackTrace) => null);
+
+    // weather at major cities
     for (var i = 0; i < 4; i++) {
       scrolledCities.add(CurrentWeatherSummary(cityName: majorCities[i]));
     }
@@ -48,6 +60,11 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    TextStyle sectionTextStyle = TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.w500,
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: Title(
@@ -84,10 +101,57 @@ class _HomePageState extends State<HomePage> {
       body: Container(
         child: RefreshIndicator(
           onRefresh: _pullRefresh,
-          child: ListView.builder(
+          child: SingleChildScrollView(
             controller: _scrollController,
-            itemCount: scrolledCities.length,
-            itemBuilder: (content, index) => scrolledCities[index],
+            child: Column(
+              children: [
+                ListTile(
+                  dense: true,
+                  leading: Icon(Icons.location_searching),
+                  title: Text(
+                    'Your location',
+                    style: sectionTextStyle,
+                  ),
+                  tileColor: Theme.of(context).backgroundColor,
+                ),
+                FutureBuilder<CurrentWeatherSummary>(
+                  future: userCity,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return snapshot.data!;
+                    } else {
+                      Center(
+                        child: Text('Please enable device location'),
+                      );
+                    }
+                    return CRWThTileLayout(
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).canvasColor,
+                        border: Border(
+                          bottom: BorderSide(
+                            color: Theme.of(context).dividerColor,
+                            width: 2,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                ListTile(
+                  dense: true,
+                  leading: Icon(Icons.location_city),
+                  title: Text(
+                    'Major cities',
+                    style: sectionTextStyle,
+                  ),
+                  tileColor: Theme.of(context).backgroundColor,
+                ),
+                ...scrolledCities,
+              ],
+            ),
           ),
         ),
       ),
@@ -114,13 +178,40 @@ class _HomePageState extends State<HomePage> {
     scrolledCities = [];
     setState(() {});
 
-    return Future.delayed(Duration(milliseconds: 250), () {
-      for (var i = 0; i < 3; i++) {
+    return Future.delayed(Duration(milliseconds: 100), () {
+      for (var i = 0; i < 4; i++) {
         scrolledCities.add(
           CurrentWeatherSummary(cityName: majorCities[i]),
         );
       }
       setState(() {});
     });
+  }
+
+  Future<CurrentWeatherSummary> _getUserCityWeather() async {
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        throw Exception('Location service disable');
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        throw Exception('Location permission denied');
+      }
+    }
+
+    LocationData _location = await location.getLocation();
+    return CurrentWeatherSummary.fromLatLon(
+      lat: _location.latitude!,
+      lon: _location.longitude!,
+    );
   }
 }

@@ -17,6 +17,16 @@ class WeatherAPI {
       throw Exception('Failed to get current weather data');
   }
 
+  static Future<CurrentWeather> fetchCurrentWeatherByCoor(double lat, double lon) async {
+    final response = await http.get(Uri.parse(
+        'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$apikey'));
+
+    if (response.statusCode == 200)
+      return CurrentWeather.fromJson(jsonDecode(response.body));
+    else
+      throw Exception('Failed to get current weather data');
+  }
+
   static Future<Forecast> fetchOneCallAPI(double lat, double lon) async {
     final response = await http.get(Uri.parse(
         'https://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$lon&exclude=minutely&appid=$apikey'));
