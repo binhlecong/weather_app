@@ -153,7 +153,7 @@ class TempChartView extends StatelessWidget {
           reservedSize: 12,
           interval: 2,
           margin: 8,
-          getTextStyles: (value) => const TextStyle(
+          getTextStyles: (value, _) => TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
             fontSize: 14,

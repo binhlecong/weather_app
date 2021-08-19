@@ -132,12 +132,12 @@ class Mapping {
       case WeatherCondition.drizzle:
       case WeatherCondition.mist:
       case WeatherCondition.clear:
+      case WeatherCondition.rain:
         color = Colors.white;
         break;
 
       case WeatherCondition.fog:
       case WeatherCondition.snow:
-      case WeatherCondition.rain:
       case WeatherCondition.atmosphere:
         color = Colors.black;
         break;

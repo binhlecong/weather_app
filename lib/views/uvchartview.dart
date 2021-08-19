@@ -87,7 +87,7 @@ class UVChartView extends StatelessWidget {
         bottomTitles: SideTitles(
           interval: 2,
           showTitles: true,
-          getTextStyles: (value) => TextStyle(
+          getTextStyles: (value, _) => const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
             fontSize: 14,

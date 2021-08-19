@@ -17,11 +17,17 @@ class _HomePageState extends State<HomePage> {
   final List<String> majorCities = [
     'hanoi',
     'seattle',
+    'New York',
     'london',
     'paris',
     'hongkong',
     'sydney',
     'moscow',
+    'berlin',
+    'abu dhabi',
+    'shanghai',
+    'tokyo',
+    'dubai',
   ];
   List<CurrentWeatherSummary> scrolledCities = [];
 

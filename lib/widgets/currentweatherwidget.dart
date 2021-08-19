@@ -55,16 +55,13 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
             },
             child: CRWThTileLayout(
               decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Theme.of(context).shadowColor,
-                    spreadRadius: 1,
-                    blurRadius: 10,
-                    offset: Offset(0, 4),
+                color: Theme.of(context).canvasColor,
+                border: Border(
+                  bottom: BorderSide(
+                    color: Theme.of(context).dividerColor,
+                    width: 2,
                   ),
-                ],
-                color: Theme.of(context).cardColor,
-                borderRadius: BorderRadius.circular(20),
+                ),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -149,7 +146,7 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
                   Row(
                     children: [
                       WindDisplayView(wind: snapshot.data!.wind),
-                      SizedBox(width: 7),
+                      SizedBox(width: 10),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -184,6 +181,15 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
           );
         } else if (snapshot.hasError) {
           return CRWThTileLayout(
+            decoration: BoxDecoration(
+              color: Theme.of(context).canvasColor,
+              border: Border(
+                bottom: BorderSide(
+                  color: Theme.of(context).dividerColor,
+                  width: 2,
+                ),
+              ),
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -204,6 +210,15 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
           );
         }
         return CRWThTileLayout(
+          decoration: BoxDecoration(
+            color: Theme.of(context).canvasColor,
+            border: Border(
+              bottom: BorderSide(
+                color: Theme.of(context).dividerColor,
+                width: 2,
+              ),
+            ),
+          ),
           child: Center(
             child: CircularProgressIndicator(),
           ),

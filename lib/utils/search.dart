@@ -1,15 +1,23 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:weather_app/utils/storagemanager.dart';
+import 'package:weather_app/models/recentsearch.dart';
+import 'package:weather_app/utils/dbprovider.dart';
 import 'package:weather_app/widgets/currentweatherwidget.dart';
 
 class Search extends SearchDelegate {
   late String selectedResult;
-  late List<String> searchData;
-  late List<String> recentSearch;
-  final String filename = '';
+  late Future<List<String>> searchData;
+  late Future<List<String>> recentSearch;
+  late Future<List<String>> currentSearchData;
+
+  Search() {
+    recentSearch = _loadRecentSearch();
+    searchData = _loadSearchData();
+    currentSearchData = recentSearch;
+  }
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -35,12 +43,12 @@ class Search extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    recentSearch.insert(0, selectedResult);
-    recentSearch.take(20);
-    var distinctSearch = recentSearch.toSet().toList();
-    StorageManager.saveData('recent', distinctSearch.join(','));
+    DBProvider.db.newSearch(
+      RecentSearch(id: 0, cityname: selectedResult),
+    );
 
     return Container(
+      padding: EdgeInsets.all(16),
       child: Center(
         child: CurrentWeatherSummary(
           cityName: selectedResult.toLowerCase(),
@@ -52,7 +60,7 @@ class Search extends SearchDelegate {
   @override
   Widget buildSuggestions(BuildContext context) {
     return FutureBuilder<List<String>>(
-      future: getSuggestionList(context),
+      future: getSuggestionList(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return ListView.builder(
@@ -79,30 +87,36 @@ class Search extends SearchDelegate {
     );
   }
 
-  Future<List<String>> getSuggestionList(BuildContext context) async {
-    final results = await Future.wait([
-      StorageManager.readData('recent'),
-      loadData(context),
-    ]);
-
-    recentSearch = ((results[0] ?? '') as String).split(',');
-    searchData = List<String>.from(results[1].map((e) => e['name']).toList());
-
-    List<String> suggestionList = [];
+  Future<List<String>> getSuggestionList() async {
     if (query.isEmpty) {
-      suggestionList = recentSearch;
+      query = '';
+      return recentSearch;
     } else {
-      suggestionList.addAll(
-        searchData.where((element) => element.contains(query)),
+      return searchData.then(
+        (value) => compute(searchQuery, [value, query]),
       );
     }
+  }
 
+  static List<String> searchQuery(List<dynamic> args) {
+    List<String> suggestionList = [];
+    suggestionList.addAll(
+      args[0].where(
+        (element) => (element as String).contains(args[1] as String),
+      ),
+    );
     return suggestionList;
   }
 
-  Future<List<dynamic>> loadData(BuildContext context) async {
+  Future<List<String>> _loadSearchData() async {
     String s = await rootBundle.loadString('assets/locations/city.list.json');
     List<dynamic> listOfJson = jsonDecode(s);
-    return listOfJson;
+    return List<String>.from(listOfJson.map((e) => e['name']).toList());
+  }
+
+  Future<List<String>> _loadRecentSearch() async {
+    List<RecentSearch> listOfRecentSearch =
+        await DBProvider.db.getAllRecentSearchs();
+    return listOfRecentSearch.map((e) => e.cityname).toList();
   }
 }
