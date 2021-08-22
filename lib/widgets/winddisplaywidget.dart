@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:weather_app/models/currentweatherapi/currentweather.dart';
 import 'package:weather_app/widgets/winddirectionwidget.dart';
-import 'package:weather_icons/weather_icons.dart';
 
 class WindDisplayView extends StatelessWidget {
   final Wind wind;

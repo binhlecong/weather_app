@@ -11,7 +11,6 @@ import 'package:weather_app/utils/mapping.dart';
 import 'package:weather_app/utils/myconvertion.dart';
 import 'package:weather_app/widgets/crwth_tilelayout.dart';
 import 'package:weather_app/widgets/winddisplaywidget.dart';
-import 'package:weather_icons/weather_icons.dart';
 
 class CurrentWeatherSummary extends StatefulWidget {
   final String cityName;

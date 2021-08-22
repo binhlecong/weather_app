@@ -32,7 +32,7 @@ class _DetailViewState extends State<DetailView> {
     String imagePath = Mapping.mapMainToBG(widget.weather.current.main);
 
     return Container(
-      height: MediaQuery.of(context).size.height + 60,
+      height: MediaQuery.of(context).size.height + 120,
       padding: EdgeInsets.only(top: 20),
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -69,14 +69,8 @@ class _DetailViewState extends State<DetailView> {
           HourlyChartView(hourlyWeather: widget.weather.hourly),
           SizedBox(height: 50),
           buildDailySummary(widget.weather.daily, textColor),
-          //LastUpdatedView(lastUpdatedOn: widget.weather.lastUpdated),
-          Expanded(
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: LastUpdatedView(lastUpdatedOn: widget.weather.lastUpdated,
-              color: textColor,),
-            ),
-          ),
+          SizedBox(height: 40,),
+          LastUpdatedView(lastUpdatedOn: widget.weather.lastUpdated),
         ],
       ),
     );
