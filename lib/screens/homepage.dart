@@ -102,6 +102,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 ListTile(
                   dense: true,
+                  minLeadingWidth: 8,
                   leading: Icon(Icons.location_searching),
                   title: Text('Your location', style: sectionTextStyle),
                   tileColor: Theme.of(context).dividerColor,
@@ -138,6 +139,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 ListTile(
                   dense: true,
+                  minLeadingWidth: 8,
                   leading: Icon(Icons.location_city),
                   title: Text('Major cities', style: sectionTextStyle),
                   tileColor: Theme.of(context).dividerColor,

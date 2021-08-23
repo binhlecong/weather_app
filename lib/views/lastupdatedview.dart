@@ -4,7 +4,7 @@ class LastUpdatedView extends StatelessWidget {
   final DateTime lastUpdatedOn;
   final color;
 
-  LastUpdatedView({required this.lastUpdatedOn, this.color});
+  LastUpdatedView({required this.lastUpdatedOn, required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class LastUpdatedView extends StatelessWidget {
         TimeOfDay.fromDateTime(this.lastUpdatedOn).format(context);
 
     return Padding(
-      padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+      padding: const EdgeInsets.only(bottom: 10.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

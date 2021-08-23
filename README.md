@@ -16,7 +16,7 @@ A new Flutter project in which I learn how to fetch api and learn many new UI fe
 - [x] Use images in DetailView to make app look better
 - [x] Show weather at user's position on top
 - [x] Add function to the "more_vert" buttons on homepage
-- [-] Parallax background in detail view
+- [x] Parallax background in detail view
 - [ ] Smooth animation
 - [ ] Handle device rotation
 - [ ] Store favorite locations data

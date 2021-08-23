@@ -49,15 +49,15 @@ class WeatherSummary extends StatelessWidget {
                   Text(
                     '${t.toStringAsFixed(0)} \u1d52$unitSymbol',
                     style: TextStyle(
-                      fontSize: 80,
+                      fontSize: 64,
                       color: textColor,
-                      fontWeight: FontWeight.w300,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
                   Text(
                     'Feels like ${feelLikeTemp.toStringAsFixed(0)} \u1d52$unitSymbol',
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 20,
                       color: textColor,
                       fontWeight: FontWeight.w300,
                     ),
@@ -68,7 +68,7 @@ class WeatherSummary extends StatelessWidget {
           ),
           SizedBox(width: 15),
           SizedBox(
-            height: 95,
+            height: 90,
             child: FittedBox(
               child: Icon(
                 icon,

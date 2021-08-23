@@ -23,7 +23,8 @@ class DailySummaryView extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
       child: Container(
-        width: 130,
+        height: 120,
+        width: 140,
         decoration: BoxDecoration(
           color: Colors.white30,
           borderRadius: BorderRadius.all(
