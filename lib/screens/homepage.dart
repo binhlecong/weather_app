@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/screens/favoritepage.dart';
 import 'package:weather_app/screens/mappage.dart';
 import 'package:weather_app/screens/settingpage.dart';
 
@@ -64,7 +65,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Title(
           color: Colors.white,
-          child: Text('Weather app'),
+          child: Text('Weather'),
         ),
         actions: [
           IconButton(
@@ -81,6 +82,15 @@ class _HomePageState extends State<HomePage> {
               );
             },
             icon: Icon(Icons.map),
+          ),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => FavoritePage()),
+              );
+            },
+            icon: Icon(Icons.star),
           ),
           IconButton(
             onPressed: () {
@@ -106,12 +116,6 @@ class _HomePageState extends State<HomePage> {
                   leading: Icon(Icons.location_searching),
                   title: Text('Your location', style: sectionTextStyle),
                   tileColor: Theme.of(context).dividerColor,
-                  trailing: IconButton(
-                    icon: Icon(Icons.more_vert),
-                    onPressed: () {
-                      // Set location manually or use GPS
-                    },
-                  ),
                 ),
                 FutureBuilder<CurrentWeatherSummary>(
                   future: userCity,
@@ -143,12 +147,6 @@ class _HomePageState extends State<HomePage> {
                   leading: Icon(Icons.location_city),
                   title: Text('Major cities', style: sectionTextStyle),
                   tileColor: Theme.of(context).dividerColor,
-                  trailing: IconButton(
-                    icon: Icon(Icons.more_vert),
-                    onPressed: () {
-                      // Add new cities
-                    },
-                  ),
                 ),
                 ...scrolledCities,
               ],
@@ -181,11 +179,13 @@ class _HomePageState extends State<HomePage> {
 
     return Future.delayed(Duration(milliseconds: 100), () {
       userCity = _getUserCityWeather();
+
       for (var i = 0; i < 4; i++) {
         scrolledCities.add(
           CurrentWeatherSummary(cityName: majorCities[i]),
         );
       }
+
       setState(() {});
     });
   }

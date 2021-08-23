@@ -15,11 +15,12 @@ A new Flutter project in which I learn how to fetch api and learn many new UI fe
 - [x] Search is laggy, fix it
 - [x] Use images in DetailView to make app look better
 - [x] Show weather at user's position on top
-- [x] Add function to the "more_vert" buttons on homepage
 - [x] Parallax background in detail view
-- [ ] Smooth animation
+- [x] Smooth animation
+- [x] Store favorite locations data
+- [ ] Delete search data
+- [ ] Drag and drop to reposition weather tile
 - [ ] Handle device rotation
-- [ ] Store favorite locations data
 
 ## Lesson learned
 - The "widget" folder is for reusable widget only

@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:weather_app/models/recentsearch.dart';
-import 'package:weather_app/utils/dbprovider.dart';
+import 'package:weather_app/models/database/recentsearch.dart';
+import 'package:weather_app/utils/database/searchhistory_db.dart';
 import 'package:weather_app/widgets/currentweatherwidget.dart';
 
 class Search extends SearchDelegate {
@@ -43,7 +43,7 @@ class Search extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    DBProvider.db.newSearch(
+    SearchHistoryDB.db.newSearch(
       RecentSearch(id: 0, cityname: selectedResult),
     );
 
@@ -116,7 +116,7 @@ class Search extends SearchDelegate {
 
   Future<List<String>> _loadRecentSearch() async {
     List<RecentSearch> listOfRecentSearch =
-        await DBProvider.db.getAllRecentSearchs();
+        await SearchHistoryDB.db.getAllRecentSearchs();
     return listOfRecentSearch.map((e) => e.cityname).toList();
   }
 }

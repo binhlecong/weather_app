@@ -3,13 +3,13 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:weather_app/models/recentsearch.dart';
+import 'package:weather_app/models/database/recentsearch.dart';
 import 'package:sqflite/sqflite.dart';
 
-class DBProvider {
-  DBProvider._();
+class SearchHistoryDB {
+  SearchHistoryDB._();
 
-  static final DBProvider db = DBProvider._();
+  static final SearchHistoryDB db = SearchHistoryDB._();
 
   Database? _database;
 

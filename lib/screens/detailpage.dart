@@ -1,14 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:weather_app/models/database/favoritelocation.dart';
 import 'package:weather_app/models/onecallapi/forecast.dart';
+import 'package:weather_app/utils/database/favoritelocation_db.dart';
 import 'package:weather_app/views/detailview.dart';
 import 'package:weather_app/api/weather_api.dart';
 
 class DetailPage extends StatefulWidget {
+  final String cityName;
   final LatLng position;
 
-  DetailPage({required this.position});
-  DetailPage.fromCoor({lat = 0, lon = 0}) : position = LatLng(lat, lon);
+  DetailPage({
+    this.cityName = '_unknown_',
+    required this.position,
+  });
+
+  DetailPage.fromCoor({
+    this.cityName = '_unknown_',
+    required lat,
+    required lon,
+  }) : position = LatLng(lat, lon);
 
   @override
   _DetailPageState createState() => _DetailPageState();
@@ -27,9 +38,40 @@ class _DetailPageState extends State<DetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    var cityName = widget.cityName;
+    var lat = widget.position.latitude;
+    var lon = widget.position.longitude;
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Detail weather"),
+        actions: [
+          PopupMenuButton<Text>(
+            itemBuilder: (context) => <PopupMenuEntry<Text>>[
+              PopupMenuItem(
+                onTap: () {
+                  // add to favorite.db
+                  FavoriteLocationDB.db.newLocation(
+                    FavoriteLocation(
+                      cityname: cityName,
+                      latitude: lat,
+                      longitude: lon,
+                    ),
+                  );
+                },
+                padding: EdgeInsets.only(left: 20),
+                child: Text(
+                  'Add to favorite',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+              ),
+            ],
+          )
+        ],
       ),
       body: Center(
         child: FutureBuilder<Forecast>(

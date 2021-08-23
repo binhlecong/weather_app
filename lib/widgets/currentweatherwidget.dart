@@ -60,19 +60,27 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => DetailPage.fromCoor(
+                MaterialPageRoute(builder: (context) {
+                  if (widget.cityName == '_unknown_') {
+                    return DetailPage.fromCoor(
+                      lat: widget.lat,
+                      lon: widget.lon,
+                    );
+                  }
+
+                  return DetailPage.fromCoor(
+                    cityName: widget.cityName,
                     lat: snapshot.data!.lat,
                     lon: snapshot.data!.lon,
-                  ),
-                ),
+                  );
+                }),
               );
             },
             child: CRWThTileLayout(
               decoration: BoxDecoration(
                 color: Theme.of(context).canvasColor,
                 border: Border(
-                  top: BorderSide(
+                  bottom: BorderSide(
                     width: 2,
                     color: Theme.of(context).dividerColor,
                   ),
