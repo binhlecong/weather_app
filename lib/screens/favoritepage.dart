@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/models/database/favoritelocation.dart';
-import 'package:weather_app/screens/mappage.dart';
-import 'package:weather_app/screens/settingpage.dart';
 import 'package:weather_app/utils/database/favoritelocation_db.dart';
-
-import 'package:weather_app/utils/search.dart';
 import 'package:weather_app/widgets/crwth_tilelayout.dart';
 import 'package:weather_app/widgets/currentweatherwidget.dart';
-import 'package:location/location.dart';
 
 class FavoritePage extends StatefulWidget {
   const FavoritePage({Key? key}) : super(key: key);
@@ -50,13 +45,11 @@ class _FavoritePageState extends State<FavoritePage> {
       appBar: AppBar(
         title: Title(
           color: Colors.white,
-          child: Text('Favorite'),
+          child: Text('Favorite locations'),
         ),
         actions: [
           IconButton(
-            onPressed: () {
-              
-            },
+            onPressed: () {},
             icon: Icon(Icons.more_vert),
           ),
         ],

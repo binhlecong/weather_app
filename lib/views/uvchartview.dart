@@ -75,7 +75,7 @@ class UVChartView extends StatelessWidget {
             return BarTooltipItem(
               (rod.y - 1).toStringAsFixed(1),
               TextStyle(
-                color: Colors.white,
+                color: Colors.black45,
                 fontSize: 12,
               ),
             );
@@ -88,7 +88,7 @@ class UVChartView extends StatelessWidget {
           interval: 2,
           showTitles: true,
           getTextStyles: (value, _) => const TextStyle(
-            color: Colors.white,
+            color: Colors.black45,
             fontWeight: FontWeight.bold,
             fontSize: 14,
           ),

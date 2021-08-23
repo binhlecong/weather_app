@@ -44,30 +44,26 @@ class _DetailPageState extends State<DetailPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Detail weather"),
+        title: Text(cityName == "_unknown_"
+            ? "Detail weather"
+            : cityName.toUpperCase()),
         actions: [
           PopupMenuButton<Text>(
+            padding: EdgeInsets.zero,
             itemBuilder: (context) => <PopupMenuEntry<Text>>[
               PopupMenuItem(
                 onTap: () {
-                  // add to favorite.db
-                  FavoriteLocationDB.db.newLocation(
-                    FavoriteLocation(
-                      cityname: cityName,
-                      latitude: lat,
-                      longitude: lon,
-                    ),
-                  );
+                  _addToFavorite(cityName, lat, lon);
                 },
                 padding: EdgeInsets.only(left: 20),
-                child: Text(
-                  'Add to favorite',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                ),
+                child: _buildTextButton('Add to favorite'),
+              ),
+              PopupMenuItem(
+                onTap: () {
+                  _removeFromFavorite(lat, lon);
+                },
+                padding: EdgeInsets.only(left: 20),
+                child: _buildTextButton('Remove from favorite'),
               ),
             ],
           )
@@ -123,5 +119,30 @@ class _DetailPageState extends State<DetailPage> {
     setState(() {
       weather = newWeather;
     });
+  }
+
+  void _addToFavorite(cityName, lat, lon) {
+    FavoriteLocationDB.db.newLocation(
+      FavoriteLocation(
+        cityname: cityName,
+        latitude: lat,
+        longitude: lon,
+      ),
+    );
+  }
+
+  void _removeFromFavorite(lat, lon) {
+    FavoriteLocationDB.db
+        .deleteFavoriteLocation(FavoriteLocation.getId(lat, lon));
+  }
+
+  Widget _buildTextButton(label) {
+    return Text(
+      label,
+      style: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+      ),
+    );
   }
 }

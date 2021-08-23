@@ -98,7 +98,6 @@ class WeatherShort {
 
 class Main {
   final temp;
-  final feelsLike;
   final tempMin;
   final tempMax;
   final pressure;
@@ -106,7 +105,6 @@ class Main {
 
   Main(
     this.temp,
-    this.feelsLike,
     this.tempMin,
     this.tempMax,
     this.pressure,
@@ -116,7 +114,6 @@ class Main {
   factory Main.fromJson(Map<String, dynamic> json) {
     return Main(
       json['temp'],
-      json['feels_like'],
       json['temp_min'],
       json['temp_max'],
       json['pressure'],

@@ -5,11 +5,11 @@ import 'package:weather_app/models/currentweatherapi/currentweather.dart';
 import 'package:weather_app/models/onecallapi/forecast.dart';
 
 class WeatherAPI {
-  static final apikey = '618d67fe3ad2a8af158022fff834119c';
+  static final _apikey = '618d67fe3ad2a8af158022fff834119c';
 
   static Future<CurrentWeather> fetchCurrentWeather(String cityName) async {
     final response = await http.get(Uri.parse(
-        'https://api.openweathermap.org/data/2.5/weather?q=$cityName&appid=$apikey'));
+        'https://api.openweathermap.org/data/2.5/weather?q=$cityName&appid=$_apikey'));
 
     if (response.statusCode == 200)
       return CurrentWeather.fromJson(jsonDecode(response.body));
@@ -19,7 +19,7 @@ class WeatherAPI {
 
   static Future<CurrentWeather> fetchCurrentWeatherByCoor(double lat, double lon) async {
     final response = await http.get(Uri.parse(
-        'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$apikey'));
+        'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$_apikey'));
 
     if (response.statusCode == 200)
       return CurrentWeather.fromJson(jsonDecode(response.body));
@@ -29,7 +29,7 @@ class WeatherAPI {
 
   static Future<Forecast> fetchOneCallAPI(double lat, double lon) async {
     final response = await http.get(Uri.parse(
-        'https://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$lon&exclude=minutely&appid=$apikey'));
+        'https://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$lon&exclude=minutely&appid=$_apikey'));
 
     if (response.statusCode == 200)
       return Forecast.fromJson(jsonDecode(response.body));
@@ -39,7 +39,7 @@ class WeatherAPI {
 
   static Future<Forecast> fetchInCircle(double lat, double lon, int cnt) async {
     final response = await http.get(Uri.parse(
-        'https://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$lon&cnt=$cnt&appid=$apikey'));
+        'https://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$lon&cnt=$cnt&appid=$_apikey'));
 
     if (response.statusCode == 200)
       return Forecast.fromJson(jsonDecode(response.body));

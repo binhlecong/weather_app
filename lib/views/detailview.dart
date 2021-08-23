@@ -67,22 +67,21 @@ class _DetailViewState extends State<DetailView> {
                 datetime: widget.weather.current.date,
                 color: textColor,
               ),
-              SizedBox(height: 40),
+              SizedBox(height: 32),
               WeatherSummary(
                 condition: widget.weather.current.condition,
                 temp: widget.weather.current.temp,
-                feelsLike: widget.weather.current.feelLikeTemp,
                 isDayTime: true,
                 textColor: textColor,
               ),
-              SizedBox(height: 40),
+              SizedBox(height: 48),
               WeatherDescriptionView(
                 weatherDescription: widget.weather.current.description,
                 textColor: textColor,
               ),
-              SizedBox(height: 40),
+              SizedBox(height: 32),
               HourlyChartView(hourlyWeather: widget.weather.hourly),
-              SizedBox(height: 40),
+              SizedBox(height: 32),
               Expanded(
                 child: Center(
                   child: _buildDailySummary(widget.weather.daily, textColor),

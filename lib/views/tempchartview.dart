@@ -135,7 +135,7 @@ class TempChartView extends StatelessWidget {
               return LineTooltipItem(
                 lineBarSpot.y.toStringAsFixed(1),
                 const TextStyle(
-                  color: Colors.white,
+                  color: Colors.black45,
                   fontSize: 12,
                 ),
               );
@@ -154,7 +154,7 @@ class TempChartView extends StatelessWidget {
           interval: 2,
           margin: 8,
           getTextStyles: (value, _) => TextStyle(
-            color: Colors.white,
+            color: Colors.black45,
             fontWeight: FontWeight.bold,
             fontSize: 14,
           ),

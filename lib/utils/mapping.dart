@@ -74,30 +74,6 @@ class Mapping {
     }
   }
 
-  // static int mapWeatherConditionToColor(WeatherCondition condition) {
-  //   switch (condition) {
-  //     case WeatherCondition.thunderstorm:
-  //       return 0xffb300b3;
-  //     case WeatherCondition.cloudy:
-  //       return 0xff808080;
-  //     case WeatherCondition.drizzle:
-  //     case WeatherCondition.mist:
-  //       return 0xff00b300;
-  //     case WeatherCondition.clear:
-  //       return 0xff0080ff;
-  //     case WeatherCondition.fog:
-  //       return 0xffb5b5b5;
-  //     case WeatherCondition.snow:
-  //       return 0xfff0f0f0;
-  //     case WeatherCondition.rain:
-  //       return 0xff6082B6;
-  //     case WeatherCondition.atmosphere:
-  //       return 0xff1e90ff;
-  //     default:
-  //       return Colors.white.value;
-  //   }
-  // }
-
   static String mapWeatherConditionToBg(WeatherCondition condition) {
     switch (condition) {
       case WeatherCondition.thunderstorm:
@@ -166,7 +142,6 @@ class Mapping {
       case WeatherCondition.thunderstorm:
       case WeatherCondition.cloudy:
       case WeatherCondition.drizzle:
-      case WeatherCondition.mist:
       case WeatherCondition.clear:
       case WeatherCondition.rain:
         color = Colors.white;
@@ -174,6 +149,7 @@ class Mapping {
 
       case WeatherCondition.fog:
       case WeatherCondition.snow:
+      case WeatherCondition.mist:
       case WeatherCondition.atmosphere:
         color = Colors.black;
         break;

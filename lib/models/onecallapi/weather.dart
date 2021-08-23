@@ -18,7 +18,6 @@ class DailyWeather {
   final String main;
   final String description;
   final double temp;
-  final double feelLikeTemp;
   final int cloudiness;
   final DateTime date;
 
@@ -27,7 +26,6 @@ class DailyWeather {
     required this.main,
     required this.description,
     required this.temp,
-    required this.feelLikeTemp,
     required this.cloudiness,
     required this.date,
   });
@@ -37,16 +35,16 @@ class DailyWeather {
     var weather = daily['weather'][0];
 
     return DailyWeather(
-        condition: Mapping.mapStringToWeatherCondition(weather['main']),
-        main: weather['main'],
-        description: weather['description'].toString(),
-        cloudiness: cloudiness,
-        temp: daily['temp']['day'].toDouble(),
-        date: DateTime.fromMillisecondsSinceEpoch(
-          daily['dt'] * 1000,
-          isUtc: true,
-        ),
-        feelLikeTemp: daily['feels_like']['day'].toDouble());
+      condition: Mapping.mapStringToWeatherCondition(weather['main']),
+      main: weather['main'],
+      description: weather['description'].toString(),
+      cloudiness: cloudiness,
+      temp: daily['temp']['day'].toDouble(),
+      date: DateTime.fromMillisecondsSinceEpoch(
+        daily['dt'] * 1000,
+        isUtc: true,
+      ),
+    );
   }
 }
 

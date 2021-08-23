@@ -55,6 +55,8 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
               Mapping.mapWeatherConditionToIcondata(condition, true);
           Color textColor = Theme.of(context).hintColor;
           var windSpeed = snapshot.data!.wind.speed;
+          var localCityName =
+              snapshot.data!.name + ', ' + snapshot.data!.sys.country;
 
           return GestureDetector(
             onTap: () {
@@ -63,6 +65,7 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
                 MaterialPageRoute(builder: (context) {
                   if (widget.cityName == '_unknown_') {
                     return DetailPage.fromCoor(
+                      cityName: localCityName,
                       lat: widget.lat,
                       lon: widget.lon,
                     );
@@ -90,7 +93,7 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    snapshot.data!.name + ', ' + snapshot.data!.sys.country,
+                    localCityName,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,

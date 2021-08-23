@@ -63,7 +63,6 @@ class Forecast {
       temp: json['current']['temp'].toDouble(),
       condition: Mapping.mapStringToWeatherCondition(weather['main']),
       description: weather['description'],
-      feelLikeTemp: json['current']['feels_like'].toDouble(),
       date: date,
     );
 

@@ -71,7 +71,7 @@ class WindChartView extends StatelessWidget {
                             maxLines: 2,
                             softWrap: true,
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.black45,
                               fontWeight: FontWeight.w700,
                               fontSize: 14,
                             ),
@@ -92,7 +92,7 @@ class WindChartView extends StatelessWidget {
                       child: Text(
                         e.degree.toStringAsFixed(0) + '\u1d52',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.black45,
                           fontWeight: FontWeight.w700,
                           fontSize: 18,
                         ),
@@ -107,7 +107,7 @@ class WindChartView extends StatelessWidget {
               child: Text(
                 timeStr,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.black45,
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
