@@ -37,6 +37,7 @@ class _HomePageState extends State<HomePage> {
     'dubai',
   ];
   List<Widget> dragAndDrogItems = [];
+  bool isDragging = false;
 
   @override
   void initState() {
@@ -46,8 +47,7 @@ class _HomePageState extends State<HomePage> {
     // weather at major cities
     for (var i = 0; i < 4; i++) {
       scrolledCities.add(CurrentWeatherSummary(
-        key: UniqueKey(),
-        cityName: majorCities[i],
+        cityName: majorCities[i]
       ));
     }
     _mixDraggableAndDragTarget();
@@ -62,10 +62,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle sectionTextStyle = TextStyle(
-      fontSize: 18,
-      fontWeight: FontWeight.w500,
-    );
+    TextStyle sectionTextStyle =
+        TextStyle(fontSize: 18, fontWeight: FontWeight.w500);
 
     return Scaffold(
       appBar: AppBar(
@@ -173,8 +171,7 @@ class _HomePageState extends State<HomePage> {
     int l = scrolledCities.length;
     if (l >= majorCities.length) return;
     scrolledCities.add(CurrentWeatherSummary(
-      key: UniqueKey(),
-      cityName: majorCities[l],
+      cityName: majorCities[l]
     ));
 
     _mixDraggableAndDragTarget();
@@ -184,17 +181,21 @@ class _HomePageState extends State<HomePage> {
     scrolledCities = [];
     setState(() {});
 
-    return Future.delayed(Duration(milliseconds: 100), () {
-      userCity = _getUserCityWeather();
+    return Future.delayed(
+      Duration(milliseconds: 100),
+      () {
+        userCity = _getUserCityWeather();
 
-      for (var i = 0; i < 4; i++) {
-        scrolledCities.add(
-          CurrentWeatherSummary(cityName: majorCities[i]),
-        );
-      }
+        for (var i = 0; i < 4; i++) {
+          scrolledCities.add(CurrentWeatherSummary(
+            
+            cityName: majorCities[i]
+          ));
+        }
 
-      _mixDraggableAndDragTarget();
-    });
+        _mixDraggableAndDragTarget();
+      },
+    );
   }
 
   Future<CurrentWeatherSummary> _getUserCityWeather() async {
@@ -253,21 +254,45 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildDropZone(int dropIndex) {
-    return DragTarget<int>(builder: (context, data, rejects) {
-      return Container(
-        height: 20,
-      );
-    }, onAccept: (item) {
-      _rearrange(item, dropIndex);
-    });
+    Color normalColor = Colors.transparent;
+    Color selectColor = Color(0x80F2756D);
+    double normalHeight = 2;
+    double selectHeight = 30;
+
+    return DragTarget<int>(
+      key: UniqueKey(),
+      builder: (context, data, rejects) {
+        return Container(
+          height: isDragging ? selectHeight : normalHeight,
+          color: isDragging ? selectColor : normalColor,
+          child: Center(
+            child: Icon(Icons.add, size: 20),
+          ),
+        );
+      },
+      onAccept: (item) {
+        _rearrange(item, dropIndex);
+      },
+    );
   }
 
   Widget _buildDraggableTile(CurrentWeatherSummary item, int itemIndex) {
     return LongPressDraggable(
-      data: itemIndex,
+      key: ValueKey(item.cityName),
       dragAnchorStrategy: (object, context, offset) {
         return Offset(120, 60);
       },
+      onDragStarted: () {
+        setState(() {
+          isDragging = true;
+        });
+      },
+      onDragCompleted: () {
+        setState(() {
+          isDragging = false;
+        });
+      },
+      data: itemIndex,
       feedback: FeedBackItem(),
       child: item,
     );
