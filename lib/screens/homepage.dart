@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:weather_app/screens/favoritepage.dart';
 import 'package:weather_app/screens/mappage.dart';
@@ -38,7 +40,7 @@ class _HomePageState extends State<HomePage> {
     'dubai',
   ];
   List<Widget> dragAndDrogItems = [];
-  bool _isDragging = false;
+  double targetBoxHeight = 2;
 
   @override
   void initState() {
@@ -116,6 +118,9 @@ class _HomePageState extends State<HomePage> {
             controller: _scrollController,
             child: Column(
               children: [
+                Container(
+                  height: targetBoxHeight,
+                ),
                 ListTile(
                   dense: true,
                   minLeadingWidth: 8,
@@ -229,14 +234,24 @@ class _HomePageState extends State<HomePage> {
     List<Widget> list = [];
     int i = 0;
     for (i = 0; i < scrolledCities.length; i++) {
-      list.add(_buildDropZone(i));
+      list.add(_buildDropZone(i, 0));
       list.add(_buildDraggableTile(scrolledCities[i], i));
     }
 
-    list.add(_buildDropZone(i));
+    list.add(_buildDropZone(i, 0));
 
     setState(() {
       dragAndDrogItems = list;
+    });
+  }
+
+  void _changeTargetBox(double height) {
+    setState(() {
+      for (int i = 0; i < dragAndDrogItems.length; i++) {
+        if (i % 2 == 0) {
+          dragAndDrogItems[i] = _buildDropZone(i ~/ 2, height);
+        }
+      }
     });
   }
 
@@ -253,13 +268,13 @@ class _HomePageState extends State<HomePage> {
     _mixDraggableAndDragTarget();
   }
 
-  Widget _buildDropZone(int dropIndex) {
+  Widget _buildDropZone(int dropIndex, double height) {
     return DragTarget<int>(
       key: ValueKey(dropIndex),
       builder: (context, data, rejects) {
         return Container(
-          height: _getHeightOfSpacer(),
-          color: _getColorOfSpacer(),
+          height: height,
+          color: Color(0xffF2756D),
           child: Center(
             child: Icon(Icons.add, size: 20),
           ),
@@ -271,18 +286,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Color _getColorOfSpacer() {
-    Color normalColor = Colors.transparent;
-    Color selectColor = Color(0x80F2756D);
-    return _isDragging ? selectColor : normalColor;
-  }
-
-  double _getHeightOfSpacer() {
-    double normalHeight = 2;
-    double selectHeight = 40;
-    return _isDragging ? selectHeight : normalHeight;
-  }
-
   Widget _buildDraggableTile(CurrentWeatherSummary item, int itemIndex) {
     return LongPressDraggable(
       key: ValueKey(item.cityName),
@@ -290,22 +293,12 @@ class _HomePageState extends State<HomePage> {
         return Offset(120, 60);
       },
       onDragStarted: () {
-        setState(() {
-          _isDragging = true;
-        });
+        _changeTargetBox(40);
       },
       onDragEnd: (detail) {
-        setState(() {
-          _isDragging = false;
-        });
+        _changeTargetBox(0);
       },
       onDragUpdate: (detail) {
-        if (!_isDragging) {
-          setState(() {
-            _isDragging = true;
-          });
-        }
-
         var duration = Duration(seconds: 3);
         var curve = Curves.ease;
         var screenHeight = MediaQuery.of(context).size.height;
