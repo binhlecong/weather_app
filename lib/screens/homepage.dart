@@ -154,7 +154,14 @@ class _HomePageState extends State<HomePage> {
                   title: Text('Major cities', style: sectionTextStyle),
                   tileColor: Theme.of(context).dividerColor,
                 ),
-                ...dragAndDrogItems,
+                ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: dragAndDrogItems.length,
+                  itemBuilder: (context, index) {
+                    return dragAndDrogItems[index];
+                  },
+                ),
               ],
             ),
           ),
@@ -247,17 +254,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildDropZone(int dropIndex) {
-    Color normalColor = Colors.transparent;
-    Color selectColor = Color(0x80F2756D);
-    double normalHeight = 2;
-    double selectHeight = 30;
-
     return DragTarget<int>(
-      key: UniqueKey(),
+      key: ValueKey(dropIndex),
       builder: (context, data, rejects) {
         return Container(
-          height: _isDragging ? selectHeight : normalHeight,
-          color: _isDragging ? selectColor : normalColor,
+          height: _getHeightOfSpacer(),
+          color: _getColorOfSpacer(),
           child: Center(
             child: Icon(Icons.add, size: 20),
           ),
@@ -267,6 +269,18 @@ class _HomePageState extends State<HomePage> {
         _rearrange(item, dropIndex);
       },
     );
+  }
+
+  Color _getColorOfSpacer() {
+    Color normalColor = Colors.transparent;
+    Color selectColor = Color(0x80F2756D);
+    return _isDragging ? selectColor : normalColor;
+  }
+
+  double _getHeightOfSpacer() {
+    double normalHeight = 2;
+    double selectHeight = 40;
+    return _isDragging ? selectHeight : normalHeight;
   }
 
   Widget _buildDraggableTile(CurrentWeatherSummary item, int itemIndex) {
@@ -280,7 +294,7 @@ class _HomePageState extends State<HomePage> {
           _isDragging = true;
         });
       },
-      onDragCompleted: () {
+      onDragEnd: (detail) {
         setState(() {
           _isDragging = false;
         });
@@ -298,7 +312,7 @@ class _HomePageState extends State<HomePage> {
 
         if (_scrollController.position.pixels ==
             _scrollController.position.maxScrollExtent) return;
-            
+
         if (detail.globalPosition.dy < 150) {
           // Scroll up when hit upper limit
           _scrollController.animateTo(
