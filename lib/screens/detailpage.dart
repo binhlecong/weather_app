@@ -5,6 +5,7 @@ import 'package:weather_app/models/onecallapi/forecast.dart';
 import 'package:weather_app/utils/database/favoritelocation_db.dart';
 import 'package:weather_app/views/detailview.dart';
 import 'package:weather_app/api/weather_api.dart';
+import 'package:weather_app/widgets/snackbar.dart';
 
 class DetailPage extends StatefulWidget {
   final String cityName;
@@ -119,6 +120,8 @@ class _DetailPageState extends State<DetailPage> {
     setState(() {
       weather = newWeather;
     });
+
+    displaySnackbar(context, "Detail weather reloaded");
   }
 
   void _addToFavorite(cityName, lat, lon) {

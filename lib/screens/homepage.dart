@@ -8,6 +8,7 @@ import 'package:weather_app/widgets/crwth_tilelayout.dart';
 import 'package:weather_app/widgets/currentweatherwidget.dart';
 import 'package:location/location.dart';
 import 'package:weather_app/widgets/feedBackItem.dart';
+import 'package:weather_app/widgets/snackbar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -37,21 +38,22 @@ class _HomePageState extends State<HomePage> {
     'dubai',
   ];
   List<Widget> dragAndDrogItems = [];
-  bool isDragging = false;
+  bool _isDragging = false;
 
   @override
   void initState() {
     super.initState();
+
     // user's location
     userCity = _getUserCityWeather();
+
     // weather at major cities
-    for (var i = 0; i < 4; i++) {
-      scrolledCities.add(CurrentWeatherSummary(
-        cityName: majorCities[i]
-      ));
+    for (var i = 0; i < 3; i++) {
+      scrolledCities.add(CurrentWeatherSummary(cityName: majorCities[i]));
     }
     _mixDraggableAndDragTarget();
 
+    // add more city when scrolldown
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -109,7 +111,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Container(
         child: RefreshIndicator(
-          onRefresh: _pullRefresh,
+          onRefresh: _pullToRefresh,
           child: SingleChildScrollView(
             controller: _scrollController,
             child: Column(
@@ -164,48 +166,39 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     scrolledCities.clear();
+    _scrollController.dispose();
     super.dispose();
   }
 
   void _getMoreData() {
     int l = scrolledCities.length;
     if (l >= majorCities.length) return;
-    scrolledCities.add(CurrentWeatherSummary(
-      cityName: majorCities[l]
-    ));
+    scrolledCities.add(CurrentWeatherSummary(cityName: majorCities[l]));
 
     _mixDraggableAndDragTarget();
   }
 
-  Future<void> _pullRefresh() async {
+  Future<void> _pullToRefresh() async {
     scrolledCities = [];
-    setState(() {});
 
-    return Future.delayed(
-      Duration(milliseconds: 100),
-      () {
-        userCity = _getUserCityWeather();
+    userCity = _getUserCityWeather();
 
-        for (var i = 0; i < 4; i++) {
-          scrolledCities.add(CurrentWeatherSummary(
-            
-            cityName: majorCities[i]
-          ));
-        }
+    for (var i = 0; i < 3; i++) {
+      scrolledCities.add(CurrentWeatherSummary(cityName: majorCities[i]));
+    }
 
-        _mixDraggableAndDragTarget();
-      },
-    );
+    _mixDraggableAndDragTarget();
+    displaySnackbar(context, "City weather summaries reloaded");
   }
 
   Future<CurrentWeatherSummary> _getUserCityWeather() async {
-    bool _serviceEnabled;
+    bool serviceEnabled;
     PermissionStatus _permissionGranted;
 
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
         throw Exception('Location service disable');
       }
     }
@@ -263,8 +256,8 @@ class _HomePageState extends State<HomePage> {
       key: UniqueKey(),
       builder: (context, data, rejects) {
         return Container(
-          height: isDragging ? selectHeight : normalHeight,
-          color: isDragging ? selectColor : normalColor,
+          height: _isDragging ? selectHeight : normalHeight,
+          color: _isDragging ? selectColor : normalColor,
           child: Center(
             child: Icon(Icons.add, size: 20),
           ),
@@ -284,13 +277,50 @@ class _HomePageState extends State<HomePage> {
       },
       onDragStarted: () {
         setState(() {
-          isDragging = true;
+          _isDragging = true;
         });
       },
       onDragCompleted: () {
         setState(() {
-          isDragging = false;
+          _isDragging = false;
         });
+      },
+      onDragUpdate: (detail) {
+        if (!_isDragging) {
+          setState(() {
+            _isDragging = true;
+          });
+        }
+
+        var duration = Duration(seconds: 3);
+        var curve = Curves.ease;
+        var screenHeight = MediaQuery.of(context).size.height;
+
+        if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent) return;
+            
+        if (detail.globalPosition.dy < 150) {
+          // Scroll up when hit upper limit
+          _scrollController.animateTo(
+            _scrollController.position.minScrollExtent,
+            duration: duration,
+            curve: curve,
+          );
+        } else if (detail.globalPosition.dy < screenHeight - 150) {
+          // Stop when drag in the middle
+          _scrollController.animateTo(
+            _scrollController.position.pixels,
+            duration: Duration(milliseconds: 100),
+            curve: Curves.easeIn,
+          );
+        } else if (detail.globalPosition.dy < screenHeight) {
+          // Scroll down when hit lower limit
+          _scrollController.animateTo(
+            _scrollController.position.maxScrollExtent + 300,
+            duration: duration,
+            curve: curve,
+          );
+        }
       },
       data: itemIndex,
       feedback: FeedBackItem(),

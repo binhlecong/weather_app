@@ -19,9 +19,11 @@ A new Flutter project in which I learn how to fetch api and learn many new UI fe
 - [x] Smooth animation
 - [x] Store favorite locations data
 - [x] Delete search data
-- [ ] Drag and drop to reposition weather tile
-- [ ] Snackbar
-- [ ] Handle device orientation
+- [x] Drag and drop to reposition weather tile
+- [ ] Save tile position after dragging
+- [ ] Animation for the dragging action + scrolldown when hit limit
+- [x] Snackbar (anounce that page is reloaded)
+- [ ] Responsice design
 
 ## Lesson learned
 - The "widget" folder is for reusable widget only
