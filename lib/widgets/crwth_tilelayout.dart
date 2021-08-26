@@ -4,7 +4,8 @@ class CRWThTileLayout extends StatelessWidget {
   final Widget child;
   final BoxDecoration decoration;
 
-  CRWThTileLayout({required this.child, required this.decoration});
+  CRWThTileLayout({Key? key, required this.child, required this.decoration})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

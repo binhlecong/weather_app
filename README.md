@@ -25,3 +25,4 @@ A new Flutter project in which I learn how to fetch api and learn many new UI fe
 
 ## Lesson learned
 - The "widget" folder is for reusable widget only
+- The "key" attribute is very important: https://www.youtube.com/watch?v=kn0EOS-ZiIc&ab_channel=GoogleDevelopers

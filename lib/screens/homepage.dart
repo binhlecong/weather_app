@@ -7,6 +7,7 @@ import 'package:weather_app/utils/search.dart';
 import 'package:weather_app/widgets/crwth_tilelayout.dart';
 import 'package:weather_app/widgets/currentweatherwidget.dart';
 import 'package:location/location.dart';
+import 'package:weather_app/widgets/feedBackItem.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -35,6 +36,7 @@ class _HomePageState extends State<HomePage> {
     'tokyo',
     'dubai',
   ];
+  List<Widget> dragAndDrogItems = [];
 
   @override
   void initState() {
@@ -43,8 +45,12 @@ class _HomePageState extends State<HomePage> {
     userCity = _getUserCityWeather();
     // weather at major cities
     for (var i = 0; i < 4; i++) {
-      scrolledCities.add(CurrentWeatherSummary(cityName: majorCities[i]));
+      scrolledCities.add(CurrentWeatherSummary(
+        key: UniqueKey(),
+        cityName: majorCities[i],
+      ));
     }
+    _mixDraggableAndDragTarget();
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
@@ -148,7 +154,7 @@ class _HomePageState extends State<HomePage> {
                   title: Text('Major cities', style: sectionTextStyle),
                   tileColor: Theme.of(context).dividerColor,
                 ),
-                ...scrolledCities,
+                ...dragAndDrogItems,
               ],
             ),
           ),
@@ -166,11 +172,12 @@ class _HomePageState extends State<HomePage> {
   void _getMoreData() {
     int l = scrolledCities.length;
     if (l >= majorCities.length) return;
-    scrolledCities.add(
-      CurrentWeatherSummary(cityName: majorCities[l]),
-    );
+    scrolledCities.add(CurrentWeatherSummary(
+      key: UniqueKey(),
+      cityName: majorCities[l],
+    ));
 
-    setState(() {});
+    _mixDraggableAndDragTarget();
   }
 
   Future<void> _pullRefresh() async {
@@ -186,7 +193,7 @@ class _HomePageState extends State<HomePage> {
         );
       }
 
-      setState(() {});
+      _mixDraggableAndDragTarget();
     });
   }
 
@@ -214,6 +221,55 @@ class _HomePageState extends State<HomePage> {
     return CurrentWeatherSummary.fromLatLon(
       lat: _location.latitude!,
       lon: _location.longitude!,
+    );
+  }
+
+  void _mixDraggableAndDragTarget() {
+    List<Widget> list = [];
+    int i = 0;
+    for (i = 0; i < scrolledCities.length; i++) {
+      list.add(_buildDropZone(i));
+      list.add(_buildDraggableTile(scrolledCities[i], i));
+    }
+
+    list.add(_buildDropZone(i));
+
+    setState(() {
+      dragAndDrogItems = list;
+    });
+  }
+
+  void _rearrange(int indexBefore, int indexAfter) {
+    if (indexBefore == indexAfter || indexBefore == indexAfter - 1) return;
+
+    scrolledCities.insert(indexAfter, scrolledCities.elementAt(indexBefore));
+    if (indexBefore < indexAfter) {
+      scrolledCities.removeAt(indexBefore);
+    } else {
+      scrolledCities.removeAt(indexBefore + 1);
+    }
+
+    _mixDraggableAndDragTarget();
+  }
+
+  Widget _buildDropZone(int dropIndex) {
+    return DragTarget<int>(builder: (context, data, rejects) {
+      return Container(
+        height: 20,
+      );
+    }, onAccept: (item) {
+      _rearrange(item, dropIndex);
+    });
+  }
+
+  Widget _buildDraggableTile(CurrentWeatherSummary item, int itemIndex) {
+    return LongPressDraggable(
+      data: itemIndex,
+      dragAnchorStrategy: (object, context, offset) {
+        return Offset(120, 60);
+      },
+      feedback: FeedBackItem(),
+      child: item,
     );
   }
 }

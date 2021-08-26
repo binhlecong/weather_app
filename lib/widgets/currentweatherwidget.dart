@@ -17,12 +17,15 @@ class CurrentWeatherSummary extends StatefulWidget {
   final double lat;
   final double lon;
 
-  CurrentWeatherSummary({required this.cityName})
+  CurrentWeatherSummary({Key? key, required this.cityName})
       : lat = 0,
-        lon = 0;
+        lon = 0,
+        super(key: key);
 
-  CurrentWeatherSummary.fromLatLon({required this.lat, required this.lon})
-      : this.cityName = '_unknown_';
+  CurrentWeatherSummary.fromLatLon(
+      {Key? key, required this.lat, required this.lon})
+      : this.cityName = '_unknown_',
+        super(key: key);
 
   @override
   State<CurrentWeatherSummary> createState() => _CurrentWeatherSummaryState();
@@ -83,6 +86,10 @@ class _CurrentWeatherSummaryState extends State<CurrentWeatherSummary> {
               decoration: BoxDecoration(
                 color: Theme.of(context).canvasColor,
                 border: Border(
+                  top: BorderSide(
+                    width: 2,
+                    color: Theme.of(context).dividerColor,
+                  ),
                   bottom: BorderSide(
                     width: 2,
                     color: Theme.of(context).dividerColor,
