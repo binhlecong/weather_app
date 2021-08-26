@@ -20,7 +20,7 @@ A new Flutter project in which I learn how to fetch api and learn many new UI fe
 - [x] Store favorite locations data
 - [x] Delete search data
 - [x] Drag and drop to reposition weather tile
-- [ ] Show bigger DragTarget when use long press on tile
+- [x] Show bigger DragTarget when use long press on tile
 - [ ] Save tile position after dragging
 - [ ] Animation for the dragging action + scrolldown when hit limit
 - [x] Snackbar (anounce that page is reloaded)
