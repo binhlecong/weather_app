@@ -1,5 +1,35 @@
 # Weather_app
-A new Flutter project in which I learn how to fetch api and learn many new UI features.
+A new Flutter project in which I learn how to work with api and learn many new UI features.
+
+## Demo
+- Home screen
+  <p float="left">
+    <img src="assets/screenshot/home_light.png" width="200" />
+    <img src="assets/screenshot/home_dark.png" width="200" /> 
+  </p>
+- Setting screen
+  <p float="left">
+    <img src="assets/screenshot/setting_light.png" width="200" />
+    <img src="assets/screenshot/setting_dark.png" width="200" /> 
+  </p>
+- See weather of a city in detail
+  <p>
+    <img src="assets/screenshot/detail.png" width="200" />
+    <img src="assets/screenshot/detail2.png" width="200" /> 
+  </p>
+- Search page
+  <p>
+    <img src="assets/screenshot/search.png" width="200" /> 
+  </p>
+- See anywhere in the world using map
+  <p>
+    <img src="assets/screenshot/map.png" width="200" /> 
+  </p>
+- Save a collection of cities that your are interest in
+  <p>
+    <img src="assets/screenshot/favorite.png" width="200" /> 
+  </p>
+
 
 ## To do list
 - [x] Start the weather object
@@ -21,11 +51,7 @@ A new Flutter project in which I learn how to fetch api and learn many new UI fe
 - [x] Delete search data
 - [x] Drag and drop to reposition weather tile
 - [x] Show bigger DragTarget when use long press on tile
-- [ ] Save tile position after dragging
-- [ ] Animation for the dragging action + scrolldown when hit limit
+- [ ] Save cities position after dragging
+- [ ] Add or remove city in homepage
 - [x] Snackbar (anounce that page is reloaded)
 - [ ] Responsice design
-
-## Lesson learned
-- The "widget" folder is for reusable widget only
-- The "key" attribute is very important: https://www.youtube.com/watch?v=kn0EOS-ZiIc&ab_channel=GoogleDevelopers

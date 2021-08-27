@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:weather_app/screens/favoritepage.dart';
 import 'package:weather_app/screens/mappage.dart';
@@ -40,7 +38,7 @@ class _HomePageState extends State<HomePage> {
     'dubai',
   ];
   List<Widget> dragAndDrogItems = [];
-  double targetBoxHeight = 2;
+  double targetBoxHeight = 0;
 
   @override
   void initState() {
@@ -118,9 +116,6 @@ class _HomePageState extends State<HomePage> {
             controller: _scrollController,
             child: Column(
               children: [
-                Container(
-                  height: targetBoxHeight,
-                ),
                 ListTile(
                   dense: true,
                   minLeadingWidth: 8,
@@ -234,22 +229,22 @@ class _HomePageState extends State<HomePage> {
     List<Widget> list = [];
     int i = 0;
     for (i = 0; i < scrolledCities.length; i++) {
-      list.add(_buildDropZone(i, 0));
+      list.add(_buildDropZone(i));
       list.add(_buildDraggableTile(scrolledCities[i], i));
     }
 
-    list.add(_buildDropZone(i, 0));
+    list.add(_buildDropZone(i));
 
     setState(() {
       dragAndDrogItems = list;
     });
   }
 
-  void _changeTargetBox(double height) {
+  void _changeTargetBox() {
     setState(() {
       for (int i = 0; i < dragAndDrogItems.length; i++) {
         if (i % 2 == 0) {
-          dragAndDrogItems[i] = _buildDropZone(i ~/ 2, height);
+          dragAndDrogItems[i] = _buildDropZone(i ~/ 2);
         }
       }
     });
@@ -268,13 +263,13 @@ class _HomePageState extends State<HomePage> {
     _mixDraggableAndDragTarget();
   }
 
-  Widget _buildDropZone(int dropIndex, double height) {
+  Widget _buildDropZone(int dropIndex) {
     return DragTarget<int>(
       key: ValueKey(dropIndex),
       builder: (context, data, rejects) {
         return Container(
-          height: height,
-          color: Color(0xffF2756D),
+          height: targetBoxHeight,
+          color: Color(0x60F2756D),
           child: Center(
             child: Icon(Icons.add, size: 20),
           ),
@@ -293,16 +288,19 @@ class _HomePageState extends State<HomePage> {
         return Offset(120, 60);
       },
       onDragStarted: () {
-        _changeTargetBox(40);
+        targetBoxHeight = 40;
+        _changeTargetBox();
       },
       onDragEnd: (detail) {
-        _changeTargetBox(0);
+        targetBoxHeight = 0;
+        _changeTargetBox();
       },
       onDragUpdate: (detail) {
         var duration = Duration(seconds: 3);
         var curve = Curves.ease;
         var screenHeight = MediaQuery.of(context).size.height;
 
+        // Cancel so that scroll action dont blockdrop action
         if (_scrollController.position.pixels ==
             _scrollController.position.maxScrollExtent) return;
 

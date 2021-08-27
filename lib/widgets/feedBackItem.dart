@@ -24,7 +24,7 @@ class FeedBackItem extends StatelessWidget {
             Text(
               'Drop to reposition',
               style: TextStyle(
-                color: Theme.of(context).indicatorColor,
+                color: Colors.blue,
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
               ),
