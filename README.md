@@ -7,12 +7,12 @@ A new Flutter project in which I learn how to work with api and learn many new U
     <img src="assets/screenshot/home_light.png" width="200" />
     <img src="assets/screenshot/home_dark.png" width="200" /> 
   </p>
-- Setting screen
+- Setting screen (dark mode, unit of measurement)
   <p float="left">
     <img src="assets/screenshot/setting_light.png" width="200" />
     <img src="assets/screenshot/setting_dark.png" width="200" /> 
   </p>
-- See weather of a city in detail
+- See weather of a city or a coordinate in detail
   <p>
     <img src="assets/screenshot/detail.png" width="200" />
     <img src="assets/screenshot/detail2.png" width="200" /> 
@@ -21,11 +21,11 @@ A new Flutter project in which I learn how to work with api and learn many new U
   <p>
     <img src="assets/screenshot/search.png" width="200" /> 
   </p>
-- See anywhere in the world using map
+- See weather anywhere in the world using map
   <p>
     <img src="assets/screenshot/map.png" width="200" /> 
   </p>
-- Save a collection of cities that your are interest in
+- Save a collection of cities that your are interested in
   <p>
     <img src="assets/screenshot/favorite.png" width="200" /> 
   </p>
