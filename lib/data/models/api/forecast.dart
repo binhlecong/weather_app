@@ -1,4 +1,4 @@
-import 'package:weather_app/models/onecallapi/weather.dart';
+import 'package:weather_app/data/models/api/weather.dart';
 import 'package:weather_app/utils/mapping.dart';
 
 class Forecast {

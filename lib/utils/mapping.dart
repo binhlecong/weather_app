@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/models/onecallapi/weather.dart';
+import 'package:weather_app/data/models/api/weather.dart';
 import 'package:weather_icons/weather_icons.dart';
 
 class Mapping {

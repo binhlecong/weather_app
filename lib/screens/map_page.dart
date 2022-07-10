@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:weather_app/screens/detailpage.dart';
+import 'package:weather_app/screens/detail_page.dart';
 
 class MapSample extends StatefulWidget {
   @override

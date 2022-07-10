@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/models/onecallapi/forecast.dart';
-import 'package:weather_app/models/onecallapi/weather.dart';
+import 'package:weather_app/data/models/api/forecast.dart';
+import 'package:weather_app/data/models/api/weather.dart';
 import 'package:weather_app/utils/mapping.dart';
-import 'package:weather_app/utils/parallaxflowdelegate.dart';
-import 'package:weather_app/widgets/dailysummwidget.dart';
-import 'package:weather_app/views/datetimeview.dart';
-import 'package:weather_app/views/hourlychartview.dart';
-import 'package:weather_app/views/lastupdatedview.dart';
-import 'package:weather_app/views/locationview.dart';
-import 'package:weather_app/views/weatherdescriptionview.dart';
-import 'package:weather_app/widgets/weathersummwidget.dart';
+import 'package:weather_app/utils/parallax_flow_delegate.dart';
+import 'package:weather_app/widgets/daily_summary_widget.dart';
+import 'package:weather_app/views/date_time_view.dart';
+import 'package:weather_app/views/hourly_chart_view.dart';
+import 'package:weather_app/views/last_updated_view.dart';
+import 'package:weather_app/views/location_view.dart';
+import 'package:weather_app/views/weather_description_view.dart';
+import 'package:weather_app/widgets/weather_summary_widget.dart';
 
 class DetailView extends StatefulWidget {
   final Forecast weather;

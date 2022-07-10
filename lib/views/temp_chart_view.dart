@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:weather_app/models/onecallapi/weather.dart';
-import 'package:weather_app/utils/myconvertion.dart';
+import 'package:weather_app/data/models/api/weather.dart';
+import 'package:weather_app/utils/convertion.dart';
 
 class TempChartView extends StatelessWidget {
   final List<HourlyWeather> data;
   final String unit;
-  final Map<String, double> _maxY = {'C':60, 'K':333, 'F':140};
-  final Map<String, double> _minY = {'C':-30, 'K':243, 'F':-22};
+  final Map<String, double> _maxY = {'C': 60, 'K': 333, 'F': 140};
+  final Map<String, double> _minY = {'C': -30, 'K': 243, 'F': -22};
 
   TempChartView(this.data, this.unit);
 

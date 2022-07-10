@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/screens/favoritepage.dart';
-import 'package:weather_app/screens/mappage.dart';
-import 'package:weather_app/screens/settingpage.dart';
+import 'package:weather_app/screens/favorite_page.dart';
+import 'package:weather_app/screens/map_page.dart';
+import 'package:weather_app/screens/setting_page.dart';
 
 import 'package:weather_app/utils/search.dart';
 import 'package:weather_app/widgets/crwth_tilelayout.dart';
-import 'package:weather_app/widgets/currentweatherwidget.dart';
+import 'package:weather_app/widgets/current_weather_widget.dart';
 import 'package:location/location.dart';
-import 'package:weather_app/widgets/feedBackItem.dart';
+import 'package:weather_app/widgets/feedback_item.dart';
 import 'package:weather_app/widgets/snackbar.dart';
 
 class HomePage extends StatefulWidget {

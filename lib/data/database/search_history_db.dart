@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:weather_app/models/database/recentsearch.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:weather_app/data/models/database/recent_search.dart';
 
 class SearchHistoryDB {
   SearchHistoryDB._();
@@ -38,7 +38,7 @@ class SearchHistoryDB {
 
   newSearch(RecentSearch newSearch) async {
     final db = await database;
-    
+
     var table = await db.rawQuery("SELECT * FROM RecentSearch");
     int nextId = table.length;
     if (nextId >= 20) nextId = 20;

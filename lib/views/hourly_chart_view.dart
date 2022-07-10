@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weather_app/models/onecallapi/weather.dart';
+import 'package:weather_app/data/models/api/weather.dart';
 import 'package:weather_app/providers/tempunit.dart';
-import 'package:weather_app/views/tempchartview.dart';
-import 'package:weather_app/views/uvchartview.dart';
-import 'package:weather_app/views/windchartview.dart';
+import 'package:weather_app/views/temp_chart_view.dart';
+import 'package:weather_app/views/uv_chart_view.dart';
+import 'package:weather_app/views/wind_chart_view.dart';
 import 'package:weather_icons/weather_icons.dart';
 
 class HourlyChartView extends StatefulWidget {
@@ -45,7 +45,6 @@ class _HourlyChartViewState extends State<HourlyChartView>
                   Tab(
                     text: 'Temp' + ' \u1d52${unit.getTempUnit}',
                     icon: Icon(WeatherIcons.thermometer),
-                  
                   ),
                   Tab(
                     text: 'UV index',

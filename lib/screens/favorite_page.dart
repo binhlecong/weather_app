@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/models/database/favoritelocation.dart';
-import 'package:weather_app/utils/database/favoritelocation_db.dart';
+import 'package:weather_app/data/database/favorite_location_db.dart';
+import 'package:weather_app/data/models/database/favorite_location.dart';
 import 'package:weather_app/widgets/crwth_tilelayout.dart';
-import 'package:weather_app/widgets/currentweatherwidget.dart';
+import 'package:weather_app/widgets/current_weather_widget.dart';
 
 class FavoritePage extends StatefulWidget {
   const FavoritePage({Key? key}) : super(key: key);

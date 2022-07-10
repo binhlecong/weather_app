@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:weather_app/models/database/favoritelocation.dart';
-import 'package:weather_app/models/onecallapi/forecast.dart';
-import 'package:weather_app/utils/database/favoritelocation_db.dart';
-import 'package:weather_app/views/detailview.dart';
+import 'package:weather_app/data/database/favorite_location_db.dart';
+import 'package:weather_app/data/models/api/forecast.dart';
+import 'package:weather_app/data/models/database/favorite_location.dart';
+import 'package:weather_app/views/detail_view.dart';
 import 'package:weather_app/api/weather_api.dart';
 import 'package:weather_app/widgets/snackbar.dart';
 

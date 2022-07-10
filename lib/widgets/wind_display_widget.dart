@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/models/currentweatherapi/currentweather.dart';
-import 'package:weather_app/widgets/winddirectionwidget.dart';
+import 'package:weather_app/data/models/api/current_weather.dart';
+
+import 'package:weather_app/widgets/wind_direction_widget.dart';
 
 class WindDisplayView extends StatelessWidget {
   final Wind wind;

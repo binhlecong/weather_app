@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weather_app/models/onecallapi/weather.dart';
+import 'package:weather_app/data/models/api/weather.dart';
 import 'package:weather_app/providers/speedunit.dart';
-import 'package:weather_app/utils/myconvertion.dart';
-import 'package:weather_app/widgets/winddirectionwidget.dart';
+import 'package:weather_app/utils/convertion.dart';
+import 'package:weather_app/widgets/wind_direction_widget.dart';
 
 class WindChartView extends StatelessWidget {
   final List<HourlyWeather> data;

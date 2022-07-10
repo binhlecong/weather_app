@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:weather_app/providers/speedunit.dart';
 import 'package:weather_app/providers/theme.dart';
 import 'package:weather_app/providers/tempunit.dart';
-import 'package:weather_app/screens/homepage.dart';
+import 'package:weather_app/screens/home_page.dart';
 
 void main() async {
   runApp(

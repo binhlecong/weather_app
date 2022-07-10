@@ -3,9 +3,10 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:weather_app/models/database/recentsearch.dart';
-import 'package:weather_app/utils/database/searchhistory_db.dart';
-import 'package:weather_app/widgets/currentweatherwidget.dart';
+import 'package:weather_app/data/database/search_history_db.dart';
+import 'package:weather_app/data/models/database/recent_search.dart';
+
+import 'package:weather_app/widgets/current_weather_widget.dart';
 
 class Search extends SearchDelegate {
   late String selectedResult;

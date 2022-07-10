@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/api/weather_api.dart';
+import 'package:weather_app/data/models/api/current_weather.dart';
+import 'package:weather_app/data/models/api/weather.dart';
 
-import 'package:weather_app/models/currentweatherapi/currentweather.dart';
-import 'package:weather_app/models/onecallapi/weather.dart';
 import 'package:weather_app/providers/speedunit.dart';
 import 'package:weather_app/providers/tempunit.dart';
-import 'package:weather_app/screens/detailpage.dart';
+import 'package:weather_app/screens/detail_page.dart';
 import 'package:weather_app/utils/mapping.dart';
-import 'package:weather_app/utils/myconvertion.dart';
+import 'package:weather_app/utils/convertion.dart';
 import 'package:weather_app/widgets/crwth_tilelayout.dart';
-import 'package:weather_app/widgets/winddisplaywidget.dart';
+import 'package:weather_app/widgets/wind_display_widget.dart';
 
 class CurrentWeatherSummary extends StatefulWidget {
   final String cityName;

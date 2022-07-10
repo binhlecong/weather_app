@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:weather_app/models/currentweatherapi/currentweather.dart';
-import 'package:weather_app/models/onecallapi/forecast.dart';
+import 'package:weather_app/data/models/api/current_weather.dart';
+import 'package:weather_app/data/models/api/forecast.dart';
 
 class WeatherAPI {
   static final _apikey = '618d67fe3ad2a8af158022fff834119c';
@@ -17,7 +17,8 @@ class WeatherAPI {
       throw Exception('Failed to get current weather data');
   }
 
-  static Future<CurrentWeather> fetchCurrentWeatherByCoor(double lat, double lon) async {
+  static Future<CurrentWeather> fetchCurrentWeatherByCoor(
+      double lat, double lon) async {
     final response = await http.get(Uri.parse(
         'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$_apikey'));
 

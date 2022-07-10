@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:weather_app/models/onecallapi/weather.dart';
+import 'package:weather_app/data/models/api/weather.dart';
+
 import 'package:weather_app/providers/tempunit.dart';
 import 'package:weather_app/utils/mapping.dart';
-import 'package:weather_app/utils/myconvertion.dart';
+import 'package:weather_app/utils/convertion.dart';
 
 class DailySummaryView extends StatelessWidget {
   final DailyWeather weather;
