@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:weather_app/data/models/api/weather.dart';
 import 'package:weather_app/providers/speedunit.dart';
 import 'package:weather_app/utils/convertion.dart';
@@ -55,9 +54,9 @@ class WindChartView extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Center(
-                      child: Consumer<SpeedUnitNotifier>(
-                        builder: (context, unit, _) {
-                          var u = unit.getSpeedUnit;
+                      child: Builder(
+                        builder: (_) {
+                          var u = SpeedUnit.imperial;
                           var spd = e.speed;
 
                           if (u == SpeedUnit.imperial) {

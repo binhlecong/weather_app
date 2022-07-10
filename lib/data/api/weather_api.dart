@@ -18,7 +18,9 @@ class WeatherAPI {
   }
 
   static Future<CurrentWeather> fetchCurrentWeatherByCoor(
-      double lat, double lon) async {
+    double lat,
+    double lon,
+  ) async {
     final response = await http.get(Uri.parse(
         'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$_apikey'));
 
@@ -28,7 +30,10 @@ class WeatherAPI {
       throw Exception('Failed to get current weather data');
   }
 
-  static Future<Forecast> fetchOneCallAPI(double lat, double lon) async {
+  static Future<Forecast> fetchOneCallAPI(
+    double lat,
+    double lon,
+  ) async {
     final response = await http.get(Uri.parse(
         'https://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$lon&exclude=minutely&appid=$_apikey'));
 
@@ -38,7 +43,11 @@ class WeatherAPI {
       throw Exception('Failed to get one call api');
   }
 
-  static Future<Forecast> fetchInCircle(double lat, double lon, int cnt) async {
+  static Future<Forecast> fetchInCircle(
+    double lat,
+    double lon,
+    int cnt,
+  ) async {
     final response = await http.get(Uri.parse(
         'https://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$lon&cnt=$cnt&appid=$_apikey'));
 

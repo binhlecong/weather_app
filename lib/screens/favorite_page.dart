@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/data/database/favorite_location_db.dart';
-import 'package:weather_app/data/models/database/favorite_location.dart';
-import 'package:weather_app/widgets/crwth_tilelayout.dart';
+import 'package:weather_app/store/favorite_page_store.dart';
 import 'package:weather_app/widgets/current_weather_widget.dart';
 
 class FavoritePage extends StatefulWidget {
@@ -13,30 +11,17 @@ class FavoritePage extends StatefulWidget {
 
 class _FavoritePageState extends State<FavoritePage> {
   final ScrollController _scrollController = ScrollController();
-  List<CurrentWeatherSummary> scrolledCities = [];
-  late Future<List<FavoriteLocation>> favLocations;
+  late FavoritePageStore _favoritePageStore;
 
   @override
   void initState() {
     super.initState();
-    // load saved location from database
-    favLocations = FavoriteLocationDB.db.getAllFavoriteLocations();
-    favLocations.then((values) {
-      for (FavoriteLocation value in values) {
-        if (value.cityname == '_unknown_') {
-          scrolledCities.add(
-            CurrentWeatherSummary.fromLatLon(
-              lat: value.latitude,
-              lon: value.longitude,
-            ),
-          );
-        } else {
-          scrolledCities.add(
-            CurrentWeatherSummary(cityName: value.cityname),
-          );
-        }
-      }
-    });
+    _initStore();
+  }
+
+  Future<void> _initStore() async {
+    _favoritePageStore = FavoritePageStore();
+    _favoritePageStore.getFavoriteCitiesWeather();
   }
 
   @override
@@ -57,33 +42,12 @@ class _FavoritePageState extends State<FavoritePage> {
       body: Container(
         child: RefreshIndicator(
           onRefresh: _pullRefresh,
-          child: FutureBuilder<List<FavoriteLocation>>(
-            future: favLocations,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return ListView.builder(
-                  controller: _scrollController,
-                  itemCount: scrolledCities.length,
-                  itemBuilder: (context, index) => scrolledCities[index],
-                );
-              } else {
-                Center(child: Text('Please enable device location'));
-              }
-              return CRWThTileLayout(
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).canvasColor,
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Theme.of(context).dividerColor,
-                      width: 2,
-                    ),
-                  ),
-                ),
-              );
-            },
+          child: ListView.builder(
+            controller: _scrollController,
+            itemCount: _favoritePageStore.favoriteCitiesWeather.length,
+            itemBuilder: (context, index) => CurrentWeatherSummary(
+              weatherData: _favoritePageStore.favoriteCitiesWeather[index],
+            ),
           ),
         ),
       ),
@@ -92,33 +56,11 @@ class _FavoritePageState extends State<FavoritePage> {
 
   @override
   void dispose() {
-    scrolledCities.clear();
+    _scrollController.dispose();
     super.dispose();
   }
 
   Future<void> _pullRefresh() async {
-    scrolledCities = [];
-    setState(() {});
-
-    return Future.delayed(Duration(milliseconds: 100), () {
-      favLocations.then((values) {
-        for (FavoriteLocation value in values) {
-          if (value.cityname == '_unknown_') {
-            scrolledCities.add(
-              CurrentWeatherSummary.fromLatLon(
-                lat: value.latitude,
-                lon: value.longitude,
-              ),
-            );
-          } else {
-            scrolledCities.add(
-              CurrentWeatherSummary(cityName: value.cityname),
-            );
-          }
-        }
-      });
-
-      setState(() {});
-    });
+    Future.delayed(const Duration(seconds: 5));
   }
 }

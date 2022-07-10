@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:weather_app/data/models/api/weather.dart';
 import 'package:weather_app/providers/tempunit.dart';
 import 'package:weather_app/views/temp_chart_view.dart';
@@ -19,6 +18,7 @@ class HourlyChartView extends StatefulWidget {
 class _HourlyChartViewState extends State<HourlyChartView>
     with TickerProviderStateMixin {
   late TabController _tabController;
+  final tempUnit = TempUnit.celsius;
 
   @override
   void initState() {
@@ -30,8 +30,8 @@ class _HourlyChartViewState extends State<HourlyChartView>
   Widget build(BuildContext context) {
     return SizedBox(
       height: 320,
-      child: Consumer<TempUnitNotifier>(
-        builder: (context, unit, _) {
+      child: Builder(
+        builder: (_) {
           return Column(
             children: [
               TabBar(
@@ -43,7 +43,7 @@ class _HourlyChartViewState extends State<HourlyChartView>
                 indicatorWeight: 12,
                 tabs: [
                   Tab(
-                    text: 'Temp' + ' \u1d52${unit.getTempUnit}',
+                    text: 'Temp' + ' \u1d52$tempUnit',
                     icon: Icon(WeatherIcons.thermometer),
                   ),
                   Tab(
@@ -64,7 +64,7 @@ class _HourlyChartViewState extends State<HourlyChartView>
                       scrollDirection: Axis.horizontal,
                       child: TempChartView(
                         widget.hourlyWeather,
-                        unit.getTempUnit,
+                        tempUnit,
                       ),
                     ),
                     SingleChildScrollView(

@@ -57,7 +57,7 @@ class System {
     return System(
       json['type'],
       json['id'],
-      json['country'],
+      json['country'] ?? 'None',
       json['sunrise'],
       json['sunset'],
     );

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:weather_app/data/models/api/weather.dart';
-
 import 'package:weather_app/providers/tempunit.dart';
 import 'package:weather_app/utils/mapping.dart';
 import 'package:weather_app/utils/convertion.dart';
@@ -50,14 +48,14 @@ class DailySummaryView extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                   ),
                 ),
-                Consumer<TempUnitNotifier>(
-                  builder: (context, unit, _) {
+                Builder(
+                  builder: (_) {
                     var t = this.weather.temp;
-                    var unitSymbol = unit.getTempUnit;
+                    var unitSymbol = TempUnit.celsius;
 
-                    if (unitSymbol == 'C') {
+                    if (unitSymbol == TempUnit.celsius) {
                       t = MyConvertion.kelvinToCelsius(t);
-                    } else if (unit.getTempUnit == 'F') {
+                    } else if (unitSymbol == TempUnit.fahrenheit) {
                       t = MyConvertion.kelvinToFahrenheit(t);
                     }
 

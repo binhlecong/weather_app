@@ -51,9 +51,7 @@ class Search extends SearchDelegate {
     return Container(
       padding: EdgeInsets.all(16),
       child: Center(
-        child: CurrentWeatherSummary(
-          cityName: selectedResult.toLowerCase(),
-        ),
+        child: CurrentWeatherSummary(weatherData: null),
       ),
     );
   }
