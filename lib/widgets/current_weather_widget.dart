@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weather_app/api/weather_api.dart';
+import 'package:weather_app/data/api/weather_api.dart';
 import 'package:weather_app/data/models/api/current_weather.dart';
 import 'package:weather_app/data/models/api/weather.dart';
-
 import 'package:weather_app/providers/speedunit.dart';
 import 'package:weather_app/providers/tempunit.dart';
 import 'package:weather_app/screens/detail_page.dart';
