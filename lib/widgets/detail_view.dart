@@ -4,11 +4,11 @@ import 'package:weather_app/data/models/api/weather.dart';
 import 'package:weather_app/utils/mapping.dart';
 import 'package:weather_app/utils/parallax_flow_delegate.dart';
 import 'package:weather_app/widgets/daily_summary_widget.dart';
-import 'package:weather_app/views/date_time_view.dart';
-import 'package:weather_app/views/hourly_chart_view.dart';
-import 'package:weather_app/views/last_updated_view.dart';
-import 'package:weather_app/views/location_view.dart';
-import 'package:weather_app/views/weather_description_view.dart';
+import 'package:weather_app/widgets/date_time_view.dart';
+import 'package:weather_app/widgets/hourly_chart_view.dart';
+import 'package:weather_app/widgets/last_updated_view.dart';
+import 'package:weather_app/widgets/location_view.dart';
+import 'package:weather_app/widgets/weather_description_view.dart';
 import 'package:weather_app/widgets/weather_summary_widget.dart';
 
 class DetailView extends StatefulWidget {

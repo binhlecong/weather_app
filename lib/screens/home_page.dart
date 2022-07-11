@@ -5,7 +5,7 @@ import 'package:weather_app/screens/map_page.dart';
 import 'package:weather_app/screens/setting_page.dart';
 import 'package:weather_app/store/home_page_store.dart';
 import 'package:weather_app/utils/search.dart';
-import 'package:weather_app/widgets/current_weather_widget.dart';
+import 'package:weather_app/widgets/weather_summary_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -79,7 +79,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Container(
         child: RefreshIndicator(
-          onRefresh: _pullToRefresh,
+          onRefresh: _refreshPage,
           child: SingleChildScrollView(
             controller: _scrollController,
             child: Column(
@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                   tileColor: Theme.of(context).dividerColor,
                 ),
                 Observer(
-                  builder: (_) => CurrentWeatherSummary(
+                  builder: (_) => WeatherSummaryCard(
                     weatherData: _homePageStore.userLocationWeather,
                   ),
                 ),
@@ -109,7 +109,7 @@ class _HomePageState extends State<HomePage> {
                     shrinkWrap: true,
                     itemCount: _homePageStore.majorCitiesWeather.length,
                     itemBuilder: (context, index) {
-                      return CurrentWeatherSummary(
+                      return WeatherSummaryCard(
                         weatherData: _homePageStore.majorCitiesWeather[index],
                       );
                     },
@@ -123,8 +123,9 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<void> _pullToRefresh() async {
-    await Future.delayed(const Duration(seconds: 5));
+  Future<void> _refreshPage() async {
+    _homePageStore.getUserLocationWeather();
+    _homePageStore.getMajorCitiesWeather();
   }
 
   @override

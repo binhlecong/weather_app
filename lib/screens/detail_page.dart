@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:weather_app/data/api/weather_api.dart';
+import 'package:mobx/mobx.dart';
 import 'package:weather_app/data/database/favorite_location_db.dart';
 import 'package:weather_app/data/models/api/forecast.dart';
 import 'package:weather_app/data/models/database/favorite_location.dart';
-import 'package:weather_app/views/detail_view.dart';
-import 'package:weather_app/widgets/snackbar.dart';
+import 'package:weather_app/store/detail_page_store.dart';
+import 'package:weather_app/widgets/detail_view.dart';
+import 'package:weather_app/utils/snackbar.dart';
 
 class DetailPage extends StatefulWidget {
   final String cityName;
@@ -28,40 +30,47 @@ class DetailPage extends StatefulWidget {
 
 class _DetailPageState extends State<DetailPage> {
   late Future<Forecast> weather;
+  late DetailPageStore _detailPageStore;
 
   @override
   void initState() {
     super.initState();
+    _detailPageStore = DetailPageStore();
+
     var lat = widget.position.latitude;
-    var lon = widget.position.longitude;
-    weather = WeatherAPI.fetchOneCallAPI(lat, lon);
+    var lng = widget.position.longitude;
+    var cityName = widget.cityName;
+
+    _detailPageStore.setLatLng(lat, lng);
+    _detailPageStore.setCityName(cityName);
+    _detailPageStore.fetchForecast();
   }
 
   @override
   Widget build(BuildContext context) {
-    var cityName = widget.cityName;
     var lat = widget.position.latitude;
-    var lon = widget.position.longitude;
+    var lng = widget.position.longitude;
+    var cityName = widget.cityName;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(cityName == "_unknown_"
+        title: Text(widget.cityName == "_unknown_"
             ? "Detail weather"
-            : cityName.toUpperCase()),
+            : widget.cityName.toUpperCase()),
         actions: [
           PopupMenuButton<Text>(
             padding: EdgeInsets.zero,
             itemBuilder: (context) => <PopupMenuEntry<Text>>[
               PopupMenuItem(
                 onTap: () {
-                  _addToFavorite(cityName, lat, lon);
+                  _addToFavorite(cityName, lat, lng);
                 },
                 padding: EdgeInsets.only(left: 20),
                 child: _buildTextButton('Add to favorite'),
               ),
               PopupMenuItem(
                 onTap: () {
-                  _removeFromFavorite(lat, lon);
+                  _removeFromFavorite(lat, lng);
                 },
                 padding: EdgeInsets.only(left: 20),
                 child: _buildTextButton('Remove from favorite'),
@@ -71,41 +80,44 @@ class _DetailPageState extends State<DetailPage> {
         ],
       ),
       body: Center(
-        child: FutureBuilder<Forecast>(
-          future: weather,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return RefreshIndicator(
-                onRefresh: _pullRefresh,
-                child: SingleChildScrollView(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  child: DetailView(weather: snapshot.data!),
-                ),
-              );
-            } else if (snapshot.hasError) {
+        child: Observer(
+          builder: (_) {
+            if (_detailPageStore.forecastFuture.status ==
+                FutureStatus.pending) {
               return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.warning,
-                      color: Colors.red,
-                      size: 80,
-                    ),
-                    Text(
-                      '${snapshot.error}',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
+                child: CircularProgressIndicator(),
               );
+            } else {
+              if (_detailPageStore.forecast == null) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.warning,
+                        color: Colors.red,
+                        size: 80,
+                      ),
+                      Text(
+                        '${_detailPageStore.forecastFuture.error}',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              } else {
+                return RefreshIndicator(
+                  onRefresh: _pullRefresh,
+                  child: SingleChildScrollView(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    child: DetailView(weather: _detailPageStore.forecast!),
+                  ),
+                );
+              }
             }
-            return Center(
-              child: CircularProgressIndicator(),
-            );
           },
         ),
       ),
@@ -113,14 +125,7 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   Future<void> _pullRefresh() async {
-    var lat = widget.position.latitude;
-    var lon = widget.position.longitude;
-    Future<Forecast> newWeather = WeatherAPI.fetchOneCallAPI(lat, lon);
-
-    setState(() {
-      weather = newWeather;
-    });
-
+    _detailPageStore.fetchForecast();
     displaySnackbar(context, "Detail weather reloaded");
   }
 
@@ -135,8 +140,9 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   void _removeFromFavorite(lat, lon) {
-    FavoriteLocationDB.db
-        .deleteFavoriteLocation(FavoriteLocation.getId(lat, lon));
+    FavoriteLocationDB.db.deleteFavoriteLocation(
+      FavoriteLocation.getId(lat, lon),
+    );
   }
 
   Widget _buildTextButton(label) {

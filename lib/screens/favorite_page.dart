@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/store/favorite_page_store.dart';
-import 'package:weather_app/widgets/current_weather_widget.dart';
+import 'package:weather_app/widgets/weather_summary_card.dart';
 
 class FavoritePage extends StatefulWidget {
   const FavoritePage({Key? key}) : super(key: key);
@@ -45,7 +45,7 @@ class _FavoritePageState extends State<FavoritePage> {
           child: ListView.builder(
             controller: _scrollController,
             itemCount: _favoritePageStore.favoriteCitiesWeather.length,
-            itemBuilder: (context, index) => CurrentWeatherSummary(
+            itemBuilder: (context, index) => WeatherSummaryCard(
               weatherData: _favoritePageStore.favoriteCitiesWeather[index],
             ),
           ),

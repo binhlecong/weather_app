@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/data/models/api/weather.dart';
 import 'package:weather_app/providers/tempunit.dart';
-import 'package:weather_app/views/temp_chart_view.dart';
-import 'package:weather_app/views/uv_chart_view.dart';
-import 'package:weather_app/views/wind_chart_view.dart';
+import 'package:weather_app/widgets/temp_chart_view.dart';
+import 'package:weather_app/widgets/uv_chart_view.dart';
+import 'package:weather_app/widgets/wind_chart_view.dart';
 import 'package:weather_icons/weather_icons.dart';
 
 class HourlyChartView extends StatefulWidget {

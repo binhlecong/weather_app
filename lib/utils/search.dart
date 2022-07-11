@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:weather_app/data/database/search_history_db.dart';
 import 'package:weather_app/data/models/database/recent_search.dart';
 
-import 'package:weather_app/widgets/current_weather_widget.dart';
+import 'package:weather_app/widgets/weather_summary_card.dart';
 
 class Search extends SearchDelegate {
   late String selectedResult;
@@ -51,7 +51,7 @@ class Search extends SearchDelegate {
     return Container(
       padding: EdgeInsets.all(16),
       child: Center(
-        child: CurrentWeatherSummary(weatherData: null),
+        child: WeatherSummaryCard(weatherData: null),
       ),
     );
   }
