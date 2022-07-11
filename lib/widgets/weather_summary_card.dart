@@ -6,7 +6,7 @@ import 'package:weather_app/providers/tempunit.dart';
 import 'package:weather_app/screens/detail_page.dart';
 import 'package:weather_app/utils/mapping.dart';
 import 'package:weather_app/utils/convertion.dart';
-import 'package:weather_app/widgets/wind_display_widget.dart';
+import 'package:weather_app/widgets/wind_direction_widget.dart';
 
 class WeatherSummaryCard extends StatelessWidget {
   final CurrentWeather? weatherData;
@@ -195,6 +195,46 @@ class WeatherSummaryCard extends StatelessWidget {
             );
           },
         ),
+      ),
+    );
+  }
+}
+
+class WindDisplayView extends StatelessWidget {
+  final Wind wind;
+
+  WindDisplayView({required this.wind});
+  WindDisplayView.fromSD(speed, degree) : wind = Wind(speed, degree);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(7),
+      height: 40,
+      width: 85,
+      decoration: BoxDecoration(
+        color: Theme.of(context).backgroundColor,
+        borderRadius: BorderRadius.circular(21),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          WindDirectionView(
+            wind.degree.toDouble(),
+          ),
+          Expanded(
+            child: Center(
+              child: Text(
+                wind.degree.toStringAsFixed(0) + '\u1d52',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
