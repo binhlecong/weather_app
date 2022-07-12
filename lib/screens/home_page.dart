@@ -108,18 +108,31 @@ class _HomePageState extends State<HomePage> {
                   title: Text('Major cities', style: sectionTextStyle),
                   tileColor: Theme.of(context).dividerColor,
                 ),
+                Observer(builder: (_) {
+                  if (_homePageStore.hasGetMajorCitiesWeatherCompleted) {
+                    return _homePageStore.majorCitiesWeathers.isEmpty
+                        ? Text('There is no city in the list')
+                        : ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount:
+                                _homePageStore.majorCitiesWeathers.length,
+                            itemBuilder: (context, index) {
+                              return WeatherSummaryCard(
+                                weatherData:
+                                    _homePageStore.majorCitiesWeathers[index],
+                              );
+                            },
+                          );
+                  }
+                  return Text('This should not happen');
+                }),
                 Observer(
-                  builder: (_) => ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: _homePageStore.majorCitiesWeather.length,
-                    itemBuilder: (context, index) {
-                      return WeatherSummaryCard(
-                        weatherData: _homePageStore.majorCitiesWeather[index],
-                      );
-                    },
-                  ),
-                ),
+                    builder: (_) =>
+                        _homePageStore.majorCitiesWeatherFutures.status ==
+                                FutureStatus.pending
+                            ? _showProgressIndicator()
+                            : SizedBox.shrink())
               ],
             ),
           ),

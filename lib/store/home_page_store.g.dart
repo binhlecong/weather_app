@@ -9,6 +9,15 @@ part of 'home_page_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$HomePageStore on _HomePageStore, Store {
+  Computed<bool>? _$hasGetMajorCitiesWeatherCompletedComputed;
+
+  @override
+  bool get hasGetMajorCitiesWeatherCompleted =>
+      (_$hasGetMajorCitiesWeatherCompletedComputed ??= Computed<bool>(
+              () => super.hasGetMajorCitiesWeatherCompleted,
+              name: '_HomePageStore.hasGetMajorCitiesWeatherCompleted'))
+          .value;
+
   late final _$userLocationWeatherFutureAtom =
       Atom(name: '_HomePageStore.userLocationWeatherFuture', context: context);
 
@@ -26,19 +35,20 @@ mixin _$HomePageStore on _HomePageStore, Store {
     });
   }
 
-  late final _$majorCitiesWeatherAtom =
-      Atom(name: '_HomePageStore.majorCitiesWeather', context: context);
+  late final _$majorCitiesWeatherFuturesAtom =
+      Atom(name: '_HomePageStore.majorCitiesWeatherFutures', context: context);
 
   @override
-  ObservableList<CurrentWeather?> get majorCitiesWeather {
-    _$majorCitiesWeatherAtom.reportRead();
-    return super.majorCitiesWeather;
+  ObservableFuture<List<CurrentWeather?>> get majorCitiesWeatherFutures {
+    _$majorCitiesWeatherFuturesAtom.reportRead();
+    return super.majorCitiesWeatherFutures;
   }
 
   @override
-  set majorCitiesWeather(ObservableList<CurrentWeather?> value) {
-    _$majorCitiesWeatherAtom.reportWrite(value, super.majorCitiesWeather, () {
-      super.majorCitiesWeather = value;
+  set majorCitiesWeatherFutures(ObservableFuture<List<CurrentWeather?>> value) {
+    _$majorCitiesWeatherFuturesAtom
+        .reportWrite(value, super.majorCitiesWeatherFutures, () {
+      super.majorCitiesWeatherFutures = value;
     });
   }
 
@@ -64,7 +74,8 @@ mixin _$HomePageStore on _HomePageStore, Store {
   String toString() {
     return '''
 userLocationWeatherFuture: ${userLocationWeatherFuture},
-majorCitiesWeather: ${majorCitiesWeather}
+majorCitiesWeatherFutures: ${majorCitiesWeatherFutures},
+hasGetMajorCitiesWeatherCompleted: ${hasGetMajorCitiesWeatherCompleted}
     ''';
   }
 }
