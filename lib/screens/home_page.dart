@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 import 'package:weather_app/screens/favorite_page.dart';
 import 'package:weather_app/screens/map_page.dart';
 import 'package:weather_app/screens/setting_page.dart';
@@ -92,9 +93,13 @@ class _HomePageState extends State<HomePage> {
                   tileColor: Theme.of(context).dividerColor,
                 ),
                 Observer(
-                  builder: (_) => WeatherSummaryCard(
-                    weatherData: _homePageStore.userLocationWeather,
-                  ),
+                  builder: (_) =>
+                      _homePageStore.userLocationWeatherFuture.status ==
+                              FutureStatus.pending
+                          ? Center(child: CircularProgressIndicator())
+                          : WeatherSummaryCard(
+                              weatherData: _homePageStore.userLocationWeather,
+                            ),
                 ),
                 ListTile(
                   dense: true,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/data/models/api/forecast.dart';
 import 'package:weather_app/data/models/api/weather.dart';
+import 'package:weather_app/providers/tempunit.dart';
+import 'package:weather_app/utils/convertion.dart';
 import 'package:weather_app/utils/mapping.dart';
 import 'package:weather_app/utils/parallax_flow_delegate.dart';
 import 'package:weather_app/widgets/daily_summary_widget.dart';
@@ -8,8 +10,6 @@ import 'package:weather_app/widgets/date_time_view.dart';
 import 'package:weather_app/widgets/hourly_chart_view.dart';
 import 'package:weather_app/widgets/last_updated_view.dart';
 import 'package:weather_app/widgets/location_view.dart';
-import 'package:weather_app/widgets/weather_description_view.dart';
-import 'package:weather_app/widgets/weather_summary_widget.dart';
 
 class DetailView extends StatefulWidget {
   final Forecast weather;
@@ -111,6 +111,86 @@ class _DetailViewState extends State<DetailView> {
             textColor: textColor,
           );
         },
+      ),
+    );
+  }
+}
+
+class WeatherSummary extends StatelessWidget {
+  final WeatherCondition condition;
+  final double temp;
+  final bool isDayTime;
+  final Color textColor;
+
+  WeatherSummary({
+    required this.condition,
+    required this.temp,
+    required this.isDayTime,
+    required this.textColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    IconData icon = Mapping.mapWeatherConditionToIcondata(condition, true);
+    final unitSymbol = TempUnit.celsius;
+
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Builder(builder: (_) {
+            var t = this.temp;
+            if (unitSymbol == TempUnit.celsius) {
+              t = MyConvertion.kelvinToCelsius(temp);
+            } else if (unitSymbol == TempUnit.fahrenheit) {
+              t = MyConvertion.kelvinToFahrenheit(temp);
+            }
+
+            return Text(
+              '${t.toStringAsFixed(0)} \u1d52$unitSymbol',
+              style: TextStyle(
+                fontSize: 64,
+                color: textColor,
+                fontWeight: FontWeight.w300,
+              ),
+            );
+          }),
+          SizedBox(
+            height: 80,
+            child: FittedBox(
+              child: Icon(
+                icon,
+                color: textColor,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class WeatherDescriptionView extends StatelessWidget {
+  final String weatherDescription;
+  final Color textColor;
+
+  WeatherDescriptionView({
+    required this.weatherDescription,
+    required this.textColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        weatherDescription,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 40,
+          fontWeight: FontWeight.w300,
+          color: textColor,
+        ),
       ),
     );
   }

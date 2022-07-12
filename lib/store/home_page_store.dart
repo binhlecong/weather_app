@@ -4,27 +4,33 @@ import 'package:weather_app/data/models/api/current_weather.dart';
 
 part 'home_page_store.g.dart';
 
-final List<String> majorCities = [
-  'hanoi',
-  'seattle',
-  'New York',
-  'london',
-  'paris',
-  'hongkong',
-  'sydney',
-  'moscow',
-  'berlin',
-  'abu dhabi',
-  'shanghai',
-  'tokyo',
-  'dubai',
-];
-
 class HomePageStore = _HomePageStore with _$HomePageStore;
 
 abstract class _HomePageStore with Store {
+  static final List<String> majorCities = [
+    'hanoi',
+    'seattle',
+    'New York',
+    'london',
+    'paris',
+    'hongkong',
+    'sydney',
+    'moscow',
+    'berlin',
+    'abu dhabi',
+    'shanghai',
+    'tokyo',
+    'dubai',
+  ];
+
+  static ObservableFuture<CurrentWeather?> emptyCurrentWeather =
+      ObservableFuture.value(null);
+
+  CurrentWeather? userLocationWeather = null;
+
   @observable
-  CurrentWeather? userLocationWeather;
+  ObservableFuture<CurrentWeather?> userLocationWeatherFuture =
+      emptyCurrentWeather;
 
   @observable
   ObservableList<CurrentWeather?> majorCitiesWeather =
@@ -32,8 +38,11 @@ abstract class _HomePageStore with Store {
 
   @action
   Future<void> getUserLocationWeather() async {
+    userLocationWeather = null;
     try {
-      userLocationWeather = await WeatherAPI.fetchCurrentWeatherByCoor(1, 2);
+      final future = WeatherAPI.fetchCurrentWeatherByCoor(0, 0);
+      userLocationWeatherFuture = ObservableFuture(future);
+      userLocationWeather = await future;
     } catch (e) {
       userLocationWeather = null;
     }
