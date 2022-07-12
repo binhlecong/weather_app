@@ -45,7 +45,7 @@ abstract class _DetailPageStore with Store {
   }
 
   @action
-  Future<void> fetchForecast() async {
+  Future<void> getForecast() async {
     forecast = null;
     final future =
         WeatherAPI.fetchOneCallAPI(position.latitude, position.longitude);

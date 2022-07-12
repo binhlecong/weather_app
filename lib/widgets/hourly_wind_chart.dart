@@ -53,10 +53,9 @@ class HourlyWindChart extends StatelessWidget {
                       child: Builder(
                         builder: (_) {
                           var u = SpeedUnit.imperial;
-                          var spd = e.speed;
-                          spd = u == SpeedUnit.imperial
-                              ? MyConvertion.mpsToMiph(spd)
-                              : MyConvertion.mpsToKmph(spd);
+                          var spd = u == SpeedUnit.imperial
+                              ? MyConvertion.mpsToMiph(e.speed)
+                              : MyConvertion.mpsToKmph(e.speed);
 
                           return Text(
                             '${spd.toStringAsFixed(2)} $u',

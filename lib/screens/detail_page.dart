@@ -43,7 +43,7 @@ class _DetailPageState extends State<DetailPage> {
 
     _detailPageStore.setLatLng(lat, lng);
     _detailPageStore.setCityName(cityName);
-    _detailPageStore.fetchForecast();
+    _detailPageStore.getForecast();
   }
 
   @override
@@ -84,39 +84,35 @@ class _DetailPageState extends State<DetailPage> {
           builder: (_) {
             if (_detailPageStore.forecastFuture.status ==
                 FutureStatus.pending) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
+              return Center(child: CircularProgressIndicator());
             } else {
-              if (_detailPageStore.forecast == null) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.warning,
-                        color: Colors.red,
-                        size: 80,
+              return _detailPageStore.forecast == null
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.warning,
+                            color: Colors.red,
+                            size: 80,
+                          ),
+                          Text(
+                            '${_detailPageStore.forecastFuture.error}',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
-                      Text(
-                        '${_detailPageStore.forecastFuture.error}',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    )
+                  : RefreshIndicator(
+                      onRefresh: _pullRefresh,
+                      child: SingleChildScrollView(
+                        physics: AlwaysScrollableScrollPhysics(),
+                        child: DetailView(weather: _detailPageStore.forecast!),
                       ),
-                    ],
-                  ),
-                );
-              } else {
-                return RefreshIndicator(
-                  onRefresh: _pullRefresh,
-                  child: SingleChildScrollView(
-                    physics: AlwaysScrollableScrollPhysics(),
-                    child: DetailView(weather: _detailPageStore.forecast!),
-                  ),
-                );
-              }
+                    );
             }
           },
         ),
@@ -125,7 +121,7 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   Future<void> _pullRefresh() async {
-    _detailPageStore.fetchForecast();
+    _detailPageStore.getForecast();
     displaySnackbar(context, "Detail weather reloaded");
   }
 

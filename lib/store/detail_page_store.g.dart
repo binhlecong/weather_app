@@ -65,12 +65,12 @@ mixin _$DetailPageStore on _DetailPageStore, Store {
     });
   }
 
-  late final _$fetchForecastAsyncAction =
-      AsyncAction('_DetailPageStore.fetchForecast', context: context);
+  late final _$getForecastAsyncAction =
+      AsyncAction('_DetailPageStore.getForecast', context: context);
 
   @override
-  Future<void> fetchForecast() {
-    return _$fetchForecastAsyncAction.run(() => super.fetchForecast());
+  Future<void> getForecast() {
+    return _$getForecastAsyncAction.run(() => super.getForecast());
   }
 
   late final _$_DetailPageStoreActionController =
