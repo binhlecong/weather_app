@@ -22,7 +22,17 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    _initLazyLoader();
     _initStore();
+  }
+
+  void _initLazyLoader() {
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        _homePageStore.getMajorCitiesWeather();
+      }
+    });
   }
 
   Future<void> _initStore() async {
@@ -108,31 +118,34 @@ class _HomePageState extends State<HomePage> {
                   title: Text('Major cities', style: sectionTextStyle),
                   tileColor: Theme.of(context).dividerColor,
                 ),
-                Observer(builder: (_) {
-                  if (_homePageStore.hasGetMajorCitiesWeatherCompleted) {
-                    return _homePageStore.majorCitiesWeathers.isEmpty
-                        ? Text('There is no city in the list')
-                        : ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount:
-                                _homePageStore.majorCitiesWeathers.length,
-                            itemBuilder: (context, index) {
-                              return WeatherSummaryCard(
-                                weatherData:
-                                    _homePageStore.majorCitiesWeathers[index],
-                              );
-                            },
-                          );
-                  }
-                  return Text('This should not happen');
-                }),
                 Observer(
-                    builder: (_) =>
-                        _homePageStore.majorCitiesWeatherFutures.status ==
-                                FutureStatus.pending
-                            ? _showProgressIndicator()
-                            : SizedBox.shrink())
+                  builder: (_) {
+                    if (_homePageStore.hasGetMajorCitiesWeatherCompleted) {
+                      return _homePageStore.majorCitiesWeathers.isEmpty
+                          ? Text('There is no city in the list')
+                          : ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount:
+                                  _homePageStore.majorCitiesWeathers.length,
+                              itemBuilder: (context, index) {
+                                return WeatherSummaryCard(
+                                  weatherData:
+                                      _homePageStore.majorCitiesWeathers[index],
+                                );
+                              },
+                            );
+                    }
+                    return Text('This should not happen');
+                  },
+                ),
+                Observer(
+                  builder: (_) =>
+                      _homePageStore.majorCitiesWeatherFutures.status ==
+                              FutureStatus.pending
+                          ? _showProgressIndicator()
+                          : SizedBox.shrink(),
+                )
               ],
             ),
           ),
@@ -155,8 +168,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _refreshPage() async {
-    _homePageStore.getUserLocationWeather();
-    _homePageStore.getMajorCitiesWeather();
+    _homePageStore.resetMajorCitiesWeather();
+    await _homePageStore.getUserLocationWeather();
+    await _homePageStore.getMajorCitiesWeather();
   }
 
   @override

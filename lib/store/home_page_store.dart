@@ -23,6 +23,10 @@ abstract class _HomePageStore with Store {
     'dubai',
   ];
 
+  static final numOfCitiesPerFetch = 4;
+  int cityIndex = 0;
+  bool isLoading = false;
+
   static ObservableFuture<CurrentWeather?> emptyFuture =
       ObservableFuture.value(null);
 
@@ -34,7 +38,8 @@ abstract class _HomePageStore with Store {
   @observable
   ObservableFuture<CurrentWeather?> userLocationWeatherFuture = emptyFuture;
 
-  List<CurrentWeather?> majorCitiesWeathers = [];
+  @observable
+  ObservableList<CurrentWeather?> majorCitiesWeathers = ObservableList();
 
   @observable
   ObservableFuture<List<CurrentWeather?>> majorCitiesWeatherFutures =
@@ -59,23 +64,38 @@ abstract class _HomePageStore with Store {
 
   @action
   Future<void> getMajorCitiesWeather() async {
+    if (isLoading) return;
+    isLoading = true;
     majorCitiesWeatherFutures =
         ObservableFuture(fetchMultipleWeather(majorCities));
-    majorCitiesWeathers = await majorCitiesWeatherFutures;
+    var result = await majorCitiesWeatherFutures;
+    majorCitiesWeathers.addAll(result);
+    isLoading = false;
   }
 
   Future<List<CurrentWeather?>> fetchMultipleWeather(
       List<String> cityNames) async {
     List<CurrentWeather?> weathers = [];
-    for (String city in majorCities) {
+    for (var i = cityIndex; i < cityIndex + numOfCitiesPerFetch; i++) {
+      if (i >= cityNames.length) break;
       var weather = null;
       try {
-        weather = await WeatherAPI.fetchCurrentWeather(city);
+        weather = await WeatherAPI.fetchCurrentWeather(cityNames[i]);
       } catch (e) {
         weather = null;
       }
       weathers.add(weather);
     }
+    cityIndex += numOfCitiesPerFetch;
     return weathers;
+  }
+
+  @action
+  void resetMajorCitiesWeather() {
+    cityIndex = 0;
+    userLocationWeather = null;
+    userLocationWeatherFuture = emptyFuture;
+    majorCitiesWeathers = ObservableList();
+    majorCitiesWeatherFutures = emptyFutureList;
   }
 }

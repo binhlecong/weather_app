@@ -35,6 +35,22 @@ mixin _$HomePageStore on _HomePageStore, Store {
     });
   }
 
+  late final _$majorCitiesWeathersAtom =
+      Atom(name: '_HomePageStore.majorCitiesWeathers', context: context);
+
+  @override
+  ObservableList<CurrentWeather?> get majorCitiesWeathers {
+    _$majorCitiesWeathersAtom.reportRead();
+    return super.majorCitiesWeathers;
+  }
+
+  @override
+  set majorCitiesWeathers(ObservableList<CurrentWeather?> value) {
+    _$majorCitiesWeathersAtom.reportWrite(value, super.majorCitiesWeathers, () {
+      super.majorCitiesWeathers = value;
+    });
+  }
+
   late final _$majorCitiesWeatherFuturesAtom =
       Atom(name: '_HomePageStore.majorCitiesWeatherFutures', context: context);
 
@@ -74,6 +90,7 @@ mixin _$HomePageStore on _HomePageStore, Store {
   String toString() {
     return '''
 userLocationWeatherFuture: ${userLocationWeatherFuture},
+majorCitiesWeathers: ${majorCitiesWeathers},
 majorCitiesWeatherFutures: ${majorCitiesWeatherFutures},
 hasGetMajorCitiesWeatherCompleted: ${hasGetMajorCitiesWeatherCompleted}
     ''';
