@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-class WindDirectionView extends StatelessWidget {
+class WindDirectionArrow extends StatelessWidget {
   final double degree;
-  WindDirectionView(this.degree);
+  WindDirectionArrow(this.degree);
 
   @override
   Widget build(BuildContext context) {

@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                   builder: (_) =>
                       _homePageStore.userLocationWeatherFuture.status ==
                               FutureStatus.pending
-                          ? Center(child: CircularProgressIndicator())
+                          ? _showProgressIndicator()
                           : WeatherSummaryCard(
                               weatherData: _homePageStore.userLocationWeather,
                             ),
@@ -124,6 +124,19 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _showProgressIndicator() {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        vertical: 12,
+        horizontal: 20,
+      ),
+      height: 220,
+      child: Center(
+        child: CircularProgressIndicator(),
       ),
     );
   }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/data/models/api/weather.dart';
 import 'package:weather_app/providers/speedunit.dart';
 import 'package:weather_app/utils/convertion.dart';
-import 'package:weather_app/widgets/wind_direction_widget.dart';
+import 'package:weather_app/widgets/wind_direction_arrow.dart';
 
 class HourlyWindChart extends StatelessWidget {
   final List<HourlyWeather> data;
@@ -19,9 +19,7 @@ class HourlyWindChart extends StatelessWidget {
           vertical: 5,
           horizontal: 20,
         ),
-        child: Row(
-          children: _itemsBuilder(data),
-        ),
+        child: Row(children: _itemsBuilder(data)),
       ),
     );
   }
@@ -41,9 +39,7 @@ class HourlyWindChart extends StatelessWidget {
               height: 140,
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.white),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(16),
-                ),
+                borderRadius: BorderRadius.all(Radius.circular(16)),
               ),
               padding: EdgeInsets.symmetric(
                 horizontal: 5,
@@ -58,12 +54,9 @@ class HourlyWindChart extends StatelessWidget {
                         builder: (_) {
                           var u = SpeedUnit.imperial;
                           var spd = e.speed;
-
-                          if (u == SpeedUnit.imperial) {
-                            spd = MyConvertion.mpsToMiph(spd);
-                          } else {
-                            spd = MyConvertion.mpsToKmph(spd);
-                          }
+                          spd = u == SpeedUnit.imperial
+                              ? MyConvertion.mpsToMiph(spd)
+                              : MyConvertion.mpsToKmph(spd);
 
                           return Text(
                             '${spd.toStringAsFixed(2)} $u',
@@ -82,9 +75,7 @@ class HourlyWindChart extends StatelessWidget {
                   SizedBox(
                     height: 45,
                     width: 45,
-                    child: WindDirectionView(
-                      e.degree.toDouble(),
-                    ),
+                    child: WindDirectionArrow(e.degree.toDouble()),
                   ),
                   Expanded(
                     child: Center(
@@ -97,7 +88,7 @@ class HourlyWindChart extends StatelessWidget {
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

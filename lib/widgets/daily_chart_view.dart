@@ -5,11 +5,38 @@ import 'package:weather_app/providers/tempunit.dart';
 import 'package:weather_app/utils/mapping.dart';
 import 'package:weather_app/utils/convertion.dart';
 
-class DailySummaryView extends StatelessWidget {
+class DailyChartView extends StatelessWidget {
+  DailyChartView({required this.dailyForecast, required this.textColor});
+  final List<DailyWeather> dailyForecast;
+  final Color textColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Center(
+        child: SizedBox(
+          height: 120,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: dailyForecast.length,
+            itemBuilder: (context, index) {
+              return DailySummaryItem(
+                weather: dailyForecast[index],
+                textColor: textColor,
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class DailySummaryItem extends StatelessWidget {
   final DailyWeather weather;
   final Color textColor;
 
-  DailySummaryView({
+  DailySummaryItem({
     required this.weather,
     required this.textColor,
   });

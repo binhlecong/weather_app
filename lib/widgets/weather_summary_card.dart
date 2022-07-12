@@ -6,7 +6,7 @@ import 'package:weather_app/providers/tempunit.dart';
 import 'package:weather_app/screens/detail_page.dart';
 import 'package:weather_app/utils/mapping.dart';
 import 'package:weather_app/utils/convertion.dart';
-import 'package:weather_app/widgets/wind_direction_widget.dart';
+import 'package:weather_app/widgets/wind_direction_arrow.dart';
 
 class WeatherSummaryCard extends StatelessWidget {
   final CurrentWeather? weatherData;
@@ -190,9 +190,6 @@ class WeatherSummaryCard extends StatelessWidget {
                 ],
               );
             }
-            return Center(
-              child: CircularProgressIndicator(),
-            );
           },
         ),
       ),
@@ -219,7 +216,7 @@ class WindDisplayView extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          WindDirectionView(
+          WindDirectionArrow(
             wind.degree.toDouble(),
           ),
           Expanded(

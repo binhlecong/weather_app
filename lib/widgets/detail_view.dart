@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:weather_app/data/models/api/forecast.dart';
 import 'package:weather_app/data/models/api/weather.dart';
 import 'package:weather_app/providers/tempunit.dart';
 import 'package:weather_app/utils/convertion.dart';
 import 'package:weather_app/utils/mapping.dart';
 import 'package:weather_app/utils/parallax_flow_delegate.dart';
-import 'package:weather_app/widgets/daily_summary_widget.dart';
-import 'package:weather_app/widgets/date_time_view.dart';
+import 'package:weather_app/widgets/daily_chart_view.dart';
 import 'package:weather_app/widgets/hourly_chart_view.dart';
-import 'package:weather_app/widgets/last_updated_view.dart';
-import 'package:weather_app/widgets/location_view.dart';
 
 class DetailView extends StatefulWidget {
   final Forecast weather;
@@ -57,39 +55,32 @@ class _DetailViewState extends State<DetailView> {
           Column(
             children: [
               SizedBox(height: 20),
-              LocationView(
-                longitude: widget.weather.longitude,
-                latitude: widget.weather.latitude,
-                color: textColor,
-              ),
+              _buildLocationView(
+                  longitude: widget.weather.longitude,
+                  latitude: widget.weather.latitude,
+                  color: textColor),
               SizedBox(height: 5),
-              DatetimeView(
-                datetime: widget.weather.current.date,
-                color: textColor,
-              ),
+              _buildDatetimeView(
+                  datetime: widget.weather.current.date, color: textColor),
               SizedBox(height: 32),
-              WeatherSummary(
-                condition: widget.weather.current.condition,
-                temp: widget.weather.current.temp,
-                isDayTime: true,
-                textColor: textColor,
-              ),
+              _buildWeatherSummary(
+                  condition: widget.weather.current.condition,
+                  temp: widget.weather.current.temp,
+                  isDayTime: true,
+                  textColor: textColor),
               SizedBox(height: 48),
-              WeatherDescriptionView(
-                weatherDescription: widget.weather.current.description,
-                textColor: textColor,
-              ),
+              _buildWeatherDescriptionView(
+                  weatherDescription: widget.weather.current.description,
+                  textColor: textColor),
               SizedBox(height: 32),
               HourlyChartView(hourlyWeather: widget.weather.hourly),
               SizedBox(height: 32),
-              Expanded(
-                child: Center(
-                  child: _buildDailySummary(widget.weather.daily, textColor),
-                ),
-              ),
+              DailyChartView(
+                  dailyForecast: widget.weather.daily, textColor: textColor),
               SizedBox(height: 40),
-              LastUpdatedView(
-                lastUpdatedOn: widget.weather.lastUpdated,
+              _buildLastUpdatedView(
+                timeUpdated: TimeOfDay.fromDateTime(widget.weather.lastUpdated)
+                    .format(context),
                 color: textColor,
               ),
             ],
@@ -99,38 +90,74 @@ class _DetailViewState extends State<DetailView> {
     );
   }
 
-  Widget _buildDailySummary(List<DailyWeather> dailyForecast, Color textColor) {
-    return SizedBox(
-      height: 120,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: dailyForecast.length,
-        itemBuilder: (context, index) {
-          return DailySummaryView(
-            weather: dailyForecast[index],
-            textColor: textColor,
-          );
-        },
+  _buildLocationView({
+    required longitude,
+    required latitude,
+    required color,
+  }) {
+    var lon = longitude;
+    var lat = latitude;
+    var lonDisplay =
+        '${lon.abs().toStringAsFixed(1)}\u1d52 ' + (lon >= 0 ? 'N' : 'S');
+    var latDisplay =
+        '${lat.abs().toStringAsFixed(1)}\u1d52 ' + (lat >= 0 ? 'W' : 'E');
+
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(width: 10),
+          Icon(
+            Icons.location_on_sharp,
+            color: color,
+            size: 15,
+          ),
+          SizedBox(width: 5),
+          Text(
+            '$lonDisplay, $latDisplay',
+            style: TextStyle(
+              fontSize: 15,
+              color: color,
+            ),
+          ),
+        ],
       ),
     );
   }
-}
 
-class WeatherSummary extends StatelessWidget {
-  final WeatherCondition condition;
-  final double temp;
-  final bool isDayTime;
-  final Color textColor;
+  _buildDatetimeView({required datetime, color}) {
+    String day = toBeginningOfSentenceCase(
+            DateFormat('EEE, MMM d, y').format(datetime)) ??
+        '__:__:__';
 
-  WeatherSummary({
-    required this.condition,
-    required this.temp,
-    required this.isDayTime,
-    required this.textColor,
-  });
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(width: 10),
+          Icon(
+            Icons.calendar_today,
+            color: color,
+            size: 15,
+          ),
+          SizedBox(width: 5),
+          Text(
+            day,
+            style: TextStyle(
+              fontSize: 15,
+              color: color,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-  @override
-  Widget build(BuildContext context) {
+  _buildWeatherSummary(
+      {required condition,
+      required temp,
+      required isDayTime,
+      required textColor}) {
     IconData icon = Mapping.mapWeatherConditionToIcondata(condition, true);
     final unitSymbol = TempUnit.celsius;
 
@@ -140,7 +167,7 @@ class WeatherSummary extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Builder(builder: (_) {
-            var t = this.temp;
+            var t = temp;
             if (unitSymbol == TempUnit.celsius) {
               t = MyConvertion.kelvinToCelsius(temp);
             } else if (unitSymbol == TempUnit.fahrenheit) {
@@ -169,19 +196,9 @@ class WeatherSummary extends StatelessWidget {
       ),
     );
   }
-}
 
-class WeatherDescriptionView extends StatelessWidget {
-  final String weatherDescription;
-  final Color textColor;
-
-  WeatherDescriptionView({
-    required this.weatherDescription,
-    required this.textColor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
+  _buildWeatherDescriptionView(
+      {required weatherDescription, required textColor}) {
     return Center(
       child: Text(
         weatherDescription,
@@ -191,6 +208,30 @@ class WeatherDescriptionView extends StatelessWidget {
           fontWeight: FontWeight.w300,
           color: textColor,
         ),
+      ),
+    );
+  }
+
+  _buildLastUpdatedView({required timeUpdated, required color}) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.access_time,
+            color: color,
+            size: 15,
+          ),
+          SizedBox(width: 10),
+          Text(
+            'Last updated at $timeUpdated',
+            style: TextStyle(
+              fontSize: 16,
+              color: color,
+            ),
+          )
+        ],
       ),
     );
   }
