@@ -3,13 +3,13 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:weather_app/data/models/api/weather.dart';
 import 'package:weather_app/utils/convertion.dart';
 
-class TempChartView extends StatelessWidget {
+class HourlyTempChart extends StatelessWidget {
   final List<HourlyWeather> data;
   final String unit;
   final Map<String, double> _maxY = {'C': 60, 'K': 333, 'F': 140};
   final Map<String, double> _minY = {'C': -30, 'K': 243, 'F': -22};
 
-  TempChartView(this.data, this.unit);
+  HourlyTempChart(this.data, this.unit);
 
   final List<Color> gradientColors = [
     Color(0xffffa500),

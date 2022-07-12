@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:weather_app/data/models/api/weather.dart';
 
-class UVChartView extends StatelessWidget {
+class HourlyUvChart extends StatelessWidget {
   final List<HourlyWeather> data;
-  UVChartView(this.data);
+  HourlyUvChart(this.data);
 
   final List<Color> gradientColors = [
     Color(0xffff2500),

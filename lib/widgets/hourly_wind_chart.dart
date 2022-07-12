@@ -4,9 +4,9 @@ import 'package:weather_app/providers/speedunit.dart';
 import 'package:weather_app/utils/convertion.dart';
 import 'package:weather_app/widgets/wind_direction_widget.dart';
 
-class WindChartView extends StatelessWidget {
+class HourlyWindChart extends StatelessWidget {
   final List<HourlyWeather> data;
-  WindChartView(this.data);
+  HourlyWindChart(this.data);
 
   @override
   Widget build(BuildContext context) {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/data/models/api/weather.dart';
 import 'package:weather_app/providers/tempunit.dart';
-import 'package:weather_app/widgets/hourly_temp_item.dart';
-import 'package:weather_app/widgets/hourly_uv_item.dart';
-import 'package:weather_app/widgets/hourly_wind_item.dart';
+import 'package:weather_app/widgets/hourly_temp_chart.dart';
+import 'package:weather_app/widgets/hourly_uv_chart.dart';
+import 'package:weather_app/widgets/hourly_wind_chart.dart';
 import 'package:weather_icons/weather_icons.dart';
 
 class HourlyChartView extends StatefulWidget {
@@ -62,18 +62,18 @@ class _HourlyChartViewState extends State<HourlyChartView>
                   children: [
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
-                      child: TempChartView(
+                      child: HourlyTempChart(
                         widget.hourlyWeather,
                         tempUnit,
                       ),
                     ),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
-                      child: UVChartView(widget.hourlyWeather),
+                      child: HourlyUvChart(widget.hourlyWeather),
                     ),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
-                      child: WindChartView(widget.hourlyWeather),
+                      child: HourlyWindChart(widget.hourlyWeather),
                     ),
                   ],
                 ),
