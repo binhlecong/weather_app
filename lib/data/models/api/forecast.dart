@@ -17,7 +17,7 @@ class Forecast {
       required this.daily,
       required this.hourly,
       required this.current,
-      required this.isDayTime});
+      required this.isDayTime,});
 
   static Forecast fromJson(dynamic json) {
     var weather = json['current']['weather'][0];

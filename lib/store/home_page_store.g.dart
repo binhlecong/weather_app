@@ -86,6 +86,20 @@ mixin _$HomePageStore on _HomePageStore, Store {
         .run(() => super.getMajorCitiesWeather());
   }
 
+  late final _$_HomePageStoreActionController =
+      ActionController(name: '_HomePageStore', context: context);
+
+  @override
+  void resetMajorCitiesWeather() {
+    final _$actionInfo = _$_HomePageStoreActionController.startAction(
+        name: '_HomePageStore.resetMajorCitiesWeather');
+    try {
+      return super.resetMajorCitiesWeather();
+    } finally {
+      _$_HomePageStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''

@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Future<void> _initStore() async {
+  void _initStore() {
     _homePageStore = HomePageStore();
     _homePageStore.getUserLocationWeather();
     _homePageStore.getMajorCitiesWeather();
@@ -43,8 +43,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle sectionTextStyle =
-        TextStyle(fontSize: 18, fontWeight: FontWeight.w500);
+    final headingStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.w500);
 
     return Scaffold(
       appBar: AppBar(
@@ -99,7 +98,7 @@ class _HomePageState extends State<HomePage> {
                   dense: true,
                   minLeadingWidth: 8,
                   leading: Icon(Icons.location_searching),
-                  title: Text('Your location', style: sectionTextStyle),
+                  title: Text('Your location', style: headingStyle),
                   tileColor: Theme.of(context).dividerColor,
                 ),
                 Observer(
@@ -108,36 +107,32 @@ class _HomePageState extends State<HomePage> {
                               FutureStatus.pending
                           ? _showProgressIndicator()
                           : WeatherSummaryCard(
-                              weatherData: _homePageStore.userLocationWeather,
-                            ),
+                              weatherData: _homePageStore.userLocationWeather),
                 ),
                 ListTile(
                   dense: true,
                   minLeadingWidth: 8,
                   leading: Icon(Icons.location_city),
-                  title: Text('Major cities', style: sectionTextStyle),
+                  title: Text('Major cities', style: headingStyle),
                   tileColor: Theme.of(context).dividerColor,
                 ),
                 Observer(
-                  builder: (_) {
-                    if (_homePageStore.hasGetMajorCitiesWeatherCompleted) {
-                      return _homePageStore.majorCitiesWeathers.isEmpty
-                          ? Text('There is no city in the list')
-                          : ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount:
-                                  _homePageStore.majorCitiesWeathers.length,
-                              itemBuilder: (context, index) {
-                                return WeatherSummaryCard(
-                                  weatherData:
-                                      _homePageStore.majorCitiesWeathers[index],
-                                );
-                              },
-                            );
-                    }
-                    return Text('This should not happen');
-                  },
+                  builder: (_) =>
+                      _homePageStore.hasGetMajorCitiesWeatherCompleted
+                          ? _homePageStore.majorCitiesWeathers.isEmpty
+                              ? Text('There is no city in the list')
+                              : ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount:
+                                      _homePageStore.majorCitiesWeathers.length,
+                                  itemBuilder: (context, index) =>
+                                      WeatherSummaryCard(
+                                    weatherData: _homePageStore
+                                        .majorCitiesWeathers[index],
+                                  ),
+                                )
+                          : SizedBox.shrink(),
                 ),
                 Observer(
                   builder: (_) =>
@@ -169,7 +164,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _refreshPage() async {
     _homePageStore.resetMajorCitiesWeather();
-    await _homePageStore.getUserLocationWeather();
+    _homePageStore.getUserLocationWeather();
     await _homePageStore.getMajorCitiesWeather();
   }
 
